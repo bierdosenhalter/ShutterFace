@@ -1,5 +1,6 @@
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
+using System.Globalization;
 using System.Diagnostics;
 using System.Text.Json;
 
@@ -15,13 +16,13 @@ namespace MotionTrackerFaceBlur
         private VideoWriter _videoWriter = null!;
 
         private readonly List<TrackingRect> _trackingRects = [];
-        private bool _isAnalyzing = false;
-        private int _currentFrameIndex = 0;
-        private int _totalFrames = 0;
-        private bool _isExporting = false;
-        private int? _selectedTrackingIndex = null;
+        private bool _isAnalyzing;
+        private int _currentFrameIndex;
+        private int _totalFrames;
+        private bool _isExporting;
+        private int? _selectedTrackingIndex;
 
-        private bool _isDragging = false;
+        private bool _isDragging;
         private OpenCvSharp.Point _dragStartPoint;
         private Rectangle? _dragRectangle;
 
@@ -140,10 +141,9 @@ namespace MotionTrackerFaceBlur
             {
                 try
                 {
-                    lblStartTime.Text = startTime.ToString(@"hh\:mm\:ss");
-                    lblCurrentTime.Text = currentTime.ToString(@"hh\:mm\:ss");
-                    lblEndTime.Text = endTime.ToString(@"hh\:mm\:ss");
-
+                    lblStartTime.Text = startTime.ToString(@"hh\:mm\:ss", CultureInfo.InvariantCulture);
+                    lblCurrentTime.Text = currentTime.ToString(@"hh\:mm\:ss", CultureInfo.InvariantCulture);
+                    lblEndTime.Text = endTime.ToString(@"hh\:mm\:ss", CultureInfo.InvariantCulture);
                     tssStatusLabel.Text = $"Frame: {_currentFrameIndex}/{_totalFrames} | Time: {currentTime:hh\\:mm\\:ss} | FPS: {_videoCapture.Fps}";
                 }
                 catch { }
@@ -880,7 +880,7 @@ namespace MotionTrackerFaceBlur
 
                 if (fourCC == 0)
                 {
-                    string extension = Path.GetExtension(_videoPath).ToLower();
+                    string extension = Path.GetExtension(_videoPath).ToLower(CultureInfo.InvariantCulture);
                     fourCC = extension switch
                     {
                         ".mp4" => FourCC.MP4V,

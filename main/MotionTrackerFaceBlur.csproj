@@ -6,7 +6,15 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="../Test/**" />
+    <EmbeddedResource Remove="../Test/**" />
+    <None Remove="../Test/**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="OpenCvSharp4" Version="4.13.0.20260427" />

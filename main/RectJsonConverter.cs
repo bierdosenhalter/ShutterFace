@@ -1,4 +1,5 @@
 ﻿using OpenCvSharp;
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -7,24 +8,24 @@ namespace MotionTrackerFaceBlur
     // Custom JSON converter for OpenCvSharp.Rect
     public class RectJsonConverter : JsonConverter<Rect>
     {
-        public override Rect Read(ref System.Text.Json.Utf8JsonReader reader, Type typeToConvert, System.Text.Json.JsonSerializerOptions options)
+        public override Rect Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            if (reader.TokenType != System.Text.Json.JsonTokenType.StartObject)
-                throw new System.Text.Json.JsonException();
+            if (reader.TokenType != JsonTokenType.StartObject)
+                throw new JsonException();
 
             int x = 0, y = 0, width = 0, height = 0;
 
             while (reader.Read())
             {
-                if (reader.TokenType == System.Text.Json.JsonTokenType.EndObject)
+                if (reader.TokenType == JsonTokenType.EndObject)
                     return new Rect(x, y, width, height);
 
-                if (reader.TokenType == System.Text.Json.JsonTokenType.PropertyName)
+                if (reader.TokenType == JsonTokenType.PropertyName)
                 {
                     string propertyName = reader.GetString()!;
                     reader.Read();
 
-                    switch (propertyName.ToLower())
+                    switch (propertyName.ToLowerInvariant())
                     {
                         case "x":
                         case "left":
@@ -37,9 +38,9 @@ namespace MotionTrackerFaceBlur
                         case "width":
                         case "size":
                             // Handle both "Width" and "Size" property names
-                            if (propertyName.Equals("width", StringComparison.CurrentCultureIgnoreCase))
+                            if (propertyName.Equals("width", StringComparison.OrdinalIgnoreCase))
                                 width = reader.GetInt32();
-                            else if (propertyName.Equals("size", StringComparison.CurrentCultureIgnoreCase))
+                            else if (propertyName.Equals("size", StringComparison.OrdinalIgnoreCase))
                             {
                                 // Size is an object, skip it
                                 reader.Skip();
@@ -61,7 +62,7 @@ namespace MotionTrackerFaceBlur
             return new Rect(x, y, width, height);
         }
 
-        public override void Write(Utf8JsonWriter writer, Rect value, System.Text.Json.JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, Rect value, JsonSerializerOptions options)
         {
             writer.WriteStartObject();
             writer.WriteNumber("X", value.X);
