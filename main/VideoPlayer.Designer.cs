@@ -53,6 +53,7 @@ namespace MotionTrackerFaceBlur
             trackRangeIndicator = new Panel();
             statusStripBottom = new StatusStrip();
             tssStatusLabel = new ToolStripStatusLabel();
+            tsspProgressBar = new ToolStripProgressBar();
             ((System.ComponentModel.ISupportInitialize)VideoBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)FrameSlider).BeginInit();
             mainTable.SuspendLayout();
@@ -397,7 +398,7 @@ namespace MotionTrackerFaceBlur
             // statusStripBottom
             // 
             statusStripBottom.ImageScalingSize = new Size(24, 24);
-            statusStripBottom.Items.AddRange(new ToolStripItem[] { tssStatusLabel });
+            statusStripBottom.Items.AddRange(new ToolStripItem[] { tssStatusLabel, tsspProgressBar });
             statusStripBottom.Location = new Point(0, 1166);
             statusStripBottom.Name = "statusStripBottom";
             statusStripBottom.Size = new Size(1480, 42);
@@ -407,8 +408,16 @@ namespace MotionTrackerFaceBlur
             // tssStatusLabel
             // 
             tssStatusLabel.Name = "tssStatusLabel";
-            tssStatusLabel.Size = new Size(78, 32);
+            tssStatusLabel.Size = new Size(37, 25);
             tssStatusLabel.Text = "Ready";
+            // 
+            // tsspProgressBar
+            // 
+            tsspProgressBar.Name = "tsspProgressBar";
+            tsspProgressBar.Size = new Size(1400, 36);
+            tsspProgressBar.Style = ProgressBarStyle.Continuous;
+            tsspProgressBar.Value = 0;
+            tsspProgressBar.Visible = false;
             // 
             // VideoPlayer
             // 
@@ -466,6 +475,7 @@ namespace MotionTrackerFaceBlur
         private System.Windows.Forms.Panel timePanel;
         private System.Windows.Forms.StatusStrip statusStripBottom;
         private System.Windows.Forms.ToolStripStatusLabel tssStatusLabel;
+        private System.Windows.Forms.ToolStripProgressBar tsspProgressBar;
         private Button SaveTrackingBtn;
         private System.Windows.Forms.NumericUpDown txtBoxWidth;
         private System.Windows.Forms.NumericUpDown txtBoxHeight;

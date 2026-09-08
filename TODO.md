@@ -4,7 +4,7 @@
 - [x] Default format: "Face 1", "Face 2"; keep backward-compatible JSON key for existing `.track` files
 
 ## 2. Status bar progress indicator at bottom of window (Einfach)
-- [ ] Show status during tracking/export with frames/percentage; auto-update
+- [x] Show status during tracking/export with frames/percentage; auto-update
 
 ## 3. Drag and drop video support on main window (Einfach)
 - [ ] Accept `.mp4`, `.avi`, `.mkv` dropped onto the main form

@@ -631,6 +631,9 @@ namespace MotionTrackerFaceBlur
             Invoke((MethodInvoker)delegate
             {
                 tssStatusLabel.Text = $"Analyzing: {tracking.Name}...";
+                tsspProgressBar.Visible = true;
+                tsspProgressBar.Value = 0;
+                tsspProgressBar.Maximum = Math.Max(1, tracking.EndFrame - startFrame);
             });
 
             try
@@ -658,6 +661,7 @@ namespace MotionTrackerFaceBlur
                         {
                             int progress = ((frameIndex - startFrame) * 100 / (tracking.EndFrame - startFrame));
                             tssStatusLabel.Text = $"Analyzing: {tracking.Name} - {progress}% complete";
+                            tsspProgressBar.Value = frameIndex - startFrame;
                         });
                     }
                 }
@@ -678,10 +682,14 @@ namespace MotionTrackerFaceBlur
                 DeleteTrackingBtn.Enabled = true;
                 FrameSlider.Enabled = true;
                 UpdateTrackingListColors();
+                tsspProgressBar.Value = tsspProgressBar.Maximum;
+                tssStatusLabel.Text = $"Analyzing: {tracking.Name} - 100% complete";
 
                 LoadFrame(tracking.StartFrame);
                 FrameSlider.Value = tracking.StartFrame;
 
+                Thread.Sleep(500);
+                tsspProgressBar.Visible = false;
                 tssStatusLabel.Text = $"Analysis complete for {tracking.Name}";
                 UpdateTimeDisplay();
                 DisplayFrame(_currentFrame);
@@ -896,7 +904,10 @@ namespace MotionTrackerFaceBlur
                 Invoke((MethodInvoker)delegate
                 {
                     Text = "Exporting video...";
-                    tssStatusLabel.Text = "Exporting: 0%";
+                    tssStatusLabel.Text = "Export: 0%";
+                    tsspProgressBar.Visible = true;
+                    tsspProgressBar.Value = 0;
+                    tsspProgressBar.Maximum = _totalFrames;
                 });
 
                 for (int i = 0; i < _totalFrames && _isExporting; i++)
@@ -942,17 +953,22 @@ namespace MotionTrackerFaceBlur
                         Invoke((MethodInvoker)delegate
                         {
                             int progress = (frameIndex * 100 / _totalFrames);
-                            tssStatusLabel.Text = $"Exporting: {progress}%";
+                            tssStatusLabel.Text = $"Export: {progress}%";
+                            tsspProgressBar.Value = frameIndex;
                         });
                     }
                 }
 
                 Invoke((MethodInvoker)delegate
                 {
+                    tsspProgressBar.Value = tsspProgressBar.Maximum;
+                    tssStatusLabel.Text = "Export: 100%";
                     MessageBox.Show("Video exported successfully!");
                     Text = "Motion Tracker";
                     ExportVideoBtn.Enabled = true;
                     _isExporting = false;
+                    Thread.Sleep(500);
+                    tsspProgressBar.Visible = false;
                     tssStatusLabel.Text = "Export complete";
                 });
             }
@@ -960,6 +976,7 @@ namespace MotionTrackerFaceBlur
             {
                 Invoke((MethodInvoker)delegate
                 {
+                    tsspProgressBar.Visible = false;
                     MessageBox.Show($"Error exporting video: {ex.Message}");
                     ExportVideoBtn.Enabled = true;
                     _isExporting = false;
