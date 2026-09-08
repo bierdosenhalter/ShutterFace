@@ -7,7 +7,7 @@
 - [x] Show status during tracking/export with frames/percentage; auto-update
 
 ## 3. Drag and drop video support on main window (Einfach)
-- [ ] Accept `.mp4`, `.avi`, `.mkv` dropped onto the main form
+- [x] Accept `.mp4`, `.avi`, `.mkv` dropped onto the main form
 
 ## 4. Settings panel in a menu dialog (Datei → Einstellungen) (Mittel)
 - [ ] `MenuStrip` → `SettingsForm`: blur cell size, strength, confidence threshold

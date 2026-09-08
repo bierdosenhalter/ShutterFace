@@ -68,13 +68,50 @@ namespace MotionTrackerFaceBlur
         private void OpenVideoBtn_Click(object sender, EventArgs e)
         {
             using OpenFileDialog openFileDialog = new();
-            openFileDialog.Filter = "Video Files|*.mp4;*.avi;*.mov;*.wmv;*.flv|All Files|*.*";
+            openFileDialog.Filter = "Video Files|*.mp4;*.avi;*.mov;*.wmv;*.flk|All Files|*.*";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 _videoPath = openFileDialog.FileName;
                 LoadVideo();
             }
+        }
+
+        protected override void OnDragEnter(DragEventArgs drgevent)
+        {
+            base.OnDragEnter(drgevent);
+
+            if (drgevent.Data?.GetData(DataFormats.FileDrop) is string[] files)
+            {
+                if (files.Any(f => IsVideoFile(f)))
+                    drgevent.Effect = DragDropEffects.Copy;
+            }
+        }
+
+        protected override void OnDragDrop(DragEventArgs drgevent)
+        {
+            base.OnDragDrop(drgevent);
+
+            if (drgevent.Data?.GetData(DataFormats.FileDrop) is string[] files && files.Length > 0)
+            {
+                string videoFile = files.FirstOrDefault(f => IsVideoFile(f)) ?? string.Empty;
+                if (!string.IsNullOrEmpty(videoFile))
+                    LoadVideoFromPath(videoFile);
+            }
+        }
+
+        private static bool IsVideoFile(string path)
+        {
+            if (string.IsNullOrEmpty(path)) return false;
+
+            string ext = Path.GetExtension(path).ToLower(CultureInfo.InvariantCulture);
+            return ext is ".mp4" or ".avi" or ".mkv";
+        }
+
+        internal void LoadVideoFromPath(string path)
+        {
+            _videoPath = path;
+            LoadVideo();
         }
 
         private void LoadVideo()
