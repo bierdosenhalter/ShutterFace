@@ -12,21 +12,26 @@ dotnet build    # from repo root
 dotnet run      # or via Visual Studio (.sln)
 ```
 
-> Tests in IDE (Test Explorer). CLI: open MotionTrackerFaceBlur.sln, select test project.
-
 # Conventions
 
 - WinForms UI; slider for frame scrubbing + time setter
 - Comments and UI text in German
 - `Rect` is a struct — use `.X`, `.Y`, etc directly (not `.Value`)
 
-# After every change: build & fix
+# Definition of done (every change)
 
-- Run `dotnet build`; never leave the build broken
+Before showing me any result, run this loop from repo root:
 
-# Known issues
+1. `dotnet build` — zero errors, zero warnings
+2. `dotnet format --verify-no-changes` — if it reports issues, run `dotnet format` once, then rebuild
+3. `dotnet test` — all tests pass (if a test project exists)
 
-- Frame boundary issue: out-of-bounds rectangles must be clipped to visible bounds before passing to OpenCvSharp (see TODO #1)
+Rules for this loop:
+
+- Fix each warning/error at its cause, not by deleting or disabling the code that triggers it. Never suppress with `#pragma` or `#pragma warning disable` without asking me first.
+- When a fix is ambiguous, prefer the minimal change. Ask me instead of guessing when behavior could change.
+- Rebuild after each fix. Stop only when the loop is fully clean.
+- If a failure cannot be fixed without changing behavior, stop and report it to me instead of forcing it.
 
 # Known constraints
 

@@ -278,7 +278,7 @@ namespace MotionTrackerFaceBlur
             {
                 var tracking = new TrackingRect
                 {
-                    Name = $"Track {_trackingRects.Count + 1}",
+                    Name = $"Face {_trackingRects.Count + 1}",
                     StartFrame = _currentFrameIndex,
                     EndFrame = _totalFrames - 1,
                     InitialRect = new Rect(
@@ -981,8 +981,8 @@ namespace MotionTrackerFaceBlur
             Rect safeRegion = new(
                 Math.Max(0, region.X),
                 Math.Max(0, region.Y),
-                Math.Min(region.Width, image.Width - region.X),
-                Math.Min(region.Height, image.Height - region.Y)
+                Math.Max(0, Math.Min(region.Width, image.Width - Math.Max(region.X, 0))),
+                Math.Max(0, Math.Min(region.Height, image.Height - Math.Max(region.Y, 0)))
             );
 
             if (safeRegion.Width <= 0 || safeRegion.Height <= 0)
