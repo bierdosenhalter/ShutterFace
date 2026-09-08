@@ -52,11 +52,11 @@ namespace MotionTrackerFaceBlur
             pnlFrameSlider = new Panel();
             trackRangeIndicator = new Panel();
             statusStripBottom = new StatusStrip();
-            tssStatusLabel = new ToolStripStatusLabel();
-            tsspProgressBar = new ToolStripProgressBar();
             menuStripTop = new MenuStrip();
             mnuFile = new ToolStripMenuItem();
             mnuSettings = new ToolStripMenuItem();
+            tssStatusLabel = new ToolStripStatusLabel();
+            tsspProgressBar = new ToolStripProgressBar();
             ((System.ComponentModel.ISupportInitialize)VideoBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)FrameSlider).BeginInit();
             mainTable.SuspendLayout();
@@ -71,6 +71,29 @@ namespace MotionTrackerFaceBlur
             statusStripBottom.SuspendLayout();
             menuStripTop.SuspendLayout();
             SuspendLayout();
+            // 
+            // menuStripTop
+            // 
+            menuStripTop.Items.AddRange(new ToolStripItem[] { mnuFile });
+            menuStripTop.Location = new Point(0, 0);
+            menuStripTop.Name = "menuStripTop";
+            menuStripTop.Size = new Size(1480, 28);
+            menuStripTop.TabIndex = 11;
+            menuStripTop.Text = "menuStrip1";
+            // 
+            // mnuFile
+            // 
+            mnuFile.DropDownItems.AddRange(new ToolStripItem[] { mnuSettings });
+            mnuFile.Name = "mnuFile";
+            mnuFile.Size = new Size(50, 24);
+            mnuFile.Text = "&Datei";
+            // 
+            // mnuSettings
+            // 
+            mnuSettings.Name = "mnuSettings";
+            mnuSettings.Size = new Size(180, 26);
+            mnuSettings.Text = "&Einstellungen";
+            mnuSettings.Click += MnuSettings_Click;
             // 
             // VideoBox
             // 
@@ -412,7 +435,7 @@ namespace MotionTrackerFaceBlur
             // tssStatusLabel
             // 
             tssStatusLabel.Name = "tssStatusLabel";
-            tssStatusLabel.Size = new Size(78, 32);
+            tssStatusLabel.Size = new Size(37, 25);
             tssStatusLabel.Text = "Ready";
             // 
             // tsspProgressBar
@@ -420,31 +443,8 @@ namespace MotionTrackerFaceBlur
             tsspProgressBar.Name = "tsspProgressBar";
             tsspProgressBar.Size = new Size(1400, 36);
             tsspProgressBar.Style = ProgressBarStyle.Continuous;
+            tsspProgressBar.Value = 0;
             tsspProgressBar.Visible = false;
-            // 
-            // menuStripTop
-            // 
-            menuStripTop.ImageScalingSize = new Size(32, 32);
-            menuStripTop.Items.AddRange(new ToolStripItem[] { mnuFile });
-            menuStripTop.Location = new Point(0, 0);
-            menuStripTop.Name = "menuStripTop";
-            menuStripTop.Size = new Size(1480, 40);
-            menuStripTop.TabIndex = 11;
-            menuStripTop.Text = "menuStrip1";
-            // 
-            // mnuFile
-            // 
-            mnuFile.DropDownItems.AddRange(new ToolStripItem[] { mnuSettings });
-            mnuFile.Name = "mnuFile";
-            mnuFile.Size = new Size(90, 36);
-            mnuFile.Text = "&Datei";
-            // 
-            // mnuSettings
-            // 
-            mnuSettings.Name = "mnuSettings";
-            mnuSettings.Size = new Size(291, 44);
-            mnuSettings.Text = "&Einstellungen";
-            mnuSettings.Click += MnuSettings_Click;
             // 
             // VideoPlayer
             // 
@@ -477,41 +477,40 @@ namespace MotionTrackerFaceBlur
             menuStripTop.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
-
         }
 
         #endregion
 
-        private System.Windows.Forms.PictureBox VideoBox;
-        private System.Windows.Forms.TrackBar FrameSlider;
-        private System.Windows.Forms.Button OpenVideoBtn;
-        private System.Windows.Forms.Button ExportVideoBtn;
-        private System.Windows.Forms.Button AddTrackingBtn;
-        private System.Windows.Forms.Button AnalyzeBtn;
-        private System.Windows.Forms.Button StopAnalyzeBtn;
-        private System.Windows.Forms.Button DeleteTrackingBtn;
-        private System.Windows.Forms.ListBox TrackingListBox;
-        private System.Windows.Forms.TableLayoutPanel mainTable;
-        private System.Windows.Forms.FlowLayoutPanel buttonLayoutPanel;
-        private System.Windows.Forms.GroupBox gprTracking;
-        private System.Windows.Forms.NumericUpDown txtEndFrame;
-        private System.Windows.Forms.NumericUpDown txtStartFrame;
-        private System.Windows.Forms.TextBox txtTrackingName;
-        private System.Windows.Forms.Label lblEndFrame;
-        private System.Windows.Forms.Label lblTrackingName;
-        private System.Windows.Forms.Button btnApplyChanges;
-        private System.Windows.Forms.Label lblStartTime;
-        private System.Windows.Forms.Label lblCurrentTime;
-        private System.Windows.Forms.Label lblEndTime;
-        private System.Windows.Forms.Panel timePanel;
-        private System.Windows.Forms.StatusStrip statusStripBottom;
-        private System.Windows.Forms.ToolStripStatusLabel tssStatusLabel;
-        private System.Windows.Forms.ToolStripProgressBar tsspProgressBar;
+        internal System.Windows.Forms.PictureBox VideoBox;
+        internal System.Windows.Forms.TrackBar FrameSlider;
+        internal System.Windows.Forms.Button OpenVideoBtn;
+        internal System.Windows.Forms.Button ExportVideoBtn;
+        internal System.Windows.Forms.Button AddTrackingBtn;
+        internal System.Windows.Forms.Button AnalyzeBtn;
+        internal System.Windows.Forms.Button StopAnalyzeBtn;
+        internal System.Windows.Forms.Button DeleteTrackingBtn;
+        internal System.Windows.Forms.ListBox TrackingListBox;
+        internal System.Windows.Forms.TableLayoutPanel mainTable;
+        internal System.Windows.Forms.FlowLayoutPanel buttonLayoutPanel;
+        internal System.Windows.Forms.GroupBox gprTracking;
+        internal System.Windows.Forms.NumericUpDown txtEndFrame;
+        internal System.Windows.Forms.NumericUpDown txtStartFrame;
+        internal System.Windows.Forms.TextBox txtTrackingName;
+        internal System.Windows.Forms.Label lblEndFrame;
+        internal System.Windows.Forms.Label lblTrackingName;
+        internal System.Windows.Forms.Button btnApplyChanges;
+        internal System.Windows.Forms.Label lblStartTime;
+        internal System.Windows.Forms.Label lblCurrentTime;
+        internal System.Windows.Forms.Label lblEndTime;
+        internal System.Windows.Forms.Panel timePanel;
+        internal System.Windows.Forms.StatusStrip statusStripBottom;
+        internal System.Windows.Forms.ToolStripStatusLabel tssStatusLabel;
+        internal System.Windows.Forms.ToolStripProgressBar tsspProgressBar;
         private Button SaveTrackingBtn;
-        private System.Windows.Forms.NumericUpDown txtBoxWidth;
-        private System.Windows.Forms.NumericUpDown txtBoxHeight;
-        private System.Windows.Forms.Label labelWidth;
-        private System.Windows.Forms.Label labelHeight;
+        internal System.Windows.Forms.NumericUpDown txtBoxWidth;
+        internal System.Windows.Forms.NumericUpDown txtBoxHeight;
+        internal System.Windows.Forms.Label labelWidth;
+        internal System.Windows.Forms.Label labelHeight;
 
         private string GetDebuggerDisplay()
         {
@@ -519,7 +518,7 @@ namespace MotionTrackerFaceBlur
         }
         private Label lblStartFrame;
         private Panel pnlFrameSlider;
-        private Panel trackRangeIndicator;
+        internal Panel trackRangeIndicator;
         private Button LoadTrackingBtn;
         private MenuStrip menuStripTop;
         private ToolStripMenuItem mnuFile;
