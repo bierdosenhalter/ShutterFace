@@ -10,10 +10,10 @@
 - [x] Accept `.mp4`, `.avi`, `.mkv` dropped onto the main form
 
 ## 4. Settings panel in a menu dialog (Datei → Einstellungen) (Mittel)
-- [ ] `MenuStrip` → `SettingsForm`: blur cell size, strength, confidence threshold
+- [x] `MenuStrip` → `SettingsForm`: blur cell size, strength, confidence threshold
 
 ## 5. Resize handles on placed rectangle display in video frames (Mittel)
-- [ ] Draw corner/edge resize handles when a rectangle is selected; handle drag to adjust size and visible display during playback
+- [x] Draw corner/edge resize handles when a rectangle is selected; handle drag to adjust size and visible display during playback
 
 ## 6. In-app log panel at bottom below video preview (Mittel)
 - [ ] Text/log area with timestamps + severity; replace error popup dialogs

@@ -52,6 +52,9 @@ namespace MotionTrackerFaceBlur
             pnlFrameSlider = new Panel();
             trackRangeIndicator = new Panel();
             statusStripBottom = new StatusStrip();
+            menuStripTop = new MenuStrip();
+            mnuFile = new ToolStripMenuItem();
+            mnuSettings = new ToolStripMenuItem();
             tssStatusLabel = new ToolStripStatusLabel();
             tsspProgressBar = new ToolStripProgressBar();
             ((System.ComponentModel.ISupportInitialize)VideoBox).BeginInit();
@@ -66,7 +69,31 @@ namespace MotionTrackerFaceBlur
             timePanel.SuspendLayout();
             pnlFrameSlider.SuspendLayout();
             statusStripBottom.SuspendLayout();
+            menuStripTop.SuspendLayout();
             SuspendLayout();
+            // 
+            // menuStripTop
+            // 
+            menuStripTop.Items.AddRange(new ToolStripItem[] { mnuFile });
+            menuStripTop.Location = new Point(0, 0);
+            menuStripTop.Name = "menuStripTop";
+            menuStripTop.Size = new Size(1480, 28);
+            menuStripTop.TabIndex = 11;
+            menuStripTop.Text = "menuStrip1";
+            // 
+            // mnuFile
+            // 
+            mnuFile.DropDownItems.AddRange(new ToolStripItem[] { mnuSettings });
+            mnuFile.Name = "mnuFile";
+            mnuFile.Size = new Size(50, 24);
+            mnuFile.Text = "&Datei";
+            // 
+            // mnuSettings
+            // 
+            mnuSettings.Name = "mnuSettings";
+            mnuSettings.Size = new Size(180, 26);
+            mnuSettings.Text = "&Einstellungen";
+            mnuSettings.Click += MnuSettings_Click;
             // 
             // VideoBox
             // 
@@ -425,6 +452,7 @@ namespace MotionTrackerFaceBlur
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1480, 1208);
             Controls.Add(statusStripBottom);
+            Controls.Add(menuStripTop);
             Controls.Add(mainTable);
             Name = "VideoPlayer";
             StartPosition = FormStartPosition.CenterScreen;
@@ -445,6 +473,8 @@ namespace MotionTrackerFaceBlur
             pnlFrameSlider.PerformLayout();
             statusStripBottom.ResumeLayout(false);
             statusStripBottom.PerformLayout();
+            menuStripTop.ResumeLayout(false);
+            menuStripTop.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -490,5 +520,8 @@ namespace MotionTrackerFaceBlur
         private Panel pnlFrameSlider;
         private Panel trackRangeIndicator;
         private Button LoadTrackingBtn;
+        private MenuStrip menuStripTop;
+        private ToolStripMenuItem mnuFile;
+        private ToolStripMenuItem mnuSettings;
     }
 }
