@@ -21,6 +21,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="..\TestsResources\file_example_MP4_480_1_5MG.mp4">
+      <Link>Resources\file_example_MP4_480_1_5MG.mp4</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 
