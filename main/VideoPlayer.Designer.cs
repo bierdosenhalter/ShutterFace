@@ -52,11 +52,11 @@ namespace MotionTrackerFaceBlur
             pnlFrameSlider = new Panel();
             trackRangeIndicator = new Panel();
             statusStripBottom = new StatusStrip();
+            tssStatusLabel = new ToolStripStatusLabel();
+            tsspProgressBar = new ToolStripProgressBar();
             menuStripTop = new MenuStrip();
             mnuFile = new ToolStripMenuItem();
             mnuSettings = new ToolStripMenuItem();
-            tssStatusLabel = new ToolStripStatusLabel();
-            tsspProgressBar = new ToolStripProgressBar();
             ((System.ComponentModel.ISupportInitialize)VideoBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)FrameSlider).BeginInit();
             mainTable.SuspendLayout();
@@ -71,29 +71,6 @@ namespace MotionTrackerFaceBlur
             statusStripBottom.SuspendLayout();
             menuStripTop.SuspendLayout();
             SuspendLayout();
-            // 
-            // menuStripTop
-            // 
-            menuStripTop.Items.AddRange(new ToolStripItem[] { mnuFile });
-            menuStripTop.Location = new Point(0, 0);
-            menuStripTop.Name = "menuStripTop";
-            menuStripTop.Size = new Size(1480, 28);
-            menuStripTop.TabIndex = 11;
-            menuStripTop.Text = "menuStrip1";
-            // 
-            // mnuFile
-            // 
-            mnuFile.DropDownItems.AddRange(new ToolStripItem[] { mnuSettings });
-            mnuFile.Name = "mnuFile";
-            mnuFile.Size = new Size(50, 24);
-            mnuFile.Text = "&Datei";
-            // 
-            // mnuSettings
-            // 
-            mnuSettings.Name = "mnuSettings";
-            mnuSettings.Size = new Size(180, 26);
-            mnuSettings.Text = "&Einstellungen";
-            mnuSettings.Click += MnuSettings_Click;
             // 
             // VideoBox
             // 
@@ -435,7 +412,7 @@ namespace MotionTrackerFaceBlur
             // tssStatusLabel
             // 
             tssStatusLabel.Name = "tssStatusLabel";
-            tssStatusLabel.Size = new Size(37, 25);
+            tssStatusLabel.Size = new Size(78, 32);
             tssStatusLabel.Text = "Ready";
             // 
             // tsspProgressBar
@@ -443,8 +420,31 @@ namespace MotionTrackerFaceBlur
             tsspProgressBar.Name = "tsspProgressBar";
             tsspProgressBar.Size = new Size(1400, 36);
             tsspProgressBar.Style = ProgressBarStyle.Continuous;
-            tsspProgressBar.Value = 0;
             tsspProgressBar.Visible = false;
+            // 
+            // menuStripTop
+            // 
+            menuStripTop.ImageScalingSize = new Size(32, 32);
+            menuStripTop.Items.AddRange(new ToolStripItem[] { mnuFile });
+            menuStripTop.Location = new Point(0, 0);
+            menuStripTop.Name = "menuStripTop";
+            menuStripTop.Size = new Size(1480, 40);
+            menuStripTop.TabIndex = 11;
+            menuStripTop.Text = "menuStrip1";
+            // 
+            // mnuFile
+            // 
+            mnuFile.DropDownItems.AddRange(new ToolStripItem[] { mnuSettings });
+            mnuFile.Name = "mnuFile";
+            mnuFile.Size = new Size(90, 36);
+            mnuFile.Text = "&Datei";
+            // 
+            // mnuSettings
+            // 
+            mnuSettings.Name = "mnuSettings";
+            mnuSettings.Size = new Size(291, 44);
+            mnuSettings.Text = "&Einstellungen";
+            mnuSettings.Click += MnuSettings_Click;
             // 
             // VideoPlayer
             // 
@@ -477,6 +477,7 @@ namespace MotionTrackerFaceBlur
             menuStripTop.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
+
         }
 
         #endregion

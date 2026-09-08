@@ -10,8 +10,6 @@ namespace MotionTrackerFaceBlur
     {
         #region Video Loading & Frame Management
 
-        #region Video Loading & Frame Management
-
         private void OpenVideoBtn_Click(object sender, EventArgs e)
         {
             using OpenFileDialog openFileDialog = new();
@@ -109,7 +107,7 @@ namespace MotionTrackerFaceBlur
                 _currentFrame?.Dispose();
                 _currentFrame = new Mat();
 
-                if (_videoCapture.Read(_currentFrame))
+                if (_videoCapture.Read(_currentFrame) && !_currentFrame.Empty())
                 {
                     if (display)
                         DisplayFrame(_currentFrame);
@@ -152,8 +150,6 @@ namespace MotionTrackerFaceBlur
             if (_currentFrame != null)
                 DisplayFrame(_currentFrame);
         }
-
-        #endregion
 
         #endregion
     }

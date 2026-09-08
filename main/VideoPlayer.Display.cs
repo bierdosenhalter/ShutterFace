@@ -10,8 +10,6 @@ namespace MotionTrackerFaceBlur
     {
         #region Frame Display & Drawing
 
-        #region Frame Display & Drawing
-
         private void DisplayFrame(Mat frame)
         {
             if (frame == null) return;
@@ -105,8 +103,6 @@ namespace MotionTrackerFaceBlur
             trackRangeIndicator.Location = new System.Drawing.Point(sliderLeft, sliderTop);
             trackRangeIndicator.Width = sliderWidth;
         }
-
-        #endregion
 
         #endregion
     }
