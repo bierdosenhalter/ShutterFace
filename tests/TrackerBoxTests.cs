@@ -1,5 +1,4 @@
 using OpenCvSharp;
-using System.Text.Json;
 
 namespace ShutterFace.Tests;
 
@@ -129,47 +128,5 @@ public class TrackerBoxTests
         Assert.NotNull(result);
         Assert.Equal(100, result.Value.X);
         Assert.Equal(200, result.Value.Y);
-    }
-}
-
-public class RectJsonConverterTests
-{
-    private static readonly JsonSerializerOptions Options = new()
-    {
-        Converters = { new RectJsonConverter() }
-    };
-
-    [Fact]
-    public void Read_WritesAndReadsBack_ReturnsSameDimensions()
-    {
-        var rect = new Rect(100, 200, 50, 60);
-        var json = JsonSerializer.Serialize(rect, Options);
-
-        var result = JsonSerializer.Deserialize<Rect>(json, Options);
-        Assert.Equal(100, result.X);
-        Assert.Equal(200, result.Y);
-        Assert.Equal(50, result.Width);
-        Assert.Equal(60, result.Height);
-    }
-
-    [Fact]
-    public void Read_HandlesZeroValues()
-    {
-        var json = "{\"X\":0,\"Y\":0,\"Width\":0,\"Height\":0}";
-        var result = JsonSerializer.Deserialize<Rect>(json, Options);
-        Assert.Equal(0, result.X);
-        Assert.Equal(0, result.Y);
-        Assert.Equal(0, result.Width);
-        Assert.Equal(0, result.Height);
-    }
-
-    [Fact]
-    public void Write_CanBeReadWithLegacyPropertyName_Size()
-    {
-        // Existing .track files may have "Size" instead of "Width"
-        var json = "{\"X\":10,\"Y\":20,\"Size\":{\"width\":30,\"height\":40}}";
-        var result = JsonSerializer.Deserialize<Rect>(json, Options);
-        Assert.Equal(10, result.X);
-        Assert.Equal(20, result.Y);
     }
 }

@@ -25,13 +25,13 @@ namespace ShutterFace
             int[] corners = new int[]
             {
                 rect.X - DrawHandleSize, rect.Y - DrawHandleSize,
-                rect.X + rect.Width/2, rect.Y - DrawHandleSize,
+                rect.X + rect.Width/2 - DrawHandleSize, rect.Y - DrawHandleSize,
                 rect.X + rect.Width - DrawHandleSize, rect.Y - DrawHandleSize,
-                rect.X + rect.Width, rect.Y + rect.Height/2 - DrawHandleSize,
+                rect.X + rect.Width - DrawHandleSize, rect.Y + rect.Height/2 - DrawHandleSize,
                 rect.X + rect.Width - DrawHandleSize, rect.Y + rect.Height - DrawHandleSize,
-                rect.X + rect.Width/2, rect.Y + rect.Height - DrawHandleSize,
+                rect.X + rect.Width/2 - DrawHandleSize, rect.Y + rect.Height - DrawHandleSize,
                 rect.X - DrawHandleSize, rect.Y + rect.Height - DrawHandleSize,
-                rect.X - DrawHandleSize, rect.Y + rect.Height/2,
+                rect.X - DrawHandleSize, rect.Y + rect.Height/2 - DrawHandleSize,
             };
 
             for (int i = 0; i < corners.Length; i += 2)

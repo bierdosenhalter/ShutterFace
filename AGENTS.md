@@ -1,4 +1,4 @@
-# MotionTrackerFaceBlur
+# ShutterFace
 
 WinForms app (C#/.NET 8, OpenCvSharp4): face tracking via template matching + blurred video export.
 
@@ -7,14 +7,13 @@ Windows, PowerShell: no bash syntax (`;` not `&&`), backslash paths, `%USERPROFI
 
 ## Build & DoD (every change)
 ```
-dotnet build        # zero errors AND warnings
+dotnet build --no-incremental -v:normal /p:EnforceCodeStyleInBuild=true /p:AnalysisLevel=latest-all        # zero errors AND warnings
 dotnet format --verify-no-changes   # if dirty: dotnet format
 dotnet format analyzers --verify-no-changes   # if dirty: dotnet format analyzers
+roslynator analyze --severity-level info
 dotnet test         # all pass (if test project exists)
 ```
-Fix warnings at their cause, no #pragma. Info-level suggestions: dotnet format analyzers (in loop) fixes most; if clean but refactorings remain, run dotnet roslynator fix — list proposed changes first, apply only on my OK. Never mass-refactor working code without approval. Rebuild after each fix; stop only when clean. Minimal changes; behavior would change → stop and ask.
-## Web research
-Verify uncertain OpenCvSharp/.NET/WinForms APIs via `context7`/`websearch` first; on "API does not exist" errors check real docs. `webfetch` official docs only; summarize in 1–2 sentences, never paste excerpts. Never invent NuGet names/versions — search, give exact `dotnet add package` command.
+Fix at cause, no #pragma. Roslynator refactorings: list first, apply on my OK.
 
 ## WinForms forms
 UI changes go into `Xxx.Designer.cs` following its existing pattern (field + instantiate + properties + add to parent). Never hand-roll UI in constructors or delete designer sections — the VS Designer must keep loading the form.
@@ -24,7 +23,7 @@ Designer.cs values are 96-DPI units. Grid: 11 units margin/padding, 7 units betw
 
 ## Working style
 - Plan with `todowrite` before coding (3–6 items), execute item by item, update statuses; never mark done without DoD passing
-- Decide minor things yourself. Uncertain about API/behavior? research web/context7 first; ask the user only if research fails or the choice is irreversible/approach-changing; note decisions in commit message
+- Uncertain API/behavior: verify via context7/websearch, never invent NuGet names/versions. Ask me only if research fails or choice is irreversible/approach-changing
 - On failure: 2 alternatives before reporting
 - Never end with "shall I continue?" — run DoD loop, report done + next step
 

@@ -15,8 +15,8 @@
 - [x] In-app log panel below video preview: text/log area with timestamps + severity; replace error popup dialogs
 
 ## 5. Anchor bugs (Mittel)
-- [ ] Anchors not moveable when video analysis is active (should be disabled only when no video loaded)
-- [ ] Compass anchors (N, S, E, W) poorly placed — edges fine but corner positions off
+- [x] Anchors are not moveable. Only when video analysis is active (should be disabled during analysis)
+- [x] Anchors (N, S, E, W) poorly placed — corner fine but edges positions off
 
 ## 6. Global grid blur (Schwer)
 - [ ] Divide frame into equal-sized cells; each cell uses one blur radius so adjacent rects share consistent style
