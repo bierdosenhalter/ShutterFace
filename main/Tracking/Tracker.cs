@@ -22,13 +22,17 @@ namespace ShutterFace
         /// <summary>UI hook: the object was lost, analysis stopped at this frame.</summary>
         public Action<int>? ReportObjectLost;
 
-        /// <summary>Runs the analysis loop for one tracker box. Blocks; run on a worker thread.</summary>
+        /// <summary>The tracker currently being analyzed, or null if no analysis is running.</summary>
+        public TrackerBox? ActiveTracker { get; private set; }
+
+        /// <summary>Runs the analysis loop for one tracking rectangle. Blocks; run on a worker thread.</summary>
         public void Analyze(TrackerBox tracking)
         {
             int startFrame = tracking.StartFrame;
             tracking.PreviousRect = tracking.InitialRect;
             tracking.AddFramePosition(startFrame, tracking.InitialRect);
 
+            ActiveTracker = tracking;
             ReportStarted?.Invoke(tracking.Name, Math.Max(1, tracking.EndFrame - startFrame));
 
             try
@@ -38,6 +42,7 @@ namespace ShutterFace
                     lock (model.VideoLock)
                     {
                         FrameLoader.LoadFrame(i, i % 10 == 0);
+                        model.CurrentFrameIndex = i;
                         if (!TrackObject(tracking, i))
                         {
                             tracking.EndFrame = i - 1;
@@ -59,6 +64,7 @@ namespace ShutterFace
             }
 
             tracking.IsAnalyzed = true;
+            ActiveTracker = null;
             model.IsAnalyzing = false;
             ReportFinished?.Invoke(tracking.Name, $"Analysis complete for {tracking.Name}");
         }

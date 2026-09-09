@@ -661,6 +661,10 @@ namespace ShutterFace
         private void StopAnalyzeBtn_Click(object sender, EventArgs e)
         {
             _model.IsAnalyzing = false;
+            if (_analysis.ActiveTracker != null)
+            {
+                _analysis.ActiveTracker.EndFrame = _model.CurrentFrameIndex;
+            }
             AnalyzeBtn.Visible = true;
             StopAnalyzeBtn.Visible = false;
             AddTrackingBtn.Enabled = true;
