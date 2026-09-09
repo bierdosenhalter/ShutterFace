@@ -7,7 +7,7 @@ Windows, PowerShell: no bash syntax (`;` not `&&`), backslash paths, `%USERPROFI
 
 ## Build & DoD (every change)
 ```
-dotnet build --no-incremental -v:normal /p:EnforceCodeStyleInBuild=true /p:AnalysisLevel=latest-all        # zero errors AND warnings
+dotnet build --no-incremental -v:normal /p:EnforceCodeStyleInBuild=true /p:AnalysisLevel=latest-all        # zero errors AND warnings, style warnings are ok
 dotnet format --verify-no-changes   # if dirty: dotnet format
 dotnet format analyzers --verify-no-changes   # if dirty: dotnet format analyzers
 roslynator analyze --severity-level info

@@ -271,7 +271,7 @@ namespace ShutterFace
                 WriteLog(err, LogSeverity.Error);
                 mnuExportVideo.Enabled = true;
                 _model.Mode = InterfaceMode.Idle;
-                tssStatusLabel.Text = ControlResourceManager.FormatString("StatusExportingProgressFormat", ControlResourceManager.GetString("StatusExportComplete")).Replace("100%", ControlResourceManager.GetString("StatusExportComplete"));
+                tssStatusLabel.Text = ControlResourceManager.GetString("StatusExportComplete");
             });
         }
 
@@ -307,7 +307,10 @@ namespace ShutterFace
             {
                 g.Clear(Color.Transparent);
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                g.FillEllipse(new SolidBrush(color), 2, 2, 12, 12);
+                using (var brush = new SolidBrush(color))
+                {
+                    g.FillEllipse(brush, 2, 2, 12, 12);
+                }
             }
             return bmp;
         }
@@ -337,7 +340,7 @@ namespace ShutterFace
         private void MnuOpenVideo_Click(object sender, EventArgs e)
         {
             using OpenFileDialog openFileDialog = new();
-            openFileDialog.Filter = "Video Files|*.mp4;*.avi;*.mov;*.wmv;*.mkv;*.flv;*.webm|All Files|*.*";
+            openFileDialog.Filter = ControlResourceManager.GetString("FilterVideoFiles");
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -349,6 +352,8 @@ namespace ShutterFace
         {
             base.OnDragEnter(drgevent);
 
+            ArgumentNullException.ThrowIfNull(drgevent);
+
             if (drgevent.Data?.GetData(DataFormats.FileDrop) is string[] files)
             {
                 if (files.Any(VideoLoader.IsVideoFile))
@@ -359,6 +364,8 @@ namespace ShutterFace
         protected override void OnDragDrop(DragEventArgs drgevent)
         {
             base.OnDragDrop(drgevent);
+
+            ArgumentNullException.ThrowIfNull(drgevent);
 
             if (drgevent.Data?.GetData(DataFormats.FileDrop) is string[] files && files.Length > 0)
             {
@@ -850,7 +857,7 @@ namespace ShutterFace
                     WriteLog(ControlResourceManager.GetString("MsgTrackingSaved"), LogSeverity.Success);
                     _model.HasUnsavedChanges = false;
                 }
-                catch (Exception ex)
+                catch (IOException ex)
                 {
                     WriteLog(ControlResourceManager.FormatString("ErrSaveTrackingData", ex.Message), LogSeverity.Error);
                 }
@@ -914,7 +921,7 @@ namespace ShutterFace
                     tssStatusLabel.Text = ControlResourceManager.FormatString("MsgLoadedTracks", _model.TrackingRects.Count);
                     _model.HasUnsavedChanges = false;
                 }
-                catch (Exception ex)
+                catch (IOException ex)
                 {
                     WriteLog(ControlResourceManager.FormatString("ErrLoadTrackingData", ex.Message), LogSeverity.Error);
                 }
@@ -940,6 +947,8 @@ namespace ShutterFace
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
+            ArgumentNullException.ThrowIfNull(e);
+
             if (e.CloseReason == CloseReason.UserClosing && _model.HasUnsavedChanges && _model.Mode != InterfaceMode.Idle)
             {
                 var result = MessageBox.Show(

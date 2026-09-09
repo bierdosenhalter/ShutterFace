@@ -62,7 +62,7 @@ namespace ShutterFace
                 else
                     SetImage();
             }
-            catch (Exception e)
+            catch (Exception e) when (e is not InvalidOperationException)
             {
                 MessageBox.Show(e.Message);
             }

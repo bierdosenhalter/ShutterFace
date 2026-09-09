@@ -53,7 +53,7 @@ namespace ShutterFace
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception e) when (e is not OperationCanceledException)
             {
                 ShowMessage?.Invoke(e.Message);
             }
@@ -76,7 +76,7 @@ namespace ShutterFace
             model.VideoCapture.Set(VideoCaptureProperties.PosFrames, Math.Max(0, frameIndex - 1));
             model.VideoCapture.Read(previousFrame);
 
-            if (previousFrame == null) return false;
+            if (previousFrame.Empty()) return false;
 
             Mat template = new(previousFrame, tracking.PreviousRect.Value);
             Mat result = new();
@@ -105,9 +105,9 @@ namespace ShutterFace
             }
             finally
             {
-                template?.Dispose();
-                result?.Dispose();
-                previousFrame?.Dispose();
+                template.Dispose();
+                result.Dispose();
+                previousFrame.Dispose();
             }
         }
 

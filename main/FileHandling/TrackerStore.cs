@@ -37,7 +37,7 @@ namespace ShutterFace
                 {
                     result = new TrackerSession();
                 }
-                catch
+                catch (JsonException)
                 {
                     // Ignore and return null default
                 }

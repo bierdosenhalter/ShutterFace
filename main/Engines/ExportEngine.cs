@@ -40,12 +40,12 @@ namespace ShutterFace
                 int fourCC = (int)model.VideoCapture.Get(VideoCaptureProperties.FourCC);
                 if (fourCC == 0)
                 {
-                    string extension = Path.GetExtension(model.VideoPath).ToLower(CultureInfo.InvariantCulture);
+                    string extension = Path.GetExtension(model.VideoPath).ToUpperInvariant();
                     fourCC = extension switch
                     {
-                        ".mp4" => FourCC.MP4V,
-                        ".avi" => FourCC.MP42,
-                        ".wmv" => FourCC.WMV1,
+                        ".MP4" => FourCC.MP4V,
+                        ".AVI" => FourCC.MP42,
+                        ".WMV" => FourCC.WMV1,
                         _ => FourCC.MP4V
                     };
                 }
@@ -96,7 +96,7 @@ namespace ShutterFace
 
                 ReportFinished?.Invoke("Export complete");
             }
-            catch (Exception ex)
+            catch (Exception ex) when (ex is not OperationCanceledException and not OpenCvSharp.OpenCVException)
             {
                 ReportFailed?.Invoke(ControlResourceManager.FormatString("ErrExportVideo", ex.Message));
             }

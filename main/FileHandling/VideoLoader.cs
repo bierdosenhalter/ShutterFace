@@ -22,8 +22,8 @@ namespace ShutterFace
         {
             if (string.IsNullOrEmpty(path)) return false;
 
-            string ext = Path.GetExtension(path).ToLower(CultureInfo.InvariantCulture);
-            return ext is ".mp4" or ".avi" or ".mov" or ".wmv" or ".mkv" or ".flv" or ".webm";
+            string ext = Path.GetExtension(path).ToUpperInvariant();
+            return ext is ".MP4" or ".AVI" or ".MOV" or ".WMV" or ".MKV" or ".FLV" or ".WEBM";
         }
 
         /// <summary>

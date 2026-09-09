@@ -35,7 +35,7 @@ namespace ShutterFace.Resources
                     return CultureInfo.GetCultureInfo(cultureName);
                 }
             }
-            catch
+            catch (IOException)
             {
                 // If config file is corrupted, ignore it
             }
@@ -50,7 +50,7 @@ namespace ShutterFace.Resources
             {
                 File.WriteAllText(s_configPath, json);
             }
-            catch
+            catch (IOException)
             {
                 // If we can't save, just ignore it
             }

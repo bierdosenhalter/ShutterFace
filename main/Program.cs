@@ -22,7 +22,15 @@ namespace ShutterFace
                 SetCulture(savedCulture);
             }
 
-            Application.Run(new VideoPlayer());
+            var videoPlayer = new VideoPlayer();
+            try
+            {
+                Application.Run(videoPlayer);
+            }
+            finally
+            {
+                videoPlayer.Dispose();
+            }
         }
 
         public static void SetCulture(CultureInfo culture)

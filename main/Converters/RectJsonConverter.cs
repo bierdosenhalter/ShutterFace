@@ -25,35 +25,33 @@ namespace ShutterFace
                     string propertyName = reader.GetString()!;
                     reader.Read();
 
-                    switch (propertyName.ToLowerInvariant())
+                    switch (propertyName.ToUpperInvariant())
                     {
-                        case "x":
-                        case "left":
+                        case "X":
+                        case "LEFT":
                             x = reader.GetInt32();
                             break;
-                        case "y":
-                        case "top":
+                        case "TOPLEFT":
+                        case "BOTTOMRIGHT":
+                            reader.Skip();
+                            break;
+                        case "Y":
+                        case "TOP":
                             y = reader.GetInt32();
                             break;
-                        case "width":
-                        case "size":
+                        case "WIDTH":
+                        case "SIZE":
                             // Handle both "Width" and "Size" property names
-                            if (propertyName.Equals("width", StringComparison.OrdinalIgnoreCase))
+                            if (propertyName.Equals("WIDTH", StringComparison.Ordinal))
                                 width = reader.GetInt32();
-                            else if (propertyName.Equals("size", StringComparison.OrdinalIgnoreCase))
+                            else if (propertyName.Equals("SIZE", StringComparison.Ordinal))
                             {
                                 // Size is an object, skip it
                                 reader.Skip();
                             }
                             break;
-                        case "height":
+                        case "HEIGHT":
                             height = reader.GetInt32();
-                            break;
-                        case "location":
-                        case "topleft":
-                        case "bottomright":
-                            // Skip these complex objects
-                            reader.Skip();
                             break;
                     }
                 }
@@ -64,6 +62,9 @@ namespace ShutterFace
 
         public override void Write(Utf8JsonWriter writer, Rect value, JsonSerializerOptions options)
         {
+            if (writer == null)
+                throw new ArgumentNullException(nameof(writer));
+
             writer.WriteStartObject();
             writer.WriteNumber("X", value.X);
             writer.WriteNumber("Y", value.Y);
