@@ -1,31 +1,31 @@
 # ShutterFace - TODO
 
-## 1. "Track N" → "Face N" Umbenennung (Trivial)
-- [x] Default format: "Face 1", "Face 2"; keep backward-compatible JSON key for existing `.track` files
+## 1. Project file extension (.sft) (Einfach)
+- [ ] Decide whether `.sft` is a safe extension (not used by other apps) for shutter-face-tracking project files
+- [ ] Rename "Load tracking / Save tracking" to "Load project / Save project"
 
-## 2. Status bar progress indicator at bottom of window (Einfach)
-- [x] Show status during tracking/export with frames/percentage; auto-update
+## 2. Analysis stop → end frame (Einfach)
+- [ ] When clicking "stop analysing", set the end frame to the current frame position
 
-## 3. Drag and drop video support on main window (Einfach)
-- [x] Accept `.mp4`, `.avi`, `.mkv` dropped onto the main form
+## 3. Visible tracking feedback (Einfach)
+- [ ] Show visibly whether a face was tracked or not
 
-## 4. Settings panel in a menu dialog (Datei → Einstellungen) (Mittel)
-- [x] `MenuStrip` → `SettingsForm`: blur cell size, strength, confidence threshold
+## 4. UI polish (Einfach)
+- [ ] Frame slider disabled when no video is loaded
+- [ ] In-app log panel below video preview: text/log area with timestamps + severity; replace error popup dialogs
 
-## 5. Resize handles on placed rectangle display in video frames (Mittel)
-- [x] Draw corner/edge resize handles when a rectangle is selected; handle drag to adjust size and visible display during playback
+## 5. Anchor bugs (Mittel)
+- [ ] Anchors not moveable when video analysis is active (should be disabled only when no video loaded)
+- [ ] Compass anchors (N, S, E, W) poorly placed — edges fine but corner positions off
 
-## 6. In-app log panel at bottom below video preview (Mittel)
-- [ ] Text/log area with timestamps + severity; replace error popup dialogs
-
-## 7. Global grid blur to avoid borders between adjacent tracks (Schwer)
+## 6. Global grid blur (Schwer)
 - [ ] Divide frame into equal-sized cells; each cell uses one blur radius so adjacent rects share consistent style
 - [ ] Configurable cell size (default ~5% of video dimensions) or presets
 
-## 8. Persist analysis state on save (Schwer)
-- [ ] Save analysis of the tracks within a `.track` file; allows load → verify → export without re-tracking
+## 7. Persist analysis state on save (Schwer)
+- [ ] Save analysis results within a `.track` file — allows load → verify → export without re-tracking
 
-## 9. Visible-portion logic for frame boundaries (Am Schwersten)
-- [ ] Allow out-of-bounds rectangles
-- [ ] Clip out-of-bounds rectangles to visible bounds before passing to OpenCvSharp during tracking and move them with the tracking until the whole rectangle is in the frame
+## 8. Visible-portion logic for frame boundaries (Am Schwersten)
+- [ ] Allow out-of-bounds rectangles to exist in the project
+- [ ] Clip out-of-bounds portion before passing to OpenCvSharp during tracking
 - [ ] Store full rect in `.track` but pass only visible portion on each frame
