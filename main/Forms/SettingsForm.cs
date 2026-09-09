@@ -1,6 +1,4 @@
 using ShutterFace.Resources;
-using System.ComponentModel;
-using System.Windows.Forms;
 
 namespace ShutterFace
 {

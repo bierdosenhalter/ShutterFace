@@ -1,4 +1,6 @@
 using OpenCvSharp;
+using ShutterFace.FileHandling;
+using ShutterFace.Tracking;
 
 namespace ShutterFace.Tests;
 

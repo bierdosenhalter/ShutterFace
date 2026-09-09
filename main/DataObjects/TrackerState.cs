@@ -1,6 +1,6 @@
 using OpenCvSharp;
 
-namespace ShutterFace
+namespace ShutterFace.DataObjects
 {
     public enum LogSeverity
     {

@@ -1,4 +1,4 @@
-namespace ShutterFace
+namespace ShutterFace.DataObjects
 {
     [Serializable]
     public class TrackerSession

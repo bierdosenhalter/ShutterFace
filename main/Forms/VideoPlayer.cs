@@ -1,5 +1,9 @@
 using OpenCvSharp;
+using ShutterFace.DataObjects;
+using ShutterFace.Engines;
+using ShutterFace.FileHandling;
 using ShutterFace.Resources;
+using ShutterFace.Tracking;
 using System.Globalization;
 
 namespace ShutterFace

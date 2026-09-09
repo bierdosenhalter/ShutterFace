@@ -1,9 +1,8 @@
 using OpenCvSharp;
-using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace ShutterFace
+namespace ShutterFace.Converters
 {
     // Custom JSON converter for OpenCvSharp.Rect
     public class RectJsonConverter : JsonConverter<Rect>

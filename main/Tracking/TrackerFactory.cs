@@ -1,6 +1,7 @@
 using OpenCvSharp;
+using ShutterFace.DataObjects;
 
-namespace ShutterFace
+namespace ShutterFace.Tracking
 {
     /// <summary>
     /// Creates, stores and edits tracker boxes. All state lives in
@@ -11,7 +12,7 @@ namespace ShutterFace
     {
         public Action<string>? ShowMessage;
 
-        public TrackerBox CreateFromDrag(System.Drawing.Rectangle dragRect, int startFrame, int totalFrames)
+        public TrackerBox CreateFromDrag(Rectangle dragRect, int startFrame, int totalFrames)
         {
             var tracking = new TrackerBox
             {
@@ -58,7 +59,7 @@ namespace ShutterFace
                 newStartFrame = newEndFrame;
             }
 
-            bool frameRangeChanged = (tracking.StartFrame != newStartFrame) || (tracking.EndFrame != newEndFrame);
+            bool frameRangeChanged = tracking.StartFrame != newStartFrame || tracking.EndFrame != newEndFrame;
 
             if (tracking.IsAnalyzed && frameRangeChanged)
             {

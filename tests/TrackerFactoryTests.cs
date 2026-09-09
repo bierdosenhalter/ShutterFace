@@ -1,4 +1,5 @@
 using OpenCvSharp;
+using ShutterFace.DataObjects;
 
 namespace ShutterFace.Tests;
 

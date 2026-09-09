@@ -1,6 +1,8 @@
 using OpenCvSharp;
+using ShutterFace.DataObjects;
+using ShutterFace.Engines;
 
-namespace ShutterFace
+namespace ShutterFace.Tracking
 {
     /// <summary>
     /// Logic for creating a rectangle by dragging and resizing it by its handles.

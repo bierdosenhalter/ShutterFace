@@ -1,6 +1,7 @@
+using ShutterFace.DataObjects;
 using System.Text.Json;
 
-namespace ShutterFace
+namespace ShutterFace.FileHandling
 {
     /// <summary>
     /// Serializes and deserializes tracking data for *.sft project files.

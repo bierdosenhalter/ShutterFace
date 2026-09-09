@@ -1,6 +1,6 @@
 using OpenCvSharp;
 
-namespace ShutterFace
+namespace ShutterFace.DataObjects
 {
     /// <summary>Which resize handle of a tracking rectangle the pointer is over.</summary>
     internal enum EdgeKind { None, TopLeft, TopCenter, TopRight, RightCenter, BottomRight, BottomCenter, BottomLeft, LeftCenter }

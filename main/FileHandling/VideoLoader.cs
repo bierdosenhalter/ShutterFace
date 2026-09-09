@@ -1,7 +1,7 @@
 using OpenCvSharp;
-using System.Globalization;
+using ShutterFace.DataObjects;
 
-namespace ShutterFace
+namespace ShutterFace.FileHandling
 {
     /// <summary>
     /// Video loading, frame access and time formatting.
@@ -43,7 +43,7 @@ namespace ShutterFace
                 return false;
             }
 
-            totalFrames = (int)model.VideoCapture.FrameCount;
+            totalFrames = model.VideoCapture.FrameCount;
             if (totalFrames <= 0)
             {
                 ShowMessage?.Invoke("No frames could be read from this video file.");

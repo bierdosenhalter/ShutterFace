@@ -1,5 +1,4 @@
 using ShutterFace.Resources;
-using System.Drawing;
 using System.Globalization;
 
 namespace ShutterFace

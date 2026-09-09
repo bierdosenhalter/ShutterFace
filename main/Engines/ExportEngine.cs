@@ -1,8 +1,8 @@
 using OpenCvSharp;
+using ShutterFace.DataObjects;
 using ShutterFace.Resources;
-using System.Globalization;
 
-namespace ShutterFace
+namespace ShutterFace.Engines
 {
     /// <summary>
     /// Exports the video with pixelated tracking regions.
@@ -96,7 +96,7 @@ namespace ShutterFace
 
                 ReportFinished?.Invoke("Export complete");
             }
-            catch (Exception ex) when (ex is not OperationCanceledException and not OpenCvSharp.OpenCVException)
+            catch (Exception ex) when (ex is not OperationCanceledException and not OpenCVException)
             {
                 ReportFailed?.Invoke(ControlResourceManager.FormatString("ErrExportVideo", ex.Message));
             }

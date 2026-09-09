@@ -1,6 +1,8 @@
 using OpenCvSharp;
+using ShutterFace.DataObjects;
+using ShutterFace.FileHandling;
 
-namespace ShutterFace
+namespace ShutterFace.Tracking
 {
     /// <summary>
     /// Template-matching based object tracking across a frame range.

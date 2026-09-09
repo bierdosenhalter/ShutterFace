@@ -1,7 +1,6 @@
 namespace ShutterFace.Resources
 {
     using System.Globalization;
-    using System.Runtime.InteropServices;
 
     internal static class CultureConfig
     {

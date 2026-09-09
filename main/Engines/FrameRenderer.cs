@@ -1,7 +1,8 @@
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
+using ShutterFace.DataObjects;
 
-namespace ShutterFace
+namespace ShutterFace.Engines
 {
     /// <summary>
     /// Draws tracking rectangles and resize handles onto a frame and pushes
@@ -34,9 +35,9 @@ namespace ShutterFace
                     if (!tracking.IsAnalyzed)
                         color = Scalar.Red;
                     else
-                        color = (i == selectedTrackingIndex) ? Scalar.LimeGreen : Scalar.Gray;
+                        color = i == selectedTrackingIndex ? Scalar.LimeGreen : Scalar.Gray;
 
-                    int thickness = (i == selectedTrackingIndex) ? 3 : 1;
+                    int thickness = i == selectedTrackingIndex ? 3 : 1;
 
                     Cv2.Rectangle(displayFrame, rect.Value, color, thickness);
                     Cv2.PutText(displayFrame, tracking.Name,
@@ -49,7 +50,7 @@ namespace ShutterFace
                     }
                 }
 
-                Bitmap bitmap = BitmapConverter.ToBitmap(displayFrame);
+                Bitmap bitmap = displayFrame.ToBitmap();
 
                 void SetImage()
                 {
