@@ -408,7 +408,7 @@ namespace ShutterFace
             mnuFile.DropDownItems.AddRange(new ToolStripItem[] { mnuOpenVideo, mnuLoadTracking, mnuSaveTracking, toolStripSeparator1, mnuExportVideo, toolStripSeparator2, mnuSettings });
             mnuFile.Name = "mnuFile";
             mnuFile.Size = new Size(90, 36);
-            mnuFile.Text = "&Datei";
+            mnuFile.Text = "&File";
             // 
             // mnuOpenVideo
             // 
@@ -457,7 +457,7 @@ namespace ShutterFace
             // 
             mnuSettings.Name = "mnuSettings";
             mnuSettings.Size = new Size(372, 44);
-            mnuSettings.Text = "&Einstellungen";
+            mnuSettings.Text = "&Settings";
             mnuSettings.Click += MnuSettings_Click;
             // 
             // VideoPlayer

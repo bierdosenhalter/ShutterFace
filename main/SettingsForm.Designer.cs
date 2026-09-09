@@ -63,7 +63,7 @@ namespace ShutterFace
             this.lblBlurCellSize.Name = "lblBlurCellSize";
             this.lblBlurCellSize.Size = new Size(108, 20);
             this.lblBlurCellSize.TabIndex = 0;
-            this.lblBlurCellSize.Text = "Vergröberung:";
+            this.lblBlurCellSize.Text = "Blurring:";
             // 
             // nudBlurCellSize
             // 
@@ -79,7 +79,7 @@ namespace ShutterFace
             this.lblBigPixels.Name = "lblBigPixels";
             this.lblBigPixels.Size = new Size(156, 20);
             this.lblBigPixels.TabIndex = 2;
-            this.lblBigPixels.Text = "Big Pixels (längste Seite):";
+            this.lblBigPixels.Text = "Big Pixels (longest side):";
             // 
             // nudBigPixels
             // 
@@ -95,7 +95,7 @@ namespace ShutterFace
             this.lblConfidenceThreshold.Name = "lblConfidenceThreshold";
             this.lblConfidenceThreshold.Size = new Size(156, 20);
             this.lblConfidenceThreshold.TabIndex = 4;
-            this.lblConfidenceThreshold.Text = "Konfidenz-Schwelle:";
+            this.lblConfidenceThreshold.Text = "Confidence Threshold:";
             // 
             // nudConfidenceThreshold
             // 
@@ -123,7 +123,7 @@ namespace ShutterFace
             this.gbBlur.Size = new Size(380, 145);
             this.gbBlur.TabIndex = 7;
             this.gbBlur.TabStop = false;
-            this.gbBlur.Text = "Unschärfe-Einstellungen";
+            this.gbBlur.Text = "Blur Settings";
             // 
             // gbConfidence
             // 
@@ -133,7 +133,7 @@ namespace ShutterFace
             this.gbConfidence.Size = new Size(380, 85);
             this.gbConfidence.TabIndex = 8;
             this.gbConfidence.TabStop = false;
-            this.gbConfidence.Text = "Tracking-Einstellungen";
+            this.gbConfidence.Text = "Tracking Settings";
             // 
             // btnSave
             // 
