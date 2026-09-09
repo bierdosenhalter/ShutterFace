@@ -75,9 +75,9 @@ namespace ShutterFace
                 langMenu.DropDownItems.Add(item);
             }
 
-            UpdateLanguageCheckmarks();
             menuStripTop.Items.Insert(1, langMenu);
             _langMenu = langMenu;
+            UpdateLanguageCheckmarks();
         }
 
         private static string GetDisplayName(CultureInfo culture)
@@ -106,19 +106,9 @@ namespace ShutterFace
                 foreach (ToolStripMenuItem item in _langMenu.DropDownItems)
                 {
                     var culture = item.Tag as CultureInfo;
-                    item.Checked = culture?.LCID == ui.LCID;
-                }
-                if (_langMenu.DropDownItems.Cast<ToolStripMenuItem>().All(i => !i.Checked))
-                {
-                    if (_langMenu.DropDownItems.Count > 0)
-                    {
-                        var enItem = _langMenu.DropDownItems.OfType<ToolStripMenuItem>()
-                            .FirstOrDefault(i => (i.Tag as CultureInfo)?.TwoLetterISOLanguageName == "en");
-                        if (enItem != null)
-                            enItem.Checked = true;
-                        else
-                            _langMenu.DropDownItems.OfType<ToolStripMenuItem>().First().Checked = true;
-                    }
+                    var langName = culture?.TwoLetterISOLanguageName ?? string.Empty;
+                    var uiLangName = ui?.TwoLetterISOLanguageName ?? string.Empty;
+                    item.Checked = langName.Equals(uiLangName, StringComparison.Ordinal);
                 }
             }
         }
@@ -132,6 +122,11 @@ namespace ShutterFace
         private void UpdateControlTexts()
         {
             mnuFile.Text = ControlResourceManager.GetString("FileMenu");
+            if (_langMenu != null)
+            {
+                _langMenu.Text = ControlResourceManager.GetString("LanguageMenu");
+            }
+
             mnuOpenVideo.Text = ControlResourceManager.GetString("MenuOpenVideo");
             mnuLoadTracking.Text = ControlResourceManager.GetString("MenuLoadTracking");
             mnuSaveTracking.Text = ControlResourceManager.GetString("MenuSaveTracking");

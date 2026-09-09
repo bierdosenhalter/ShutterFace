@@ -22,16 +22,16 @@ namespace ShutterFace.Resources
 
         static ControlResourceManager()
         {
-            _currentCulture = CultureInfo.CurrentCulture;
+            _currentCulture = CultureInfo.GetCultureInfo("en-US");
         }
 
         public static CultureInfo Culture
         {
             set
             {
-                _currentCulture = value;
-                Thread.CurrentThread.CurrentUICulture = value;
-                CultureInfo.DefaultThreadCurrentUICulture = value;
+                _currentCulture = value ?? CultureInfo.GetCultureInfo("en-US");
+                Thread.CurrentThread.CurrentUICulture = _currentCulture;
+                CultureInfo.DefaultThreadCurrentUICulture = _currentCulture;
                 s_stringCache.Clear();
             }
             get => _currentCulture;
@@ -44,9 +44,7 @@ namespace ShutterFace.Resources
                 return cached ?? string.Empty;
             }
 
-            var currentCulture = Thread.CurrentThread.CurrentUICulture;
-
-            var value = s_rm.GetString(name, _currentCulture);
+            var value = s_rm.GetString(name, CultureInfo.CurrentUICulture);
             if (value != null)
             {
                 s_stringCache[name] = value;

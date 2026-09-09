@@ -1,4 +1,5 @@
 # MotionTrackerFaceBlur
+
 WinForms app (C#/.NET 8, OpenCvSharp4): face tracking via template matching + blurred video export.
 
 ## Environment
@@ -19,14 +20,17 @@ Verify uncertain OpenCvSharp/.NET/WinForms APIs via `context7`/`websearch` first
 ## WinForms forms
 UI changes go into `Xxx.Designer.cs` following its existing pattern (field + instantiate + properties + add to parent). Never hand-roll UI in constructors or delete designer sections — the VS Designer must keep loading the form.
 
-## Constraints
-- Never touch `.vs/` or build output
-- No push/rebase/history rewrite; commit only with my confirmation
-- 32k context: small targeted edits, no full-file rewrites unless asked, summarize instead of echoing files
-- One task per session; unrelated task → suggest fresh session
+## UI layout
+Designer.cs values are 96-DPI units. Grid: 11 units margin/padding, 7 units between controls, 4 units label↔input. Buttons bottom-right, right-to-left (OK/Cancel/Apply), 7-unit rows. Heights: let the font decide; use Padding/Margin + AutoScaleMode.Dpi, never absolute Locations.
 
 ## Working style
 - Plan with `todowrite` before coding (3–6 items), execute item by item, update statuses; never mark done without DoD passing
 - Decide minor things yourself. Uncertain about API/behavior? research web/context7 first; ask the user only if research fails or the choice is irreversible/approach-changing; note decisions in commit message
 - On failure: 2 alternatives before reporting
 - Never end with "shall I continue?" — run DoD loop, report done + next step
+
+## Constraints
+- Never touch `.vs/` or build output
+- No push/rebase/history rewrite; commit only with my confirmation
+- 32k context: small targeted edits, no full-file rewrites unless asked, summarize instead of echoing files
+- One task per session; unrelated task → suggest fresh session

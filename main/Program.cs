@@ -1,5 +1,6 @@
 namespace ShutterFace
 {
+    using ShutterFace.Resources;
     using System;
     using System.Globalization;
     using System.Threading;
@@ -23,6 +24,8 @@ namespace ShutterFace
             CultureInfo.DefaultThreadCurrentCulture = culture;
             Thread.CurrentThread.CurrentUICulture = culture;
             Thread.CurrentThread.CurrentCulture = culture;
+
+            ControlResourceManager.Culture = culture;
 
             if (Application.OpenForms["VideoPlayer"] is VideoPlayer player)
             {
