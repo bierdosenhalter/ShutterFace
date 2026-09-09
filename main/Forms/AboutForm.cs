@@ -1,5 +1,6 @@
 using ShutterFace.Resources;
 using System.Drawing;
+using System.Globalization;
 
 namespace ShutterFace
 {
@@ -14,7 +15,9 @@ namespace ShutterFace
         private void UpdateTexts()
         {
             lblTitle.Text = ControlResourceManager.GetString("TitleAbout");
-            lblSubtitle.Text = ControlResourceManager.GetString("SubtitleAbout");
+            var version = typeof(AboutForm).Assembly.GetName().Version?.ToString() ?? "1.0.0";
+            var format = ControlResourceManager.GetString("SubtitleAbout")!;
+            lblSubtitle.Text = string.Format(CultureInfo.InvariantCulture, format, version);
             btnOk.Text = ControlResourceManager.GetString("BtnOk");
         }
 
