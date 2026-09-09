@@ -62,6 +62,8 @@ namespace ShutterFace
             mnuExportVideo = new ToolStripMenuItem();
             toolStripSeparator2 = new ToolStripSeparator();
             mnuSettings = new ToolStripMenuItem();
+            logPanel = new Panel();
+            logTextBox = new RichTextBox();
             ((System.ComponentModel.ISupportInitialize)VideoBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)FrameSlider).BeginInit();
             mainTable.SuspendLayout();
@@ -75,6 +77,8 @@ namespace ShutterFace
             pnlFrameSlider.SuspendLayout();
             statusStripBottom.SuspendLayout();
             menuStripTop.SuspendLayout();
+            logPanel.SuspendLayout();
+            logTextBox.SuspendLayout();
             SuspendLayout();
             // 
             // VideoBox
@@ -169,15 +173,18 @@ namespace ShutterFace
             mainTable.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 280F));
             mainTable.Controls.Add(VideoBox, 0, 0);
             mainTable.Controls.Add(buttonLayoutPanel, 1, 0);
-            mainTable.Controls.Add(timePanel, 0, 2);
             mainTable.Controls.Add(pnlFrameSlider, 0, 1);
+            mainTable.Controls.Add(timePanel, 0, 2);
+            mainTable.Controls.Add(logPanel, 0, 3);
+            mainTable.Controls.Add(logPanel, 0, 3);
             mainTable.Dock = DockStyle.Fill;
             mainTable.Location = new Point(0, 40);
             mainTable.Name = "mainTable";
-            mainTable.RowCount = 3;
+            mainTable.RowCount = 4;
             mainTable.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             mainTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
             mainTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            mainTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 150F));
             mainTable.Size = new Size(1480, 1159);
             mainTable.TabIndex = 9;
             // 
@@ -475,11 +482,33 @@ namespace ShutterFace
             mnuSettings.Text = "&Settings";
             mnuSettings.Click += MnuSettings_Click;
             // 
-            // VideoPlayer
+            // logPanel
+            // 
+            logPanel.Controls.Add(logTextBox);
+            logPanel.Dock = DockStyle.Fill;
+            logPanel.Location = new Point(3, 1159);
+            logPanel.Name = "logPanel";
+            logPanel.Size = new Size(1194, 147);
+            logPanel.TabIndex = 13;
+            // 
+            // logTextBox
+            // 
+            logTextBox.BackColor = SystemColors.Window;
+            logTextBox.BorderStyle = BorderStyle.FixedSingle;
+            logTextBox.Dock = DockStyle.Fill;
+            logTextBox.Font = new Font("Consolas", 8.25F, FontStyle.Regular, GraphicsUnit.Point, (byte)0);
+            logTextBox.Location = new Point(3, 3);
+            logTextBox.Name = "logTextBox";
+            logTextBox.ReadOnly = true;
+            logTextBox.Size = new Size(1188, 141);
+            logTextBox.TabIndex = 0;
+            logTextBox.Text = "";
+            // 
+            // videoPlayer
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1480, 1241);
+            ClientSize = new Size(1480, 1388);
             Controls.Add(mainTable);
             Controls.Add(statusStripBottom);
             Controls.Add(menuStripTop);
@@ -506,6 +535,9 @@ namespace ShutterFace
             statusStripBottom.PerformLayout();
             menuStripTop.ResumeLayout(false);
             menuStripTop.PerformLayout();
+            logPanel.ResumeLayout(false);
+            logPanel.PerformLayout();
+            logTextBox.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -553,5 +585,7 @@ namespace ShutterFace
         private ToolStripMenuItem mnuFile, mnuOpenVideo, mnuLoadTracking, mnuSaveTracking, mnuExportVideo, mnuSettings;
         private ToolStripSeparator toolStripSeparator1, toolStripSeparator2, mnuCloseSeparator;
         private ToolStripMenuItem mnuAbout, mnuClose;
+        private Panel logPanel;
+        internal RichTextBox logTextBox;
     }
 }

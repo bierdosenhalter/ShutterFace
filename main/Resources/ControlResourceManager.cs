@@ -51,13 +51,21 @@ namespace ShutterFace.Resources
                 return value;
             }
 
-            return string.Empty;
+            LogMissingResource(name);
+            string fallback = $"[MISSING:{name}]";
+            s_stringCache[name] = fallback;
+            return fallback;
         }
 
         public static string FormatString(string name, params object?[] args)
         {
             string format = GetString(name);
             return string.IsNullOrEmpty(format) ? string.Empty : string.Format(CultureInfo.InvariantCulture, format, args);
+        }
+
+        private static void LogMissingResource(string name)
+        {
+            System.Diagnostics.Debug.Write($"[MISSING RESOURCE: {name}]{Environment.NewLine}");
         }
 
         public static ResourceManager ResourceManager => s_rm;

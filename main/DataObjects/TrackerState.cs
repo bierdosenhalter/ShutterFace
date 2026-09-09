@@ -2,6 +2,14 @@ using OpenCvSharp;
 
 namespace ShutterFace
 {
+    public enum LogSeverity
+    {
+        Info,
+        Warning,
+        Error,
+        Success,
+    }
+
     /// <summary>
     /// Shared state object for the whole player. Every service class receives
     /// one instance and reads/writes the same fields the form used to own.

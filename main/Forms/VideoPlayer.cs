@@ -36,6 +36,29 @@ namespace ShutterFace
             AddAboutMenuItem();
         }
 
+        public void WriteLog(string message, LogSeverity severity = LogSeverity.Info)
+        {
+            var timestamp = DateTime.Now.ToString("HH:mm:ss", CultureInfo.InvariantCulture);
+            var severityTag = severity switch
+            {
+                LogSeverity.Error => "[ERROR]",
+                LogSeverity.Warning => "[WARN]",
+                LogSeverity.Success => "[OK]",
+                _ => "[INFO]",
+            };
+
+            var line = $"[{timestamp}] {severityTag} {message}{Environment.NewLine}";
+
+            if (InvokeRequired)
+            {
+                Invoke((Action<string, LogSeverity>)WriteLog, message, severity);
+                return;
+            }
+
+            logTextBox.AppendText(line);
+            logTextBox.ScrollToCaret();
+        }
+
         private void AddAboutMenuItem()
         {
             mnuCloseSeparator = new ToolStripSeparator();
@@ -170,7 +193,7 @@ namespace ShutterFace
 
         private void WireCallbacks()
         {
-            _videoLoader.ShowMessage = msg => MessageBox.Show(msg);
+            _videoLoader.ShowMessage = msg => Invoke((Action<string>)(m => WriteLog(m, LogSeverity.Info)), msg);
             _videoLoader.RunOnUi = action => Invoke(action);
             _videoLoader.RenderFrame = frame => DisplayFrame(frame);
             _videoLoader.UpdateTimeLabels = (start, current, end) =>
@@ -181,9 +204,9 @@ namespace ShutterFace
                 tssStatusLabel.Text = $"Frame: {_model.CurrentFrameIndex}/{_model.TotalFrames} | Time: {current.ToString(@"hh\:mm\:ss", CultureInfo.InvariantCulture)} | FPS: {_videoLoader.GetFps()}";
             };
 
-            _trackingManager.ShowMessage = msg => MessageBox.Show(msg);
-            _analysis.ShowMessage = msg => MessageBox.Show(msg, ControlResourceManager.GetString("ErrorTitle"), MessageBoxButtons.OK, MessageBoxIcon.Error);
-            _exporter.ShowMessage = msg => MessageBox.Show(msg);
+            _trackingManager.ShowMessage = msg => Invoke((Action<string>)(m => WriteLog(m, LogSeverity.Info)), msg);
+            _analysis.ShowMessage = msg => Invoke((Action<string>)(m => WriteLog(m, LogSeverity.Error)), msg);
+            _exporter.ShowMessage = msg => Invoke((Action<string>)(m => WriteLog(m, LogSeverity.Info)), msg);
 
             _analysis.ReportStarted = (name, maxFrames) => Invoke((MethodInvoker)delegate
             {
@@ -191,6 +214,7 @@ namespace ShutterFace
                 tsspProgressBar.Visible = true;
                 tsspProgressBar.Value = 0;
                 tsspProgressBar.Maximum = maxFrames;
+                WriteLog(ControlResourceManager.FormatString("MsgAnalysisStarted", name, maxFrames), LogSeverity.Info);
             });
             _analysis.ReportProgress = (name, framePos) => Invoke((MethodInvoker)delegate
             {
@@ -201,6 +225,7 @@ namespace ShutterFace
             _analysis.ReportObjectLost = frame => Invoke((MethodInvoker)delegate
             {
                 tssStatusLabel.Text = ControlResourceManager.FormatString("MsgAnalysisObjectLost", frame);
+                WriteLog(ControlResourceManager.FormatString("MsgAnalysisObjectLost", frame), LogSeverity.Warning);
             });
             _analysis.ReportFinished = (name, msg) => Invoke((MethodInvoker)delegate
             {
@@ -219,6 +244,7 @@ namespace ShutterFace
                 tsspProgressBar.Visible = false;
                 tssStatusLabel.Text = msg;
                 UpdateTimeDisplay();
+                WriteLog(msg, LogSeverity.Success);
                 DisplayFrame(_model.CurrentFrame);
             });
 
@@ -237,11 +263,12 @@ namespace ShutterFace
                 _model.IsExporting = false;
                 tsspProgressBar.Visible = false;
                 tssStatusLabel.Text = msg;
+                WriteLog(msg, LogSeverity.Success);
             });
             _exporter.ReportFailed = err => Invoke((MethodInvoker)delegate
             {
                 tsspProgressBar.Visible = false;
-                MessageBox.Show(err);
+                WriteLog(err, LogSeverity.Error);
                 mnuExportVideo.Enabled = true;
                 _model.IsExporting = false;
                 tssStatusLabel.Text = ControlResourceManager.FormatString("StatusExportingProgressFormat", ControlResourceManager.GetString("StatusExportComplete")).Replace("100%", ControlResourceManager.GetString("StatusExportComplete"));
@@ -254,6 +281,7 @@ namespace ShutterFace
             StopAnalyzeBtn.Visible = false;
             gprTracking.Enabled = false;
             DeleteTrackingBtn.Enabled = false;
+            FrameSlider.Enabled = false;
 
             Image analyzedIcon = CreateStatusIcon(Color.FromArgb(80, 200, 80));
             Image notAnalyzedIcon = CreateStatusIcon(Color.FromArgb(160, 160, 160));
@@ -299,8 +327,10 @@ namespace ShutterFace
             AddTrackingBtn.Enabled = true;
             mnuExportVideo.Enabled = true;
             mnuLoadTracking.Enabled = true;
+            FrameSlider.Enabled = true;
 
             UpdateTimeDisplay();
+            WriteLog(ControlResourceManager.FormatString("MsgVideoLoaded", Path.GetFileName(path), totalFrames, _videoLoader.GetFps()), LogSeverity.Success);
         }
 
         private void MnuOpenVideo_Click(object sender, EventArgs e)
@@ -458,6 +488,7 @@ namespace ShutterFace
                 itemAdded.Selected = true;
 
                 UpdateTrackingProperties();
+                WriteLog(ControlResourceManager.FormatString("MsgTrackingCreated", tracking.Name), LogSeverity.Success);
             }
 
             _model.DragRectangle = null;
@@ -515,12 +546,14 @@ namespace ShutterFace
             if (_model.SelectedTrackingIndex.HasValue)
             {
                 int index = _model.SelectedTrackingIndex.Value;
+                string name = TrackingListView.Items[index].Text;
                 _trackingManager.DeleteSelected();
                 TrackingListView.Items.RemoveAt(index);
                 gprTracking.Enabled = false;
                 AnalyzeBtn.Visible = false;
                 DeleteTrackingBtn.Enabled = false;
                 DisplayFrame(_model.CurrentFrame);
+                WriteLog(ControlResourceManager.FormatString("MsgTrackingDeleted", name), LogSeverity.Warning);
             }
         }
 
@@ -648,20 +681,21 @@ namespace ShutterFace
 
                 _model.HasUnsavedChanges = true;
                 DisplayFrame(_model.CurrentFrame);
-                MessageBox.Show(ControlResourceManager.GetString("MsgTrackingUpdated"));
+                WriteLog(ControlResourceManager.GetString("MsgTrackingUpdated"), LogSeverity.Success);
             }
         }
-
         #endregion
 
         #region Analysis Events
+
+
 
         private void AnalyzeBtn_Click(object sender, EventArgs e)
         {
             var tracking = _trackingManager.Selected;
             if (tracking == null)
             {
-                MessageBox.Show(ControlResourceManager.GetString("MsgSelectTrackingFirst"));
+                WriteLog(ControlResourceManager.GetString("MsgSelectTrackingFirst"), LogSeverity.Warning);
                 return;
             }
 
@@ -685,6 +719,7 @@ namespace ShutterFace
             if (_analysis.ActiveTracker != null)
             {
                 _analysis.ActiveTracker.EndFrame = _model.CurrentFrameIndex;
+                WriteLog(ControlResourceManager.FormatString("MsgAnalysisStopped", _analysis.ActiveTracker.Name, _model.CurrentFrameIndex), LogSeverity.Warning);
             }
             AnalyzeBtn.Visible = true;
             StopAnalyzeBtn.Visible = false;
@@ -738,9 +773,7 @@ namespace ShutterFace
                 mnuExportVideo.Enabled = false;
                 Text = ControlResourceManager.GetString("ExportingVideoTitle");
                 tssStatusLabel.Text = ControlResourceManager.FormatString("StatusExportingProgressFormat", 0);
-                tsspProgressBar.Visible = true;
-                tsspProgressBar.Value = 0;
-                tsspProgressBar.Maximum = _model.TotalFrames;
+                WriteLog(ControlResourceManager.FormatString("MsgExportStarted", Path.GetFileName(saveFileDialog.FileName)), LogSeverity.Info);
 
                 Task.Run(() => _exporter.Export(saveFileDialog.FileName));
             }
@@ -789,7 +822,7 @@ namespace ShutterFace
         {
             if (_model.TrackingRects.Count == 0)
             {
-                MessageBox.Show(ControlResourceManager.GetString("MsgNoTrackingToSave"));
+                WriteLog(ControlResourceManager.GetString("MsgNoTrackingToSave"), LogSeverity.Warning);
                 return;
             }
 
@@ -802,12 +835,12 @@ namespace ShutterFace
                 try
                 {
                     File.WriteAllText(saveFileDialog.FileName, TrackerStore.Serialize(_model.TrackingRects, _model.VideoPath));
-                    MessageBox.Show(ControlResourceManager.GetString("MsgTrackingSaved"));
+                    WriteLog(ControlResourceManager.GetString("MsgTrackingSaved"), LogSeverity.Success);
                     _model.HasUnsavedChanges = false;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ControlResourceManager.FormatString("ErrSaveTrackingData", ex.Message));
+                    WriteLog(ControlResourceManager.FormatString("ErrSaveTrackingData", ex.Message), LogSeverity.Error);
                 }
             }
         }
@@ -826,7 +859,7 @@ namespace ShutterFace
 
                     if (trackerSession == null)
                     {
-                        MessageBox.Show(ControlResourceManager.GetString("MsgFailedToLoadTracking"));
+                        WriteLog(ControlResourceManager.GetString("MsgFailedToLoadTracking"), LogSeverity.Error);
                         return;
                     }
 
@@ -859,7 +892,7 @@ namespace ShutterFace
                         }
                         else
                         {
-                            MessageBox.Show(ControlResourceManager.GetString("MsgVideoNotFoundOpenManual"));
+                            WriteLog(ControlResourceManager.GetString("MsgVideoNotFoundOpenManual"), LogSeverity.Warning);
                         }
                     }
 
@@ -871,7 +904,7 @@ namespace ShutterFace
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ControlResourceManager.FormatString("ErrLoadTrackingData", ex.Message));
+                    WriteLog(ControlResourceManager.FormatString("ErrLoadTrackingData", ex.Message), LogSeverity.Error);
                 }
             }
         }

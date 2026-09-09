@@ -222,4 +222,22 @@
   <data name="ErrExportVideo" xml:space="preserve">
     <value>Fehler beim Exportieren des Videos: {0}</value>
   </data>
+  <data name="MsgVideoLoaded" xml:space="preserve">
+    <value>'{0}' geladen: {1} Frames bei {2} fps</value>
+  </data>
+  <data name="MsgTrackingCreated" xml:space="preserve">
+    <value>Verfolgungspunkt erstellt: {0}</value>
+  </data>
+  <data name="MsgTrackingDeleted" xml:space="preserve">
+    <value>Verfolgungspunkt gelöscht: {0}</value>
+  </data>
+  <data name="MsgAnalysisStarted" xml:space="preserve">
+    <value>Analysierung gestartet für '{0}' ({1} Frames)</value>
+  </data>
+  <data name="MsgAnalysisStopped" xml:space="preserve">
+    <value>Analysierung gestoppt für '{0}' bei Frame {1}</value>
+  </data>
+  <data name="MsgExportStarted" xml:space="preserve">
+    <value>Export gestartet: {0}</value>
+  </data>
 </root>
