@@ -1,7 +1,7 @@
 using OpenCvSharp;
 using OpenCvSharp.Extensions;
 
-namespace MotionTrackerFaceBlur
+namespace ShutterFace
 {
     /// <summary>
     /// Draws tracking rectangles and resize handles onto a frame and pushes

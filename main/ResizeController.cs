@@ -1,6 +1,6 @@
 using OpenCvSharp;
 
-namespace MotionTrackerFaceBlur
+namespace ShutterFace
 {
     /// <summary>
     /// Logic for creating a rectangle by dragging and resizing it by its handles.

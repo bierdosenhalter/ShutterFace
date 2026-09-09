@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace MotionTrackerFaceBlur
+namespace ShutterFace
 {
     /// <summary>
     /// Serializes and deserializes tracking data for *.track files.

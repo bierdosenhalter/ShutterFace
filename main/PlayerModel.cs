@@ -1,6 +1,6 @@
 using OpenCvSharp;
 
-namespace MotionTrackerFaceBlur
+namespace ShutterFace
 {
     /// <summary>
     /// Shared state object for the whole player. Every service class receives

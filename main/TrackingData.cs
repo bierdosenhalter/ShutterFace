@@ -1,4 +1,4 @@
-﻿namespace MotionTrackerFaceBlur
+namespace ShutterFace
 {
     [Serializable]
     public class TrackingData

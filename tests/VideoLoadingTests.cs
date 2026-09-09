@@ -1,7 +1,7 @@
 using OpenCvSharp;
 using System.Reflection;
 
-namespace MotionTrackerFaceBlur.Tests;
+namespace ShutterFace.Tests;
 
 public class VideoLoadingTests
 {
@@ -60,7 +60,7 @@ public class VideoLoadingTests
     {
         // Write embedded resource to a temp file so VideoCapture can open it
         var assembly = Assembly.GetExecutingAssembly();
-        using var stream = assembly.GetManifestResourceStream("MotionTrackerFaceBlur.Tests.Resources.file_example_MP4_480_1_5MG.mp4");
+        using var stream = assembly.GetManifestResourceStream("ShutterFace.Tests.Resources.file_example_MP4_480_1_5MG.mp4");
 
         Assert.NotNull(stream);
 

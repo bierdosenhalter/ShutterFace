@@ -1,7 +1,7 @@
 using OpenCvSharp;
 using System.Globalization;
 
-namespace MotionTrackerFaceBlur
+namespace ShutterFace
 {
     /// <summary>
     /// The form class. Owns every event handler and every control reference;
@@ -126,7 +126,7 @@ namespace MotionTrackerFaceBlur
                 tsspProgressBar.Value = tsspProgressBar.Maximum;
                 tssStatusLabel.Text = "Export: 100%";
                 MessageBox.Show("Video exported successfully!");
-                Text = "Motion Tracker";
+                Text = "ShutterFace";
                 mnuExportVideo.Enabled = true;
                 _model.IsExporting = false;
                 tsspProgressBar.Visible = false;

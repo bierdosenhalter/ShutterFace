@@ -1,6 +1,6 @@
 using System.Drawing;
 
-namespace MotionTrackerFaceBlur
+namespace ShutterFace
 {
     internal sealed partial class AboutForm : Form
     {
@@ -18,7 +18,7 @@ namespace MotionTrackerFaceBlur
         internal static Bitmap CreateAppIcon()
         {
             var asm = typeof(AboutForm).Assembly;
-            using var stream = asm.GetManifestResourceStream("MotionTrackerFaceBlur.app.ico");
+            using var stream = asm.GetManifestResourceStream("ShutterFace.icon.ico");
             using var icon = new Icon(stream!);
             return icon.ToBitmap();
         }
@@ -26,7 +26,7 @@ namespace MotionTrackerFaceBlur
         internal static Icon CreateAppIconAsIcon()
         {
             var asm = typeof(AboutForm).Assembly;
-            using var stream = asm.GetManifestResourceStream("MotionTrackerFaceBlur.app.ico");
+            using var stream = asm.GetManifestResourceStream("ShutterFace.icon.ico");
             return new Icon(stream!);
         }
     }

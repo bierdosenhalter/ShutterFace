@@ -1,7 +1,7 @@
 using OpenCvSharp;
 using System.Globalization;
 
-namespace MotionTrackerFaceBlur
+namespace ShutterFace
 {
     /// <summary>
     /// Video loading, frame access and time formatting.

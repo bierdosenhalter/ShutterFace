@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
+using System.Diagnostics;
 
-namespace MotionTrackerFaceBlur
+namespace ShutterFace
 {
     [DebuggerDisplay($"{{{nameof(GetDebuggerDisplay)}(),nq}}")]
     partial class VideoPlayer
@@ -471,7 +471,7 @@ namespace MotionTrackerFaceBlur
             MainMenuStrip = menuStripTop;
             Name = "VideoPlayer";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Motion Tracker";
+            Text = "ShutterFace";
             Icon = AboutForm.CreateAppIconAsIcon();
             ((System.ComponentModel.ISupportInitialize)VideoBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)FrameSlider).EndInit();

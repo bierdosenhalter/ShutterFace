@@ -1,6 +1,6 @@
 # MotionTrackerFaceBlur
 
-WinForms app (C#/.NET 8, OpenCvSharp4): face tracking via template matching + blurred video export.
+WinForms app (C#/.NET 8, OpenCvSharp4, Visual Studio): face tracking via template matching + blurred video export.
 
 ## Environment
 Windows, PowerShell: no bash syntax (`;` not `&&`), backslash paths, `%USERPROFILE%` not `~`. CRLF, never convert. Build via `dotnet`, VS not required.

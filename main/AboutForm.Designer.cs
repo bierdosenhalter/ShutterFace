@@ -1,4 +1,4 @@
-namespace MotionTrackerFaceBlur
+namespace ShutterFace
 {
     partial class AboutForm
     {
@@ -42,7 +42,7 @@ namespace MotionTrackerFaceBlur
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(130, 19);
             lblTitle.TabIndex = 1;
-            lblTitle.Text = @"MotionTrackerFaceBlur";
+            lblTitle.Text = @"ShutterFace";
             // 
             // lblSubtitle
             // 

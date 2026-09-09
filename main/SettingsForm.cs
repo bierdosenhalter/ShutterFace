@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace MotionTrackerFaceBlur
+namespace ShutterFace
 {
     public partial class SettingsForm : Form
     {

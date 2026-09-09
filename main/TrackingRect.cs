@@ -1,6 +1,6 @@
 using OpenCvSharp;
 
-namespace MotionTrackerFaceBlur
+namespace ShutterFace
 {
     public class TrackingRect
     {

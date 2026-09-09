@@ -1,4 +1,4 @@
-namespace MotionTrackerFaceBlur
+namespace ShutterFace
 {
     internal static class Program
     {

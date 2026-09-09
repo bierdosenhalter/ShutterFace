@@ -1,7 +1,7 @@
 using OpenCvSharp;
 using System.Globalization;
 
-namespace MotionTrackerFaceBlur
+namespace ShutterFace
 {
     /// <summary>
     /// Exports the video with pixelated tracking regions.

@@ -1,7 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
+    <AssemblyName>ShutterFace</AssemblyName>
+    <RootNamespace>ShutterFace</RootNamespace>
     <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
@@ -17,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="app.ico" />
+    <EmbeddedResource Include="icon.ico" />
   </ItemGroup>
 
   <ItemGroup>

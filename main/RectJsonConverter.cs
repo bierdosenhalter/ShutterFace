@@ -1,9 +1,9 @@
-﻿using OpenCvSharp;
+using OpenCvSharp;
 using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace MotionTrackerFaceBlur
+namespace ShutterFace
 {
     // Custom JSON converter for OpenCvSharp.Rect
     public class RectJsonConverter : JsonConverter<Rect>

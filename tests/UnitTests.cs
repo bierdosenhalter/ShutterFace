@@ -1,7 +1,7 @@
 using OpenCvSharp;
 using System.Text.Json;
 
-namespace MotionTrackerFaceBlur.Tests;
+namespace ShutterFace.Tests;
 
 public class TrackingRectTests
 {

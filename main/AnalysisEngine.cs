@@ -1,6 +1,6 @@
 using OpenCvSharp;
 
-namespace MotionTrackerFaceBlur
+namespace ShutterFace
 {
     /// <summary>
     /// Template-matching based object tracking across a frame range.

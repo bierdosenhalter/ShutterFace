@@ -1,6 +1,6 @@
 using OpenCvSharp;
 
-namespace MotionTrackerFaceBlur
+namespace ShutterFace
 {
     /// <summary>
     /// Creates, stores and edits tracking rectangles. All state lives in

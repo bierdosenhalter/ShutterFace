@@ -1,4 +1,4 @@
-# MotionTrackerFaceBlur - TODO
+# ShutterFace - TODO
 
 ## 1. "Track N" → "Face N" Umbenennung (Trivial)
 - [x] Default format: "Face 1", "Face 2"; keep backward-compatible JSON key for existing `.track` files
