@@ -1,0 +1,48 @@
+name: Release on Tag
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore main/ShutterFace.csproj
+
+      - name: Build
+        run: dotnet build main/ShutterFace.csproj --no-restore --configuration Release
+
+      - name: Publish
+        run: |
+          dotnet publish main/ShutterFace.csproj `
+            --configuration Release `
+            --self-contained false `
+            -o publish `
+            /p:PublishSingleFile=false `
+            /p:DebugType=None
+
+      - name: Create zip artifact
+        run: |
+          $tag = ${env:GITHUB_REF#refs/tags/}
+          Compress-Archive -Path publish\* -DestinationPath "ShutterFace-${tag}.zip"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ShutterFace-*.zip
+          generate_release_notes: true
