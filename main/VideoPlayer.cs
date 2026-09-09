@@ -96,6 +96,7 @@ namespace ShutterFace
         {
             Program.SetCulture(culture);
             UpdateLanguageCheckmarks();
+            CultureConfig.SaveCulture(culture);
         }
 
         private void UpdateLanguageCheckmarks()

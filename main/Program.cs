@@ -15,6 +15,13 @@ namespace ShutterFace
         static void Main()
         {
             ApplicationConfiguration.Initialize();
+
+            var savedCulture = Resources.CultureConfig.LoadDefaultCulture();
+            if (savedCulture != null)
+            {
+                SetCulture(savedCulture);
+            }
+
             Application.Run(new VideoPlayer());
         }
 
