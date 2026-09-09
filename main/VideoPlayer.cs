@@ -1,4 +1,5 @@
 using OpenCvSharp;
+using System.Globalization;
 
 namespace MotionTrackerFaceBlur
 {
@@ -40,9 +41,9 @@ namespace MotionTrackerFaceBlur
             _videoLoader.RenderFrame = frame => DisplayFrame(frame);
             _videoLoader.UpdateTimeLabels = (start, current, end) =>
             {
-                lblStartTime.Text = start.ToString(@"hh\:mm\:ss");
-                lblCurrentTime.Text = current.ToString(@"hh\:mm\:ss");
-                lblEndTime.Text = end.ToString(@"hh\:mm\:ss");
+                lblStartTime.Text = start.ToString(@"hh\:mm\:ss", CultureInfo.InvariantCulture);
+                lblCurrentTime.Text = current.ToString(@"hh\:mm\:ss", CultureInfo.InvariantCulture);
+                lblEndTime.Text = end.ToString(@"hh\:mm\:ss", CultureInfo.InvariantCulture);
                 tssStatusLabel.Text = $"Frame: {_model.CurrentFrameIndex}/{_model.TotalFrames} | Time: {current:hh\\:mm\\:ss} | FPS: {_videoLoader.GetFps()}";
             };
 
@@ -99,7 +100,7 @@ namespace MotionTrackerFaceBlur
                 tssStatusLabel.Text = "Export: 100%";
                 MessageBox.Show("Video exported successfully!");
                 Text = "Motion Tracker";
-                ExportVideoBtn.Enabled = true;
+                mnuExportVideo.Enabled = true;
                 _model.IsExporting = false;
                 tsspProgressBar.Visible = false;
                 tssStatusLabel.Text = msg;
@@ -108,7 +109,7 @@ namespace MotionTrackerFaceBlur
             {
                 tsspProgressBar.Visible = false;
                 MessageBox.Show(err);
-                ExportVideoBtn.Enabled = true;
+                mnuExportVideo.Enabled = true;
                 _model.IsExporting = false;
                 tssStatusLabel.Text = "Export failed";
             });
@@ -146,12 +147,13 @@ namespace MotionTrackerFaceBlur
             _videoLoader.LoadFrame(0);
 
             AddTrackingBtn.Enabled = true;
-            ExportVideoBtn.Enabled = true;
+            mnuExportVideo.Enabled = true;
+            mnuLoadTracking.Enabled = true;
 
             UpdateTimeDisplay();
         }
 
-        private void OpenVideoBtn_Click(object sender, EventArgs e)
+        private void MnuOpenVideo_Click(object sender, EventArgs e)
         {
             using OpenFileDialog openFileDialog = new();
             openFileDialog.Filter = "Video Files|*.mp4;*.avi;*.mov;*.wmv;*.mkv;*.flv;*.webm|All Files|*.*";
@@ -395,6 +397,8 @@ namespace MotionTrackerFaceBlur
                 gprTracking.Enabled = true;
                 AnalyzeBtn.Visible = true;
                 DeleteTrackingBtn.Enabled = true;
+
+                mnuSaveTracking.Enabled = _model.TrackingRects.Count > 0;
             }
             else
             {
@@ -513,6 +517,8 @@ namespace MotionTrackerFaceBlur
             AddTrackingBtn.Enabled = false;
             DeleteTrackingBtn.Enabled = false;
             FrameSlider.Enabled = false;
+            mnuLoadTracking.Enabled = false;
+            mnuSaveTracking.Enabled = false;
 
             Task.Run(() => _analysis.Analyze(tracking));
         }
@@ -525,6 +531,8 @@ namespace MotionTrackerFaceBlur
             AddTrackingBtn.Enabled = true;
             DeleteTrackingBtn.Enabled = true;
             FrameSlider.Enabled = true;
+            mnuLoadTracking.Enabled = true;
+            mnuSaveTracking.Enabled = true;
         }
 
         private void PerformAnalysis(TrackingRect tracking)
@@ -536,7 +544,7 @@ namespace MotionTrackerFaceBlur
 
         #region Export Events
 
-        private void ExportVideoBtn_Click(object sender, EventArgs e)
+        private void MnuExportVideo_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(_model.VideoPath)) return;
 
@@ -567,7 +575,7 @@ namespace MotionTrackerFaceBlur
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 _model.IsExporting = true;
-                ExportVideoBtn.Enabled = false;
+                mnuExportVideo.Enabled = false;
                 Text = "Exporting video...";
                 tssStatusLabel.Text = "Export: 0%";
                 tsspProgressBar.Visible = true;
@@ -617,7 +625,7 @@ namespace MotionTrackerFaceBlur
 
         #region Save/Load Tracking Data
 
-        private void SaveTrackingBtn_Click(object sender, EventArgs e)
+        private void MnuSaveTracking_Click(object sender, EventArgs e)
         {
             if (_model.TrackingRects.Count == 0)
             {
@@ -643,7 +651,7 @@ namespace MotionTrackerFaceBlur
             }
         }
 
-        private void LoadTrackingBtn_Click(object sender, EventArgs e)
+        private void MnuLoadTracking_Click(object sender, EventArgs e)
         {
             using OpenFileDialog openFileDialog = new();
             openFileDialog.Filter = "Tracking Data|*.track|All Files|*.*";
@@ -667,6 +675,7 @@ namespace MotionTrackerFaceBlur
                     gprTracking.Enabled = false;
                     AnalyzeBtn.Visible = false;
                     DeleteTrackingBtn.Enabled = false;
+                    mnuSaveTracking.Enabled = false;
 
                     foreach (var tracking in trackingData.TrackingRects)
                     {

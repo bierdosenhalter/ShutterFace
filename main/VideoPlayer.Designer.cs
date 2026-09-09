@@ -22,8 +22,6 @@ namespace MotionTrackerFaceBlur
         {
             VideoBox = new PictureBox();
             FrameSlider = new TrackBar();
-            OpenVideoBtn = new Button();
-            ExportVideoBtn = new Button();
             AddTrackingBtn = new Button();
             AnalyzeBtn = new Button();
             StopAnalyzeBtn = new Button();
@@ -31,9 +29,7 @@ namespace MotionTrackerFaceBlur
             TrackingListBox = new ListBox();
             mainTable = new TableLayoutPanel();
             buttonLayoutPanel = new FlowLayoutPanel();
-            LoadTrackingBtn = new Button();
             gprTracking = new GroupBox();
-            SaveTrackingBtn = new Button();
             lblStartFrame = new Label();
             txtBoxHeight = new NumericUpDown();
             txtBoxWidth = new NumericUpDown();
@@ -45,6 +41,7 @@ namespace MotionTrackerFaceBlur
             lblEndFrame = new Label();
             lblTrackingName = new Label();
             btnApplyChanges = new Button();
+            btnSaveTracking = new Button();
             timePanel = new Panel();
             lblStartTime = new Label();
             lblCurrentTime = new Label();
@@ -52,11 +49,17 @@ namespace MotionTrackerFaceBlur
             pnlFrameSlider = new Panel();
             trackRangeIndicator = new Panel();
             statusStripBottom = new StatusStrip();
-            menuStripTop = new MenuStrip();
-            mnuFile = new ToolStripMenuItem();
-            mnuSettings = new ToolStripMenuItem();
             tssStatusLabel = new ToolStripStatusLabel();
             tsspProgressBar = new ToolStripProgressBar();
+            menuStripTop = new MenuStrip();
+            mnuFile = new ToolStripMenuItem();
+            mnuOpenVideo = new ToolStripMenuItem();
+            mnuLoadTracking = new ToolStripMenuItem();
+            mnuSaveTracking = new ToolStripMenuItem();
+            toolStripSeparator1 = new ToolStripSeparator();
+            mnuExportVideo = new ToolStripMenuItem();
+            toolStripSeparator2 = new ToolStripSeparator();
+            mnuSettings = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)VideoBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)FrameSlider).BeginInit();
             mainTable.SuspendLayout();
@@ -72,29 +75,6 @@ namespace MotionTrackerFaceBlur
             menuStripTop.SuspendLayout();
             SuspendLayout();
             // 
-            // menuStripTop
-            // 
-            menuStripTop.Items.AddRange(new ToolStripItem[] { mnuFile });
-            menuStripTop.Location = new Point(0, 0);
-            menuStripTop.Name = "menuStripTop";
-            menuStripTop.Size = new Size(1480, 28);
-            menuStripTop.TabIndex = 11;
-            menuStripTop.Text = "menuStrip1";
-            // 
-            // mnuFile
-            // 
-            mnuFile.DropDownItems.AddRange(new ToolStripItem[] { mnuSettings });
-            mnuFile.Name = "mnuFile";
-            mnuFile.Size = new Size(50, 24);
-            mnuFile.Text = "&Datei";
-            // 
-            // mnuSettings
-            // 
-            mnuSettings.Name = "mnuSettings";
-            mnuSettings.Size = new Size(180, 26);
-            mnuSettings.Text = "&Einstellungen";
-            mnuSettings.Click += MnuSettings_Click;
-            // 
             // VideoBox
             // 
             VideoBox.BackColor = SystemColors.ControlDark;
@@ -102,7 +82,7 @@ namespace MotionTrackerFaceBlur
             VideoBox.Dock = DockStyle.Fill;
             VideoBox.Location = new Point(3, 3);
             VideoBox.Name = "VideoBox";
-            VideoBox.Size = new Size(1194, 1102);
+            VideoBox.Size = new Size(1194, 1000);
             VideoBox.SizeMode = PictureBoxSizeMode.Zoom;
             VideoBox.TabIndex = 0;
             VideoBox.TabStop = false;
@@ -121,27 +101,6 @@ namespace MotionTrackerFaceBlur
             FrameSlider.TickFrequency = 10;
             FrameSlider.Scroll += FrameSlider_Scroll;
             FrameSlider.SizeChanged += FrameSlider_SizeChanged;
-            // 
-            // OpenVideoBtn
-            // 
-            OpenVideoBtn.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            OpenVideoBtn.Location = new Point(3, 53);
-            OpenVideoBtn.Name = "OpenVideoBtn";
-            OpenVideoBtn.Size = new Size(273, 44);
-            OpenVideoBtn.TabIndex = 2;
-            OpenVideoBtn.Text = "Open Video";
-            OpenVideoBtn.Click += OpenVideoBtn_Click;
-            // 
-            // ExportVideoBtn
-            // 
-            ExportVideoBtn.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            ExportVideoBtn.Enabled = false;
-            ExportVideoBtn.Location = new Point(3, 153);
-            ExportVideoBtn.Name = "ExportVideoBtn";
-            ExportVideoBtn.Size = new Size(273, 44);
-            ExportVideoBtn.TabIndex = 3;
-            ExportVideoBtn.Text = "Export Video";
-            ExportVideoBtn.Click += ExportVideoBtn_Click;
             // 
             // AddTrackingBtn
             // 
@@ -204,21 +163,18 @@ namespace MotionTrackerFaceBlur
             mainTable.Controls.Add(timePanel, 0, 2);
             mainTable.Controls.Add(pnlFrameSlider, 0, 1);
             mainTable.Dock = DockStyle.Fill;
-            mainTable.Location = new Point(0, 0);
+            mainTable.Location = new Point(0, 40);
             mainTable.Name = "mainTable";
             mainTable.RowCount = 3;
             mainTable.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             mainTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
-            mainTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            mainTable.Size = new Size(1480, 1208);
+            mainTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            mainTable.Size = new Size(1480, 1126);
             mainTable.TabIndex = 9;
             // 
             // buttonLayoutPanel
             // 
-            buttonLayoutPanel.Controls.Add(LoadTrackingBtn);
-            buttonLayoutPanel.Controls.Add(OpenVideoBtn);
             buttonLayoutPanel.Controls.Add(AddTrackingBtn);
-            buttonLayoutPanel.Controls.Add(ExportVideoBtn);
             buttonLayoutPanel.Controls.Add(AnalyzeBtn);
             buttonLayoutPanel.Controls.Add(StopAnalyzeBtn);
             buttonLayoutPanel.Controls.Add(DeleteTrackingBtn);
@@ -227,21 +183,12 @@ namespace MotionTrackerFaceBlur
             buttonLayoutPanel.Dock = DockStyle.Fill;
             buttonLayoutPanel.Location = new Point(1203, 3);
             buttonLayoutPanel.Name = "buttonLayoutPanel";
-            buttonLayoutPanel.Size = new Size(274, 1102);
+            buttonLayoutPanel.Size = new Size(274, 1000);
             buttonLayoutPanel.TabIndex = 10;
-            // 
-            // LoadTrackingBtn
-            // 
-            LoadTrackingBtn.Location = new Point(3, 3);
-            LoadTrackingBtn.Name = "LoadTrackingBtn";
-            LoadTrackingBtn.Size = new Size(270, 44);
-            LoadTrackingBtn.TabIndex = 10;
-            LoadTrackingBtn.Text = "Load Tracking";
-            LoadTrackingBtn.Click += LoadTrackingBtn_Click;
             // 
             // gprTracking
             // 
-            gprTracking.Controls.Add(SaveTrackingBtn);
+            gprTracking.Controls.Add(btnSaveTracking);
             gprTracking.Controls.Add(lblStartFrame);
             gprTracking.Controls.Add(txtBoxHeight);
             gprTracking.Controls.Add(txtBoxWidth);
@@ -255,19 +202,18 @@ namespace MotionTrackerFaceBlur
             gprTracking.Controls.Add(btnApplyChanges);
             gprTracking.Location = new Point(3, 619);
             gprTracking.Name = "gprTracking";
-            gprTracking.Size = new Size(270, 374);
+            gprTracking.Size = new Size(270, 418);
             gprTracking.TabIndex = 9;
             gprTracking.TabStop = false;
             gprTracking.Text = "Tracking Properties";
             // 
-            // SaveTrackingBtn
+            // btnSaveTracking
             // 
-            SaveTrackingBtn.Location = new Point(8, 324);
-            SaveTrackingBtn.Name = "SaveTrackingBtn";
-            SaveTrackingBtn.Size = new Size(254, 44);
-            SaveTrackingBtn.TabIndex = 0;
-            SaveTrackingBtn.Text = "Save";
-            SaveTrackingBtn.Click += SaveTrackingBtn_Click;
+            btnSaveTracking.Location = new Point(8, 368);
+            btnSaveTracking.Name = "btnSaveTracking";
+            btnSaveTracking.Size = new Size(254, 44);
+            btnSaveTracking.TabIndex = 10;
+            btnSaveTracking.Text = "&Save";
             // 
             // lblStartFrame
             // 
@@ -370,15 +316,16 @@ namespace MotionTrackerFaceBlur
             timePanel.Controls.Add(lblCurrentTime);
             timePanel.Controls.Add(lblEndTime);
             timePanel.Dock = DockStyle.Fill;
-            timePanel.Location = new Point(3, 1171);
+            timePanel.Location = new Point(3, 1077);
             timePanel.Name = "timePanel";
-            timePanel.Size = new Size(1194, 34);
+            timePanel.Size = new Size(1194, 46);
             timePanel.TabIndex = 11;
             // 
             // lblStartTime
             // 
             lblStartTime.AutoSize = true;
-            lblStartTime.Location = new Point(10, 10);
+            lblStartTime.Dock = DockStyle.Left;
+            lblStartTime.Location = new Point(0, 0);
             lblStartTime.Name = "lblStartTime";
             lblStartTime.Size = new Size(102, 32);
             lblStartTime.TabIndex = 0;
@@ -386,9 +333,10 @@ namespace MotionTrackerFaceBlur
             // 
             // lblCurrentTime
             // 
+            lblCurrentTime.Anchor = AnchorStyles.Top;
             lblCurrentTime.AutoSize = true;
             lblCurrentTime.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            lblCurrentTime.Location = new Point(450, 10);
+            lblCurrentTime.Location = new Point(546, 0);
             lblCurrentTime.Name = "lblCurrentTime";
             lblCurrentTime.Size = new Size(112, 32);
             lblCurrentTime.TabIndex = 1;
@@ -397,7 +345,8 @@ namespace MotionTrackerFaceBlur
             // lblEndTime
             // 
             lblEndTime.AutoSize = true;
-            lblEndTime.Location = new Point(900, 10);
+            lblEndTime.Dock = DockStyle.Right;
+            lblEndTime.Location = new Point(1092, 0);
             lblEndTime.Name = "lblEndTime";
             lblEndTime.Size = new Size(102, 32);
             lblEndTime.TabIndex = 2;
@@ -408,7 +357,7 @@ namespace MotionTrackerFaceBlur
             pnlFrameSlider.Controls.Add(trackRangeIndicator);
             pnlFrameSlider.Controls.Add(FrameSlider);
             pnlFrameSlider.Dock = DockStyle.Fill;
-            pnlFrameSlider.Location = new Point(3, 1111);
+            pnlFrameSlider.Location = new Point(3, 1017);
             pnlFrameSlider.Name = "pnlFrameSlider";
             pnlFrameSlider.Size = new Size(1194, 54);
             pnlFrameSlider.TabIndex = 12;
@@ -426,34 +375,101 @@ namespace MotionTrackerFaceBlur
             // 
             statusStripBottom.ImageScalingSize = new Size(24, 24);
             statusStripBottom.Items.AddRange(new ToolStripItem[] { tssStatusLabel, tsspProgressBar });
-            statusStripBottom.Location = new Point(0, 1166);
+            statusStripBottom.Location = new Point(0, 1191);
             statusStripBottom.Name = "statusStripBottom";
-            statusStripBottom.Size = new Size(1480, 42);
+            statusStripBottom.Size = new Size(1480, 50);
             statusStripBottom.TabIndex = 10;
             statusStripBottom.Text = "statusStrip1";
             // 
             // tssStatusLabel
             // 
             tssStatusLabel.Name = "tssStatusLabel";
-            tssStatusLabel.Size = new Size(37, 25);
+            tssStatusLabel.Size = new Size(78, 32);
             tssStatusLabel.Text = "Ready";
             // 
             // tsspProgressBar
             // 
             tsspProgressBar.Name = "tsspProgressBar";
-            tsspProgressBar.Size = new Size(1400, 36);
+            tsspProgressBar.Size = new Size(1400, 44);
             tsspProgressBar.Style = ProgressBarStyle.Continuous;
-            tsspProgressBar.Value = 0;
             tsspProgressBar.Visible = false;
+            // 
+            // menuStripTop
+            // 
+            menuStripTop.ImageScalingSize = new Size(32, 32);
+            menuStripTop.Items.AddRange(new ToolStripItem[] { mnuFile });
+            menuStripTop.Location = new Point(0, 0);
+            menuStripTop.Name = "menuStripTop";
+            menuStripTop.Size = new Size(1480, 40);
+            menuStripTop.TabIndex = 11;
+            menuStripTop.Text = "menuStrip1";
+            // 
+            // mnuFile
+            // 
+            mnuFile.DropDownItems.AddRange(new ToolStripItem[] { mnuOpenVideo, mnuLoadTracking, mnuSaveTracking, toolStripSeparator1, mnuExportVideo, toolStripSeparator2, mnuSettings });
+            mnuFile.Name = "mnuFile";
+            mnuFile.Size = new Size(90, 36);
+            mnuFile.Text = "&Datei";
+            // 
+            // mnuOpenVideo
+            // 
+            mnuOpenVideo.Name = "mnuOpenVideo";
+            mnuOpenVideo.ShortcutKeys = Keys.Control | Keys.O;
+            mnuOpenVideo.Size = new Size(345, 42);
+            mnuOpenVideo.Text = "&Open Video";
+            mnuOpenVideo.Click += MnuOpenVideo_Click;
+            // 
+            // mnuLoadTracking
+            // 
+            mnuLoadTracking.Name = "mnuLoadTracking";
+            mnuLoadTracking.ShortcutKeys = Keys.Control | Keys.L;
+            mnuLoadTracking.Size = new Size(345, 42);
+            mnuLoadTracking.Text = "&Load Tracking";
+            mnuLoadTracking.Click += MnuLoadTracking_Click;
+            // 
+            // mnuSaveTracking
+            // 
+            mnuSaveTracking.Name = "mnuSaveTracking";
+            mnuSaveTracking.ShortcutKeys = Keys.Control | Keys.S;
+            mnuSaveTracking.Size = new Size(345, 42);
+            mnuSaveTracking.Text = "&Save Tracking";
+            mnuSaveTracking.Click += MnuSaveTracking_Click;
+            // 
+            // toolStripSeparator1
+            // 
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(342, 6);
+            // 
+            // mnuExportVideo
+            // 
+            mnuExportVideo.Enabled = false;
+            mnuExportVideo.Name = "mnuExportVideo";
+            mnuExportVideo.ShortcutKeys = Keys.Control | Keys.E;
+            mnuExportVideo.Size = new Size(345, 42);
+            mnuExportVideo.Text = "&Export Video";
+            mnuExportVideo.Click += MnuExportVideo_Click;
+            // 
+            // toolStripSeparator2
+            // 
+            toolStripSeparator2.Name = "toolStripSeparator2";
+            toolStripSeparator2.Size = new Size(342, 6);
+            // 
+            // mnuSettings
+            // 
+            mnuSettings.Name = "mnuSettings";
+            mnuSettings.Size = new Size(291, 44);
+            mnuSettings.Text = "&Einstellungen";
+            mnuSettings.Click += MnuSettings_Click;
             // 
             // VideoPlayer
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1480, 1208);
+            ClientSize = new Size(1480, 1241);
+            Controls.Add(mainTable);
             Controls.Add(statusStripBottom);
             Controls.Add(menuStripTop);
-            Controls.Add(mainTable);
+            MainMenuStrip = menuStripTop;
             Name = "VideoPlayer";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Motion Tracker";
@@ -483,8 +499,6 @@ namespace MotionTrackerFaceBlur
 
         internal System.Windows.Forms.PictureBox VideoBox;
         internal System.Windows.Forms.TrackBar FrameSlider;
-        internal System.Windows.Forms.Button OpenVideoBtn;
-        internal System.Windows.Forms.Button ExportVideoBtn;
         internal System.Windows.Forms.Button AddTrackingBtn;
         internal System.Windows.Forms.Button AnalyzeBtn;
         internal System.Windows.Forms.Button StopAnalyzeBtn;
@@ -506,7 +520,7 @@ namespace MotionTrackerFaceBlur
         internal System.Windows.Forms.StatusStrip statusStripBottom;
         internal System.Windows.Forms.ToolStripStatusLabel tssStatusLabel;
         internal System.Windows.Forms.ToolStripProgressBar tsspProgressBar;
-        private Button SaveTrackingBtn;
+        private Button btnSaveTracking;
         internal System.Windows.Forms.NumericUpDown txtBoxWidth;
         internal System.Windows.Forms.NumericUpDown txtBoxHeight;
         internal System.Windows.Forms.Label labelWidth;
@@ -519,9 +533,8 @@ namespace MotionTrackerFaceBlur
         private Label lblStartFrame;
         private Panel pnlFrameSlider;
         internal Panel trackRangeIndicator;
-        private Button LoadTrackingBtn;
         private MenuStrip menuStripTop;
-        private ToolStripMenuItem mnuFile;
-        private ToolStripMenuItem mnuSettings;
+        private ToolStripMenuItem mnuFile, mnuOpenVideo, mnuLoadTracking, mnuSaveTracking, mnuExportVideo, mnuSettings;
+        private ToolStripSeparator toolStripSeparator1, toolStripSeparator2;
     }
 }
