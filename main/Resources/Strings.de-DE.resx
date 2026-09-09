@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AppName" xml:space="preserve">
+    <value>ShutterFace</value>
+  </data>
+  <data name="Form_Settings" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
+  <data name="GroupBlur" xml:space="preserve">
+    <value>Weichzeichnungs-Einstellungen</value>
+  </data>
+  <data name="LabelBlurring" xml:space="preserve">
+    <value>Weichzeichnung:</value>
+  </data>
+  <data name="LabelBigPixels" xml:space="preserve">
+    <value>Grobe Pixel (längste Seite):</value>
+  </data>
+  <data name="GroupTracking" xml:space="preserve">
+    <value>Verfolgungseinstellungen</value>
+  </data>
+  <data name="LabelConfidenceThreshold" xml:space="preserve">
+    <value>Konfidenzschwellenwert:</value>
+  </data>
+  <data name="BtnSave" xml:space="preserve">
+    <value>&amp;Speichern</value>
+  </data>
+  <data name="BtnCancel" xml:space="preserve">
+    <value>&amp;Abbrechen</value>
+  </data>
+  <data name="FileMenu" xml:space="preserve">
+    <value>&amp;Datei</value>
+  </data>
+  <data name="MenuOpenVideo" xml:space="preserve">
+    <value>&amp;Video öffnen</value>
+  </data>
+  <data name="MenuLoadTracking" xml:space="preserve">
+    <value>Verfolgungs&amp;daten laden</value>
+  </data>
+  <data name="MenuSaveTracking" xml:space="preserve">
+    <value>Verfolgungs&amp;daten speichern</value>
+  </data>
+  <data name="MenuExportVideo" xml:space="preserve">
+    <value>Video ex&amp;portieren</value>
+  </data>
+  <data name="MenuSettings" xml:space="preserve">
+    <value>&amp;Einstellungen</value>
+  </data>
+  <data name="MenuAbout" xml:space="preserve">
+    <value>&amp;Über</value>
+  </data>
+  <data name="MenuExit" xml:space="preserve">
+    <value>&amp;Beenden</value>
+  </data>
+  <data name="BtnAddTracking" xml:space="preserve">
+    <value>Verfolgungspunkt hinzufügen</value>
+  </data>
+  <data name="BtnAnalyze" xml:space="preserve">
+    <value>Analysieren</value>
+  </data>
+  <data name="BtnStopAnalyzing" xml:space="preserve">
+    <value>Analyse stoppen</value>
+  </data>
+  <data name="BtnDeleteTracking" xml:space="preserve">
+    <value>Verfolgung löschen</value>
+  </data>
+  <data name="GroupTrackingProperties" xml:space="preserve">
+    <value>Verfolgungseigenschaften</value>
+  </data>
+  <data name="LabelTrackingName" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="LabelWidth" xml:space="preserve">
+    <value>Breite:</value>
+  </data>
+  <data name="LabelHeight" xml:space="preserve">
+    <value>Höhe:</value>
+  </data>
+  <data name="LabelStartFrame" xml:space="preserve">
+    <value>Start B.:</value>
+  </data>
+  <data name="LabelEndFrame" xml:space="preserve">
+    <value>Ende B.:</value>
+  </data>
+  <data name="BtnApply" xml:space="preserve">
+    <value>&amp;Übernehmen</value>
+  </data>
+  <data name="StatusReady" xml:space="preserve">
+    <value>Bereit</value>
+  </data>
+  <data name="TitleAbout" xml:space="preserve">
+    <value>ShutterFace</value>
+  </data>
+  <data name="SubtitleAbout" xml:space="preserve">
+    <value>Erstellt mit OpenCode (qwen3.6-35b-128k)</value>
+  </data>
+  <data name="BtnOk" xml:space="preserve">
+    <value>&amp;OK</value>
+  </data>
+  <data name="ErrorTitle" xml:space="preserve">
+    <value>Fehler</value>
+  </data>
+  <data name="ConfirmUnsavedChanges" xml:space="preserve">
+    <value>Sie haben ungespeicherte Änderungen. Möchten Sie vor dem Schließen speichern?</value>
+  </data>
+  <data name="TitleUnsavedChanges" xml:space="preserve">
+    <value>Ungespeicherte Änderungen</value>
+  </data>
+  <data name="MsgClickDragTracking" xml:space="preserve">
+    <value>Klicken und ziehen Sie im Video, um ein Verfolgungsrechteck zu erstellen.</value>
+  </data>
+  <data name="MsgTrackingUpdated" xml:space="preserve">
+    <value>Verfolgungseigenschaften erfolgreich aktualisiert!</value>
+  </data>
+  <data name="MsgSelectTrackingFirst" xml:space="preserve">
+    <value>Bitte wählen Sie zuerst einen Verfolgungspunkt aus.</value>
+  </data>
+  <data name="TitleUnanalyzedTracks" xml:space="preserve">
+    <value>Nicht analysierte Verfolgungen</value>
+  </data>
+  <data name="MsgUnanalyzedTracksExport" xml:space="preserve">
+    <value>Es gibt {0} nicht analysierte(s) Verlauf(e). Möchten Sie diese vor dem Export analysieren?</value>
+  </data>
+  <data name="StatusAnalyzing" xml:space="preserve">
+    <value>Analysiere: {0}</value>
+  </data>
+  <data name="StatusExporting" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="StatusExportingProgress" xml:space="preserve">
+    <value>{0}% abgeschlossen</value>
+  </data>
+  <data name="MsgNoVideoLoaded" xml:space="preserve">
+    <value>Kein Video zum Exportieren geladen.</value>
+  </data>
+  <data name="MsgTrackRange" xml:space="preserve">
+    <value>Verfolgungsbereich: Frame {0} bis {1}</value>
+  </data>
+  <data name="MsgNoTrackingToSave" xml:space="preserve">
+    <value>Keine Verfolgungsdaten zum Speichern.</value>
+  </data>
+  <data name="MsgTrackingSaved" xml:space="preserve">
+    <value>Verfolgungsdaten erfolgreich gespeichert!</value>
+  </data>
+  <data name="MsgFailedToLoadTracking" xml:space="preserve">
+    <value>Fehler beim Laden der Verfolgungsdaten.</value>
+  </data>
+  <data name="MsgVideoNotFound" xml:space="preserve">
+    <value>Die Originalvideodatei wurde nicht gefunden. Bitte öffnen Sie das Video manuell.</value>
+  </data>
+  <data name="MsgLoadedTracks" xml:space="preserve">
+    <value>{0} Verfolgungsrechteck(e) erfolgreich geladen!</value>
+  </data>
+  <data name="StatusAnalyzingComplete" xml:space="preserve">
+    <value>Analysierung für {0} abgeschlossen</value>
+  </data>
+  <data name="DefaultTrackingNamePrefix" xml:space="preserve">
+    <value>Face</value>
+  </data>
+  <data name="FilterVideoFiles" xml:space="preserve">
+    <value>Video-Dateien|*.mp4;*.avi;*.mov;*.wmv;*.mkv;*.flv;*.webm|Alle Dateien|*.*</value>
+  </data>
+  <data name="FilterTrackFiles" xml:space="preserve">
+    <value>Verfolgungsdaten|*.track|Alle Dateien|*.*</value>
+  </data>
+  <data name="FilterSaveVideo" xml:space="preserve">
+    <value>Video-Dateien|*.mp4|Alle Dateien|*.*</value>
+  </data>
+  <data name="StatusExportingProgressFormat" xml:space="preserve">
+    <value>{0}%</value>
+  </data>
+  <data name="StatusExportComplete" xml:space="preserve">
+    <value>Export abgeschlossen</value>
+  </data>
+  <data name="ExportingVideoTitle" xml:space="preserve">
+    <value>Video wird exportiert...</value>
+  </data>
+  <data name="LabelDefaultTime" xml:space="preserve">
+    <value>--:--:--</value>
+  </data>
+  <data name="MsgAnalysisObjectLost" xml:space="preserve">
+    <value>Analysierung bei Frame {0} gestoppt - Objekt verloren</value>
+  </data>
+  <data name="StatusFrameCount" xml:space="preserve">
+    <value>Frame: {0}/{1}</value>
+  </data>
+  <data name="LanguageMenu" xml:space="preserve">
+    <value>&amp;Sprache</value>
+  </data>
+  <data name="LangEnglish" xml:space="preserve">
+    <value>&amp;Englisch</value>
+  </data>
+  <data name="LangGerman" xml:space="preserve">
+    <value>&amp;Deutsch</value>
+  </data>
+  <data name="MsgStartFrameAfterEnd" xml:space="preserve">
+    <value>Der Startframe kann nicht nach dem Endframe liegen. Werte werden angepasst.</value>
+  </data>
+  <data name="ConfirmDeleteTracking" xml:space="preserve">
+    <value>Dieses Verfolgungsrechteck löschen?</value>
+  </data>
+  <data name="ErrSaveTrackingData" xml:space="preserve">
+    <value>Fehler beim Speichern der Verfolgungsdaten: {0}</value>
+  </data>
+  <data name="ErrLoadTrackingData" xml:space="preserve">
+    <value>Fehler beim Laden der Verfolgungsdaten: {0}</value>
+  </data>
+  <data name="MsgVideoNotFoundOpenManual" xml:space="preserve">
+    <value>Die Originalvideodatei wurde nicht gefunden. Bitte öffnen Sie das Video manuell.</value>
+  </data>
+  <data name="ErrExportVideo" xml:space="preserve">
+    <value>Fehler beim Exportieren des Videos: {0}</value>
+  </data>
+</root>

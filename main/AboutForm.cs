@@ -1,3 +1,4 @@
+using ShutterFace.Resources;
 using System.Drawing;
 
 namespace ShutterFace
@@ -7,6 +8,14 @@ namespace ShutterFace
         public AboutForm()
         {
             InitializeComponent();
+            UpdateTexts();
+        }
+
+        private void UpdateTexts()
+        {
+            lblTitle.Text = ControlResourceManager.GetString("TitleAbout");
+            lblSubtitle.Text = ControlResourceManager.GetString("SubtitleAbout");
+            btnOk.Text = ControlResourceManager.GetString("BtnOk");
         }
 
         private void BtnOk_Click(object? sender, EventArgs e)

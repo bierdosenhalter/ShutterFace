@@ -1,3 +1,4 @@
+using ShutterFace.Resources;
 using System.ComponentModel;
 using System.Windows.Forms;
 
@@ -39,6 +40,13 @@ namespace ShutterFace
             nudConfidenceThreshold.Minimum = 0.1m;
             nudConfidenceThreshold.Maximum = 1m;
             nudConfidenceThreshold.Increment = 0.05m;
+
+            Text = ControlResourceManager.GetString("Form_Settings");
+            gbBlur.Text = ControlResourceManager.GetString("GroupBlur");
+            gbConfidence.Text = ControlResourceManager.GetString("GroupTracking");
+            lblBlurCellSize.Text = ControlResourceManager.GetString("LabelBlurring");
+            lblBigPixels.Text = ControlResourceManager.GetString("LabelBigPixels");
+            lblConfidenceThreshold.Text = ControlResourceManager.GetString("LabelConfidenceThreshold");
         }
 
         private void BtnSave_Click(object? sender, EventArgs e)

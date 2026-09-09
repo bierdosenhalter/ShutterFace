@@ -1,4 +1,5 @@
 using OpenCvSharp;
+using ShutterFace.Resources;
 using System.Globalization;
 
 namespace ShutterFace
@@ -37,17 +38,127 @@ namespace ShutterFace
 
         private void AddAboutMenuItem()
         {
-            // Add Close (Exit) to File menu with unsaved-changes check
             mnuCloseSeparator = new ToolStripSeparator();
             mnuFile.DropDownItems.Add(mnuCloseSeparator);
-            mnuClose = new ToolStripMenuItem("E&xit");
+            mnuClose = new ToolStripMenuItem(ControlResourceManager.GetString("MenuExit"));
             mnuClose.Click += MnuClose_Click;
             mnuFile.DropDownItems.Add(mnuClose);
 
-            // Add About as a root-level menu item
-            mnuAbout = new ToolStripMenuItem("&About");
+            mnuAbout = new ToolStripMenuItem(ControlResourceManager.GetString("MenuAbout"));
             mnuAbout.Click += MnuAbout_Click;
             menuStripTop.Items.Add(mnuAbout);
+
+            AddLanguageMenu();
+        }
+
+        private void AddLanguageMenu()
+        {
+            var langMenu = new ToolStripMenuItem(ControlResourceManager.GetString("LanguageMenu"));
+            var cultures = ControlResourceManager.AvailableCultures
+                .Where(c => c != CultureInfo.InvariantCulture && !string.IsNullOrEmpty(c.TwoLetterISOLanguageName))
+                .ToList();
+
+            foreach (var culture in cultures)
+            {
+                var displayName = culture.TwoLetterISOLanguageName switch
+                {
+                    "en" => ControlResourceManager.GetString("LangEnglish"),
+                    "de" => ControlResourceManager.GetString("LangGerman"),
+                    _ => GetDisplayName(culture),
+                };
+                var item = new ToolStripMenuItem(displayName)
+                {
+                    CheckOnClick = true,
+                    Tag = culture
+                };
+                item.Click += (s, e) => OnLanguageChanged(culture);
+                langMenu.DropDownItems.Add(item);
+            }
+
+            UpdateLanguageCheckmarks();
+            menuStripTop.Items.Insert(1, langMenu);
+            _langMenu = langMenu;
+        }
+
+        private static string GetDisplayName(CultureInfo culture)
+        {
+            return culture.TwoLetterISOLanguageName switch
+            {
+                "en" => ControlResourceManager.GetString("LangEnglish"),
+                "de" => ControlResourceManager.GetString("LangGerman"),
+                _ => culture.DisplayName,
+            };
+        }
+
+        private ToolStripMenuItem? _langMenu;
+
+        private void OnLanguageChanged(CultureInfo culture)
+        {
+            Program.SetCulture(culture);
+            UpdateLanguageCheckmarks();
+        }
+
+        private void UpdateLanguageCheckmarks()
+        {
+            var ui = ControlResourceManager.Culture;
+            if (_langMenu?.DropDownItems.Count > 0)
+            {
+                foreach (ToolStripMenuItem item in _langMenu.DropDownItems)
+                {
+                    var culture = item.Tag as CultureInfo;
+                    item.Checked = culture?.LCID == ui.LCID;
+                }
+                if (_langMenu.DropDownItems.Cast<ToolStripMenuItem>().All(i => !i.Checked))
+                {
+                    if (_langMenu.DropDownItems.Count > 0)
+                    {
+                        var enItem = _langMenu.DropDownItems.OfType<ToolStripMenuItem>()
+                            .FirstOrDefault(i => (i.Tag as CultureInfo)?.TwoLetterISOLanguageName == "en");
+                        if (enItem != null)
+                            enItem.Checked = true;
+                        else
+                            _langMenu.DropDownItems.OfType<ToolStripMenuItem>().First().Checked = true;
+                    }
+                }
+            }
+        }
+
+        public void ApplyLanguage()
+        {
+            UpdateControlTexts();
+            UpdateLanguageCheckmarks();
+        }
+
+        private void UpdateControlTexts()
+        {
+            mnuFile.Text = ControlResourceManager.GetString("FileMenu");
+            mnuOpenVideo.Text = ControlResourceManager.GetString("MenuOpenVideo");
+            mnuLoadTracking.Text = ControlResourceManager.GetString("MenuLoadTracking");
+            mnuSaveTracking.Text = ControlResourceManager.GetString("MenuSaveTracking");
+            mnuExportVideo.Text = ControlResourceManager.GetString("MenuExportVideo");
+            mnuSettings.Text = ControlResourceManager.GetString("MenuSettings");
+            mnuAbout.Text = ControlResourceManager.GetString("MenuAbout");
+            mnuClose.Text = ControlResourceManager.GetString("MenuExit");
+
+            AddTrackingBtn.Text = ControlResourceManager.GetString("BtnAddTracking");
+            AnalyzeBtn.Text = ControlResourceManager.GetString("BtnAnalyze");
+            StopAnalyzeBtn.Text = ControlResourceManager.GetString("BtnStopAnalyzing");
+            DeleteTrackingBtn.Text = ControlResourceManager.GetString("BtnDeleteTracking");
+
+            gprTracking.Text = ControlResourceManager.GetString("GroupTrackingProperties");
+            btnSaveTracking.Text = ControlResourceManager.GetString("BtnSave");
+            lblStartFrame.Text = ControlResourceManager.GetString("LabelStartFrame");
+            txtBoxHeight.Tag = ControlResourceManager.GetString("LabelHeight");
+            labelHeight.Text = ControlResourceManager.GetString("LabelHeight");
+            labelWidth.Text = ControlResourceManager.GetString("LabelWidth");
+            txtEndFrame.Tag = ControlResourceManager.GetString("LabelEndFrame");
+            txtStartFrame.Tag = ControlResourceManager.GetString("LabelStartFrame");
+            lblTrackingName.Text = ControlResourceManager.GetString("LabelTrackingName");
+            txtTrackingName.Tag = ControlResourceManager.GetString("LabelTrackingName");
+            lblEndFrame.Text = ControlResourceManager.GetString("LabelEndFrame");
+            btnApplyChanges.Text = ControlResourceManager.GetString("BtnApply");
+
+            Text = ControlResourceManager.GetString("AppName");
         }
 
         private void MnuClose_Click(object? sender, EventArgs e)
@@ -71,16 +182,16 @@ namespace ShutterFace
                 lblStartTime.Text = start.ToString(@"hh\:mm\:ss", CultureInfo.InvariantCulture);
                 lblCurrentTime.Text = current.ToString(@"hh\:mm\:ss", CultureInfo.InvariantCulture);
                 lblEndTime.Text = end.ToString(@"hh\:mm\:ss", CultureInfo.InvariantCulture);
-                tssStatusLabel.Text = $"Frame: {_model.CurrentFrameIndex}/{_model.TotalFrames} | Time: {current:hh\\:mm\\:ss} | FPS: {_videoLoader.GetFps()}";
+                tssStatusLabel.Text = $"Frame: {_model.CurrentFrameIndex}/{_model.TotalFrames} | Time: {current.ToString(@"hh\:mm\:ss", CultureInfo.InvariantCulture)} | FPS: {_videoLoader.GetFps()}";
             };
 
             _trackingManager.ShowMessage = msg => MessageBox.Show(msg);
-            _analysis.ShowMessage = msg => MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            _analysis.ShowMessage = msg => MessageBox.Show(msg, ControlResourceManager.GetString("ErrorTitle"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             _exporter.ShowMessage = msg => MessageBox.Show(msg);
 
             _analysis.ReportStarted = (name, maxFrames) => Invoke((MethodInvoker)delegate
             {
-                tssStatusLabel.Text = $"Analyzing: {name}...";
+                tssStatusLabel.Text = ControlResourceManager.FormatString("StatusAnalyzing", name);
                 tsspProgressBar.Visible = true;
                 tsspProgressBar.Value = 0;
                 tsspProgressBar.Maximum = maxFrames;
@@ -88,12 +199,12 @@ namespace ShutterFace
             _analysis.ReportProgress = (name, framePos) => Invoke((MethodInvoker)delegate
             {
                 int pct = framePos * 100 / Math.Max(1, tsspProgressBar.Maximum);
-                tssStatusLabel.Text = $"Analyzing: {name} - {pct}% complete";
+                tssStatusLabel.Text = ControlResourceManager.FormatString("StatusAnalyzing", $"{name} - {pct}% complete");
                 tsspProgressBar.Value = Math.Min(framePos, tsspProgressBar.Maximum);
             });
             _analysis.ReportObjectLost = frame => Invoke((MethodInvoker)delegate
             {
-                tssStatusLabel.Text = $"Analysis stopped at frame {frame} - object lost";
+                tssStatusLabel.Text = ControlResourceManager.FormatString("MsgAnalysisObjectLost", frame);
             });
             _analysis.ReportFinished = (name, msg) => Invoke((MethodInvoker)delegate
             {
@@ -104,7 +215,7 @@ namespace ShutterFace
                 FrameSlider.Enabled = true;
                 UpdateTrackingListColors();
                 tsspProgressBar.Value = tsspProgressBar.Maximum;
-                tssStatusLabel.Text = $"Analyzing: {name} - 100% complete";
+                tssStatusLabel.Text = ControlResourceManager.FormatString("StatusAnalyzingComplete", name);
 
                 LoadFrame(_trackingManager.Selected!.StartFrame);
                 FrameSlider.Value = _trackingManager.Selected.StartFrame;
@@ -118,15 +229,14 @@ namespace ShutterFace
             _exporter.ReportProgress = frameIndex => Invoke((MethodInvoker)delegate
             {
                 int progress = frameIndex * 100 / _model.TotalFrames;
-                tssStatusLabel.Text = $"Export: {progress}%";
+                tssStatusLabel.Text = ControlResourceManager.FormatString("StatusExportingProgressFormat", progress);
                 tsspProgressBar.Value = frameIndex;
             });
             _exporter.ReportFinished = msg => Invoke((MethodInvoker)delegate
             {
                 tsspProgressBar.Value = tsspProgressBar.Maximum;
-                tssStatusLabel.Text = "Export: 100%";
-                MessageBox.Show("Video exported successfully!");
-                Text = "ShutterFace";
+                tssStatusLabel.Text = ControlResourceManager.GetString("StatusExportComplete");
+                Text = ControlResourceManager.GetString("AppName");
                 mnuExportVideo.Enabled = true;
                 _model.IsExporting = false;
                 tsspProgressBar.Visible = false;
@@ -138,7 +248,7 @@ namespace ShutterFace
                 MessageBox.Show(err);
                 mnuExportVideo.Enabled = true;
                 _model.IsExporting = false;
-                tssStatusLabel.Text = "Export failed";
+                tssStatusLabel.Text = ControlResourceManager.FormatString("StatusExportingProgressFormat", ControlResourceManager.GetString("StatusExportComplete")).Replace("100%", ControlResourceManager.GetString("StatusExportComplete"));
             });
         }
 
@@ -380,7 +490,7 @@ namespace ShutterFace
 
         private void AddTrackingBtn_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Click and drag on the video to create a tracking rectangle.");
+            MessageBox.Show(ControlResourceManager.GetString("MsgClickDragTracking"));
         }
 
         private void DeleteTrackingBtn_Click(object sender, EventArgs e)
@@ -441,7 +551,7 @@ namespace ShutterFace
             FrameSlider.Maximum = _model.TotalFrames - 1;
             FrameSlider.TickFrequency = Math.Max(1, (_model.TotalFrames - 1) / 20);
 
-            tssStatusLabel.Text = $"Track range: Frame {startFrame} to {endFrame}";
+            tssStatusLabel.Text = ControlResourceManager.FormatString("MsgTrackRange", startFrame, endFrame);
 
             UpdateTrackRangeIndicator(startFrame, endFrame);
         }
@@ -521,7 +631,7 @@ namespace ShutterFace
 
                 _model.HasUnsavedChanges = true;
                 DisplayFrame(_model.CurrentFrame);
-                MessageBox.Show("Tracking properties updated successfully!");
+                MessageBox.Show(ControlResourceManager.GetString("MsgTrackingUpdated"));
             }
         }
 
@@ -534,7 +644,7 @@ namespace ShutterFace
             var tracking = _trackingManager.Selected;
             if (tracking == null)
             {
-                MessageBox.Show("Please select a tracking point first.");
+                MessageBox.Show(ControlResourceManager.GetString("MsgSelectTrackingFirst"));
                 return;
             }
 
@@ -581,8 +691,8 @@ namespace ShutterFace
             if (unanalyzedTracks.Count > 0)
             {
                 var result = MessageBox.Show(
-                    $"There are {unanalyzedTracks.Count} unanalyzed tracking(s). Do you want to analyze them before exporting?",
-                    "Unanalyzed Tracks",
+                    ControlResourceManager.FormatString("MsgUnanalyzedTracksExport", unanalyzedTracks.Count),
+                    ControlResourceManager.GetString("TitleUnanalyzedTracks"),
                     MessageBoxButtons.YesNoCancel,
                     MessageBoxIcon.Question);
 
@@ -598,15 +708,15 @@ namespace ShutterFace
             }
 
             using SaveFileDialog saveFileDialog = new();
-            saveFileDialog.Filter = "Video Files|*.mp4|All Files|*.*";
+            saveFileDialog.Filter = ControlResourceManager.GetString("FilterSaveVideo");
             saveFileDialog.DefaultExt = "mp4";
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 _model.IsExporting = true;
                 mnuExportVideo.Enabled = false;
-                Text = "Exporting video...";
-                tssStatusLabel.Text = "Export: 0%";
+                Text = ControlResourceManager.GetString("ExportingVideoTitle");
+                tssStatusLabel.Text = ControlResourceManager.FormatString("StatusExportingProgressFormat", 0);
                 tsspProgressBar.Visible = true;
                 tsspProgressBar.Value = 0;
                 tsspProgressBar.Maximum = _model.TotalFrames;
@@ -658,12 +768,12 @@ namespace ShutterFace
         {
             if (_model.TrackingRects.Count == 0)
             {
-                MessageBox.Show("No tracking data to save.");
+                MessageBox.Show(ControlResourceManager.GetString("MsgNoTrackingToSave"));
                 return;
             }
 
             using SaveFileDialog saveFileDialog = new();
-            saveFileDialog.Filter = "Tracking Data|*.track|All Files|*.*";
+            saveFileDialog.Filter = ControlResourceManager.GetString("FilterTrackFiles");
             saveFileDialog.DefaultExt = "track";
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -671,12 +781,12 @@ namespace ShutterFace
                 try
                 {
                     File.WriteAllText(saveFileDialog.FileName, TrackingStore.Serialize(_model.TrackingRects, _model.VideoPath));
-                    MessageBox.Show("Tracking data saved successfully!");
+                    MessageBox.Show(ControlResourceManager.GetString("MsgTrackingSaved"));
                     _model.HasUnsavedChanges = false;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error saving tracking data: {ex.Message}");
+                    MessageBox.Show(ControlResourceManager.FormatString("ErrSaveTrackingData", ex.Message));
                 }
             }
         }
@@ -684,7 +794,7 @@ namespace ShutterFace
         private void MnuLoadTracking_Click(object sender, EventArgs e)
         {
             using OpenFileDialog openFileDialog = new();
-            openFileDialog.Filter = "Tracking Data|*.track|All Files|*.*";
+            openFileDialog.Filter = ControlResourceManager.GetString("FilterTrackFiles");
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -695,7 +805,7 @@ namespace ShutterFace
 
                     if (trackingData == null)
                     {
-                        MessageBox.Show("Failed to load tracking data.");
+                        MessageBox.Show(ControlResourceManager.GetString("MsgFailedToLoadTracking"));
                         return;
                     }
 
@@ -727,19 +837,19 @@ namespace ShutterFace
                         }
                         else
                         {
-                            MessageBox.Show("The original video file was not found. Please open the video manually.");
+                            MessageBox.Show(ControlResourceManager.GetString("MsgVideoNotFoundOpenManual"));
                         }
                     }
 
                     if (_model.CurrentFrame != null)
                         DisplayFrame(_model.CurrentFrame);
 
-                    MessageBox.Show($"Loaded {_model.TrackingRects.Count} tracking rectangles successfully!");
+                    tssStatusLabel.Text = ControlResourceManager.FormatString("MsgLoadedTracks", _model.TrackingRects.Count);
                     _model.HasUnsavedChanges = false;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error loading tracking data: {ex.Message}");
+                    MessageBox.Show(ControlResourceManager.FormatString("ErrLoadTrackingData", ex.Message));
                 }
             }
         }
@@ -766,8 +876,8 @@ namespace ShutterFace
             if (e.CloseReason == CloseReason.UserClosing && _model.HasUnsavedChanges && !_model.IsExporting)
             {
                 var result = MessageBox.Show(
-                    "You have unsaved changes. Do you want to save before closing?",
-                    "Unsaved Changes",
+                    ControlResourceManager.GetString("ConfirmUnsavedChanges"),
+                    ControlResourceManager.GetString("TitleUnsavedChanges"),
                     MessageBoxButtons.YesNoCancel,
                     MessageBoxIcon.Question);
 

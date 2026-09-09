@@ -1,5 +1,10 @@
 namespace ShutterFace
 {
+    using System;
+    using System.Globalization;
+    using System.Threading;
+    using System.Windows.Forms;
+
     internal static class Program
     {
         /// <summary>
@@ -8,10 +13,21 @@ namespace ShutterFace
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             Application.Run(new VideoPlayer());
+        }
+
+        public static void SetCulture(CultureInfo culture)
+        {
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+            Thread.CurrentThread.CurrentCulture = culture;
+
+            if (Application.OpenForms["VideoPlayer"] is VideoPlayer player)
+            {
+                player.ApplyLanguage();
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 using OpenCvSharp;
+using ShutterFace.Resources;
 using System.Globalization;
 
 namespace ShutterFace
@@ -97,7 +98,7 @@ namespace ShutterFace
             }
             catch (Exception ex)
             {
-                ReportFailed?.Invoke($"Error exporting video: {ex.Message}");
+                ReportFailed?.Invoke(ControlResourceManager.FormatString("ErrExportVideo", ex.Message));
             }
         }
 
