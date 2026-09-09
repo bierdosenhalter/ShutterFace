@@ -86,7 +86,7 @@ namespace MotionTrackerFaceBlur
                 Cv2.MatchTemplate(model.CurrentFrame, template, result, TemplateMatchModes.CCoeffNormed);
                 Cv2.MinMaxLoc(result, out _, out double maxVal, out _, out OpenCvSharp.Point maxLoc);
 
-                if (maxVal <= 0.3)
+                if (maxVal <= model.ConfidenceThreshold)
                     return false;
 
                 var newRect = new Rect(
