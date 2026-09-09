@@ -423,7 +423,7 @@ namespace ShutterFace
             mnuLoadTracking.Name = "mnuLoadTracking";
             mnuLoadTracking.ShortcutKeys = Keys.Control | Keys.L;
             mnuLoadTracking.Size = new Size(372, 44);
-            mnuLoadTracking.Text = "&Load Tracking";
+            mnuLoadTracking.Text = "&Load Project";
             mnuLoadTracking.Click += MnuLoadTracking_Click;
             // 
             // mnuSaveTracking
@@ -431,7 +431,7 @@ namespace ShutterFace
             mnuSaveTracking.Name = "mnuSaveTracking";
             mnuSaveTracking.ShortcutKeys = Keys.Control | Keys.S;
             mnuSaveTracking.Size = new Size(372, 44);
-            mnuSaveTracking.Text = "&Save Tracking";
+            mnuSaveTracking.Text = "&Save Project";
             mnuSaveTracking.Click += MnuSaveTracking_Click;
             // 
             // toolStripSeparator1

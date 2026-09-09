@@ -129,8 +129,8 @@ namespace ShutterFace
             }
 
             mnuOpenVideo.Text = ControlResourceManager.GetString("MenuOpenVideo");
-            mnuLoadTracking.Text = ControlResourceManager.GetString("MenuLoadTracking");
-            mnuSaveTracking.Text = ControlResourceManager.GetString("MenuSaveTracking");
+            mnuLoadTracking.Text = ControlResourceManager.GetString("MenuLoadProject");
+            mnuSaveTracking.Text = ControlResourceManager.GetString("MenuSaveProject");
             mnuExportVideo.Text = ControlResourceManager.GetString("MenuExportVideo");
             mnuSettings.Text = ControlResourceManager.GetString("MenuSettings");
             mnuAbout.Text = ControlResourceManager.GetString("MenuAbout");
@@ -769,8 +769,8 @@ namespace ShutterFace
             }
 
             using SaveFileDialog saveFileDialog = new();
-            saveFileDialog.Filter = ControlResourceManager.GetString("FilterTrackFiles");
-            saveFileDialog.DefaultExt = "track";
+            saveFileDialog.Filter = ControlResourceManager.GetString("FilterProjectFiles");
+            saveFileDialog.DefaultExt = "sft";
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -790,7 +790,7 @@ namespace ShutterFace
         private void MnuLoadTracking_Click(object sender, EventArgs e)
         {
             using OpenFileDialog openFileDialog = new();
-            openFileDialog.Filter = ControlResourceManager.GetString("FilterTrackFiles");
+            openFileDialog.Filter = ControlResourceManager.GetString("FilterProjectFiles");
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {

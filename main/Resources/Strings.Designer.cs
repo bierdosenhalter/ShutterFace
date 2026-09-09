@@ -232,11 +232,11 @@ namespace ShutterFace.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Tracking Data|*.track|All Files|*.* ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die ShutterFace Project|*.sft|All Files|*.* ähnelt.
         /// </summary>
-        internal static string FilterTrackFiles {
+        internal static string FilterProjectFiles {
             get {
-                return ResourceManager.GetString("FilterTrackFiles", resourceCulture);
+                return ResourceManager.GetString("FilterProjectFiles", resourceCulture);
             }
         }
         
@@ -421,11 +421,11 @@ namespace ShutterFace.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Load Tracking Data ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Load Project ähnelt.
         /// </summary>
-        internal static string MenuLoadTracking {
+        internal static string MenuLoadProject {
             get {
-                return ResourceManager.GetString("MenuLoadTracking", resourceCulture);
+                return ResourceManager.GetString("MenuLoadProject", resourceCulture);
             }
         }
         
@@ -439,11 +439,11 @@ namespace ShutterFace.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Save Tracking Data ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die &amp;Save Project ähnelt.
         /// </summary>
-        internal static string MenuSaveTracking {
+        internal static string MenuSaveProject {
             get {
-                return ResourceManager.GetString("MenuSaveTracking", resourceCulture);
+                return ResourceManager.GetString("MenuSaveProject", resourceCulture);
             }
         }
         

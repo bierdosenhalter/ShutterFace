@@ -1,8 +1,8 @@
 # ShutterFace - TODO
 
 ## 1. Project file extension (.sft) (Einfach)
-- [ ] Decide whether `.sft` is a safe extension (not used by other apps) for shutter-face-tracking project files
-- [ ] Rename "Load tracking / Save tracking" to "Load project / Save project"
+- [x] Decide whether `.sft` is a safe extension (not used by other apps) for shutter-face-tracking project files
+- [x] Rename "Load tracking / Save tracking" to "Load project / Save project"
 
 ## 2. Analysis stop → end frame (Einfach)
 - [ ] When clicking "stop analysing", set the end frame to the current frame position

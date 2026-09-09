@@ -3,7 +3,7 @@ using System.Text.Json;
 namespace ShutterFace
 {
     /// <summary>
-    /// Serializes and deserializes tracking data for *.track files.
+    /// Serializes and deserializes tracking data for *.sft project files.
     /// Owns the JSON options so the form stays free of persistence details.
     /// </summary>
     internal static class TrackerStore

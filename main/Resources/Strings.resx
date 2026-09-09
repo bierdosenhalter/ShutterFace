@@ -45,11 +45,11 @@
   <data name="MenuOpenVideo" xml:space="preserve">
     <value>&amp;Open Video</value>
   </data>
-  <data name="MenuLoadTracking" xml:space="preserve">
-    <value>&amp;Load Tracking Data</value>
+  <data name="MenuLoadProject" xml:space="preserve">
+    <value>&amp;Load Project</value>
   </data>
-  <data name="MenuSaveTracking" xml:space="preserve">
-    <value>&amp;Save Tracking Data</value>
+  <data name="MenuSaveProject" xml:space="preserve">
+    <value>&amp;Save Project</value>
   </data>
   <data name="MenuExportVideo" xml:space="preserve">
     <value>&amp;Export Video</value>
@@ -171,8 +171,8 @@
   <data name="FilterVideoFiles" xml:space="preserve">
     <value>Video Files|*.mp4;*.avi;*.mov;*.wmv;*.mkv;*.flv;*.webm|All Files|*.*</value>
   </data>
-  <data name="FilterTrackFiles" xml:space="preserve">
-    <value>Tracking Data|*.track|All Files|*.*</value>
+  <data name="FilterProjectFiles" xml:space="preserve">
+    <value>ShutterFace Project|*.sft|All Files|*.*</value>
   </data>
   <data name="FilterSaveVideo" xml:space="preserve">
     <value>Video Files|*.mp4|All Files|*.*</value>
