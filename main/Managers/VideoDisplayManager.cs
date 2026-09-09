@@ -2,7 +2,7 @@ using OpenCvSharp;
 using OpenCvSharp.Extensions;
 using System.Windows.Forms;
 
-namespace MotionTrackerFaceBlur
+namespace ShutterFace
 {
     /// <summary>Manages video frame display and tracking visualization on the form.</summary>
     public class VideoDisplayManager
@@ -18,7 +18,7 @@ namespace MotionTrackerFaceBlur
             _trackRangeIndicator = trackRangeIndicator;
         }
 
-        public void DisplayFrame(Form form, Mat frame, IReadOnlyList<Tracking> trackingRects, int currentFrameIndex, int selectedTrackingIndex)
+        public void DisplayFrame(Form form, Mat frame, IReadOnlyList<TrackingRect> trackingRects, int currentFrameIndex, int selectedTrackingIndex)
         {
             if (frame == null) return;
 
@@ -74,7 +74,7 @@ namespace MotionTrackerFaceBlur
             }
             catch (Exception e)
             {
-                form.MessageBoxShow(e.Message);
+                MessageBox.Show(e.Message);
             }
             finally
             {
@@ -82,7 +82,7 @@ namespace MotionTrackerFaceBlur
             }
         }
 
-        public void UpdateListBoxColors(ListBox listBox, IReadOnlyList<Tracking> trackingRects)
+        public static void UpdateListBoxColors(ListBox listBox, IReadOnlyList<TrackingRect> trackingRects)
         {
             for (int i = 0; i < trackingRects.Count; i++)
             {
