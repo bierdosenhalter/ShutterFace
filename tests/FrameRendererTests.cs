@@ -2,39 +2,6 @@ using OpenCvSharp;
 
 namespace ShutterFace.Tests;
 
-public class FrameRendererTests
-{
-    [Fact]
-    public void GetTrackingListText_Analyzed_ReturnsOnePrefix()
-    {
-        var tracking = new TrackerBox
-        {
-            Name = "Face 1",
-            IsAnalyzed = true
-        };
-
-        var result = FrameRenderer.GetTrackingListText(tracking);
-
-        Assert.StartsWith("1", result.TrimStart());
-        Assert.Contains("Face 1", result);
-    }
-
-    [Fact]
-    public void GetTrackingListText_NotAnalyzed_ReturnsZeroPrefix()
-    {
-        var tracking = new TrackerBox
-        {
-            Name = "Face 2",
-            IsAnalyzed = false
-        };
-
-        var result = FrameRenderer.GetTrackingListText(tracking);
-
-        Assert.StartsWith("0", result.TrimStart());
-        Assert.Contains("Face 2", result);
-    }
-}
-
 public class TrackerStoreTests
 {
     [Fact]

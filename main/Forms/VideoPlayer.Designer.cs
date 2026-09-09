@@ -26,7 +26,8 @@ namespace ShutterFace
             AnalyzeBtn = new Button();
             StopAnalyzeBtn = new Button();
             DeleteTrackingBtn = new Button();
-            TrackingListBox = new ListBox();
+            TrackingListView = new ListView();
+            trackingImages = new ImageList();
             mainTable = new TableLayoutPanel();
             buttonLayoutPanel = new FlowLayoutPanel();
             gprTracking = new GroupBox();
@@ -51,6 +52,7 @@ namespace ShutterFace
             statusStripBottom = new StatusStrip();
             tssStatusLabel = new ToolStripStatusLabel();
             tsspProgressBar = new ToolStripProgressBar();
+            trackingImages = new ImageList();
             menuStripTop = new MenuStrip();
             mnuFile = new ToolStripMenuItem();
             mnuOpenVideo = new ToolStripMenuItem();
@@ -144,14 +146,21 @@ namespace ShutterFace
             DeleteTrackingBtn.Text = "Delete Tracking";
             DeleteTrackingBtn.Click += DeleteTrackingBtn_Click;
             // 
-            // TrackingListBox
+            // TrackingListView
             // 
-            TrackingListBox.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            TrackingListBox.Location = new Point(3, 203);
-            TrackingListBox.Name = "TrackingListBox";
-            TrackingListBox.Size = new Size(273, 260);
-            TrackingListBox.TabIndex = 8;
-            TrackingListBox.SelectedIndexChanged += TrackingListBox_SelectedIndexChanged;
+            TrackingListView.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            TrackingListView.FullRowSelect = true;
+            TrackingListView.HideSelection = false;
+            TrackingListView.Items.AddRange(new ListViewItem[] { });
+            TrackingListView.LargeImageList = trackingImages;
+            TrackingListView.Location = new Point(3, 203);
+            TrackingListView.Name = "TrackingListView";
+            TrackingListView.Size = new Size(273, 260);
+            TrackingListView.SmallImageList = trackingImages;
+            TrackingListView.Sorting = SortOrder.Ascending;
+            TrackingListView.TabIndex = 8;
+            TrackingListView.View = View.List;
+            TrackingListView.SelectedIndexChanged += TrackingListView_SelectedIndexChanged;
             // 
             // mainTable
             // 
@@ -178,7 +187,7 @@ namespace ShutterFace
             buttonLayoutPanel.Controls.Add(AnalyzeBtn);
             buttonLayoutPanel.Controls.Add(StopAnalyzeBtn);
             buttonLayoutPanel.Controls.Add(DeleteTrackingBtn);
-            buttonLayoutPanel.Controls.Add(TrackingListBox);
+            buttonLayoutPanel.Controls.Add(TrackingListView);
             buttonLayoutPanel.Controls.Add(gprTracking);
             buttonLayoutPanel.Dock = DockStyle.Fill;
             buttonLayoutPanel.Location = new Point(1203, 3);
@@ -381,6 +390,12 @@ namespace ShutterFace
             statusStripBottom.TabIndex = 10;
             statusStripBottom.Text = "statusStrip1";
             // 
+            // trackingImages
+            // 
+            trackingImages.ColorDepth = ColorDepth.Depth32Bit;
+            trackingImages.ImageSize = new Size(16, 16);
+            trackingImages.TransparentColor = Color.Transparent;
+            // 
             // tssStatusLabel
             // 
             tssStatusLabel.Name = "tssStatusLabel";
@@ -503,7 +518,7 @@ namespace ShutterFace
         internal System.Windows.Forms.Button AnalyzeBtn;
         internal System.Windows.Forms.Button StopAnalyzeBtn;
         internal System.Windows.Forms.Button DeleteTrackingBtn;
-        internal System.Windows.Forms.ListBox TrackingListBox;
+        internal System.Windows.Forms.ListView TrackingListView;
         internal System.Windows.Forms.TableLayoutPanel mainTable;
         internal System.Windows.Forms.FlowLayoutPanel buttonLayoutPanel;
         internal System.Windows.Forms.GroupBox gprTracking;
@@ -533,6 +548,7 @@ namespace ShutterFace
         private Label lblStartFrame;
         private Panel pnlFrameSlider;
         internal Panel trackRangeIndicator;
+        private ImageList trackingImages;
         private MenuStrip menuStripTop;
         private ToolStripMenuItem mnuFile, mnuOpenVideo, mnuLoadTracking, mnuSaveTracking, mnuExportVideo, mnuSettings;
         private ToolStripSeparator toolStripSeparator1, toolStripSeparator2, mnuCloseSeparator;

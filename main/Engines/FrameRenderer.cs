@@ -113,10 +113,5 @@ namespace ShutterFace
 
             return (new Rectangle(offsetX, offsetY, displayWidth, displayHeight), scaleX, scaleY);
         }
-
-        public static string GetTrackingListText(TrackerBox tracking)
-        {
-            return (tracking.IsAnalyzed ? "1 " : "0 ") + tracking.Name;
-        }
     }
 }

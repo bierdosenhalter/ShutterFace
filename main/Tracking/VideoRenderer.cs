@@ -81,14 +81,12 @@ namespace ShutterFace
             }
         }
 
-        public static void UpdateListBoxColors(ListBox listBox, IReadOnlyList<TrackerBox> trackingBoxes)
+        public static void UpdateListViewStatus(ListView listView, IReadOnlyList<TrackerBox> trackingBoxes)
         {
-            for (int i = 0; i < trackingBoxes.Count; i++)
+            for (int i = 0; i < Math.Min(trackingBoxes.Count, listView.Items.Count); i++)
             {
                 var tracking = trackingBoxes[i];
-                listBox.Items[i] = tracking.IsAnalyzed
-                    ? $"1 {tracking.Name}"
-                    : $"0 {tracking.Name}";
+                listView.Items[i].ImageKey = tracking.IsAnalyzed ? "analyzed" : "not_analyzed";
             }
         }
 

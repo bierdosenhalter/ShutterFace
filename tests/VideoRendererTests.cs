@@ -1,11 +1,12 @@
 using OpenCvSharp;
+using System.Windows.Forms;
 
 namespace ShutterFace.Tests;
 
 public class VideoRendererTests
 {
     [Fact]
-    public void UpdateListBoxText_Analyzed_ReturnsOnePrefix()
+    public void UpdateListViewImageKey_Analyzed_ReturnsAnalyzedImageKey()
     {
         var tracking = new TrackerBox
         {
@@ -13,16 +14,18 @@ public class VideoRendererTests
             IsAnalyzed = true
         };
 
-        using var listBox = new System.Windows.Forms.ListBox();
-        listBox.Items.Add(tracking.Name);
+        using var listView = new ListView();
+        listView.LargeImageList = new ImageList();
+        var item = new ListViewItem(tracking.Name);
+        listView.Items.Add(item);
 
-        VideoRenderer.UpdateListBoxColors(listBox, new[] { tracking });
+        VideoRenderer.UpdateListViewStatus(listView, new[] { tracking });
 
-        Assert.StartsWith("1 ", listBox.Items[0] as string);
+        Assert.Equal("analyzed", listView.Items[0].ImageKey);
     }
 
     [Fact]
-    public void UpdateListBoxText_NotAnalyzed_ReturnsZeroPrefix()
+    public void UpdateListViewImageKey_NotAnalyzed_ReturnsNotAnalyzedImageKey()
     {
         var tracking = new TrackerBox
         {
@@ -30,24 +33,27 @@ public class VideoRendererTests
             IsAnalyzed = false
         };
 
-        using var listBox = new System.Windows.Forms.ListBox();
-        listBox.Items.Add(tracking.Name);
+        using var listView = new ListView();
+        listView.LargeImageList = new ImageList();
+        var item = new ListViewItem(tracking.Name);
+        listView.Items.Add(item);
 
-        VideoRenderer.UpdateListBoxColors(listBox, new[] { tracking });
+        VideoRenderer.UpdateListViewStatus(listView, new[] { tracking });
 
-        Assert.StartsWith("0 ", listBox.Items[0] as string);
+        Assert.Equal("not_analyzed", listView.Items[0].ImageKey);
     }
 
     [Fact]
-    public void UpdateListBoxText_EmptyTrackingBoxes_DoesNotModifyListBox()
+    public void UpdateListViewImageKey_EmptyTrackingBoxes_DoesNotModifyItems()
     {
-        using var listBox = new System.Windows.Forms.ListBox();
-        listBox.Items.Add("Existing");
-        listBox.Items.Add("Another");
+        using var listView = new ListView();
+        listView.LargeImageList = new ImageList();
+        listView.Items.Add("Existing");
+        listView.Items.Add("Another");
 
-        VideoRenderer.UpdateListBoxColors(listBox, Array.Empty<TrackerBox>());
+        VideoRenderer.UpdateListViewStatus(listView, Array.Empty<TrackerBox>());
 
-        Assert.Equal("Existing", listBox.Items[0]);
-        Assert.Equal("Another", listBox.Items[1]);
+        Assert.Equal("Existing", listView.Items[0].Text);
+        Assert.Equal("Another", listView.Items[1].Text);
     }
 }

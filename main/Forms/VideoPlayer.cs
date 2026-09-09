@@ -255,6 +255,11 @@ namespace ShutterFace
             gprTracking.Enabled = false;
             DeleteTrackingBtn.Enabled = false;
 
+            Image analyzedIcon = CreateStatusIcon(Color.FromArgb(80, 200, 80));
+            Image notAnalyzedIcon = CreateStatusIcon(Color.FromArgb(160, 160, 160));
+            trackingImages.Images.Add("analyzed", analyzedIcon);
+            trackingImages.Images.Add("not_analyzed", notAnalyzedIcon);
+
             UpdateTrackRangeIndicatorPosition();
 
             trackRangeIndicator.BringToFront();
@@ -265,6 +270,18 @@ namespace ShutterFace
             VideoBox.AllowDrop = true;
             VideoBox.DragEnter += OnVideoBoxDragEnter;
             VideoBox.DragDrop += OnVideoBoxDragDrop;
+        }
+
+        private static Bitmap CreateStatusIcon(Color color)
+        {
+            var bmp = new Bitmap(16, 16);
+            using (var g = Graphics.FromImage(bmp))
+            {
+                g.Clear(Color.Transparent);
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                g.FillEllipse(new SolidBrush(color), 2, 2, 12, 12);
+            }
+            return bmp;
         }
 
         #region Video Events
@@ -399,7 +416,8 @@ namespace ShutterFace
         {
             for (int i = 0; i < _model.TrackingRects.Count; i++)
             {
-                TrackingListBox.Items[i] = FrameRenderer.GetTrackingListText(_model.TrackingRects[i]);
+                var tracking = _model.TrackingRects[i];
+                TrackingListView.Items[i].ImageKey = tracking.IsAnalyzed ? "analyzed" : "not_analyzed";
             }
         }
 
@@ -432,9 +450,12 @@ namespace ShutterFace
                 var tracking = _trackingManager.CreateFromDrag(
                     _model.DragRectangle.Value, _model.CurrentFrameIndex, _model.TotalFrames);
 
-                TrackingListBox.Items.Add(tracking.Name);
+                var listViewItem = new ListViewItem(tracking.Name) { ImageKey = "not_analyzed" };
+                TrackingListView.Items.Add(listViewItem);
                 _model.HasUnsavedChanges = true;
-                TrackingListBox.SelectedIndex = _model.SelectedTrackingIndex!.Value;
+                TrackingListView.SelectedItems.Clear();
+                var itemAdded = TrackingListView.Items[TrackingListView.Items.Count - 1];
+                itemAdded.Selected = true;
 
                 UpdateTrackingProperties();
             }
@@ -495,7 +516,7 @@ namespace ShutterFace
             {
                 int index = _model.SelectedTrackingIndex.Value;
                 _trackingManager.DeleteSelected();
-                TrackingListBox.Items.RemoveAt(index);
+                TrackingListView.Items.RemoveAt(index);
                 gprTracking.Enabled = false;
                 AnalyzeBtn.Visible = false;
                 DeleteTrackingBtn.Enabled = false;
@@ -503,11 +524,11 @@ namespace ShutterFace
             }
         }
 
-        private void TrackingListBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void TrackingListView_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (TrackingListBox.SelectedIndex >= 0 && TrackingListBox.SelectedIndex < _model.TrackingRects.Count)
+            if (TrackingListView.SelectedIndices.Count > 0 && TrackingListView.SelectedIndices[0] < _model.TrackingRects.Count)
             {
-                _model.SelectedTrackingIndex = TrackingListBox.SelectedIndex;
+                _model.SelectedTrackingIndex = TrackingListView.SelectedIndices[0];
                 var tracking = _trackingManager.Selected!;
 
                 ShowFrameRangeOnSlider(tracking.StartFrame, tracking.EndFrame);
@@ -623,7 +644,7 @@ namespace ShutterFace
                     (int)txtEndFrame.Value);
 
                 if (tracking.Name != oldName)
-                    TrackingListBox.Items[_model.SelectedTrackingIndex.Value] = tracking.Name;
+                    TrackingListView.SelectedItems[0].Text = tracking.Name;
 
                 _model.HasUnsavedChanges = true;
                 DisplayFrame(_model.CurrentFrame);
@@ -810,7 +831,7 @@ namespace ShutterFace
                     }
 
                     _model.TrackingRects.Clear();
-                    TrackingListBox.Items.Clear();
+                    TrackingListView.Clear();
                     _model.SelectedTrackingIndex = null;
                     gprTracking.Enabled = false;
                     AnalyzeBtn.Visible = false;
@@ -826,7 +847,8 @@ namespace ShutterFace
 
                         _model.TrackingRects.Add(tracking);
                         _model.HasUnsavedChanges = true;
-                        TrackingListBox.Items.Add(tracking.Name);
+                        var listViewItem = new ListViewItem(tracking.Name) { ImageKey = "not_analyzed" };
+                        TrackingListView.Items.Add(listViewItem);
                     }
 
                     if (!string.IsNullOrEmpty(trackerSession.VideoPath) && trackerSession.VideoPath != _model.VideoPath)
