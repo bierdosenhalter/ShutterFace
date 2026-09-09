@@ -402,8 +402,7 @@ namespace MotionTrackerFaceBlur
             menuStripTop.Name = "menuStripTop";
             menuStripTop.Size = new Size(1480, 40);
             menuStripTop.TabIndex = 11;
-            menuStripTop.Text = "menuStrip1";
-            // 
+            menuStripTop.Text = "menuStrip1";            // 
             // mnuFile
             // 
             mnuFile.DropDownItems.AddRange(new ToolStripItem[] { mnuOpenVideo, mnuLoadTracking, mnuSaveTracking, toolStripSeparator1, mnuExportVideo, toolStripSeparator2, mnuSettings });
@@ -535,6 +534,7 @@ namespace MotionTrackerFaceBlur
         internal Panel trackRangeIndicator;
         private MenuStrip menuStripTop;
         private ToolStripMenuItem mnuFile, mnuOpenVideo, mnuLoadTracking, mnuSaveTracking, mnuExportVideo, mnuSettings;
-        private ToolStripSeparator toolStripSeparator1, toolStripSeparator2;
+        private ToolStripSeparator toolStripSeparator1, toolStripSeparator2, mnuCloseSeparator;
+        private ToolStripMenuItem mnuAbout, mnuClose;
     }
 }

@@ -34,6 +34,9 @@ namespace MotionTrackerFaceBlur
         public bool IsAnalyzing;
         public bool IsExporting;
 
+        // Change tracking
+        public bool HasUnsavedChanges { get; set; }
+
         // Settings
         public int BlurCellSize = 8;
         public int BigPixels = 16;

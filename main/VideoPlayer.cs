@@ -32,6 +32,33 @@ namespace MotionTrackerFaceBlur
 
             WireCallbacks();
             InitializeCustomComponents();
+            AddAboutMenuItem();
+        }
+
+        private void AddAboutMenuItem()
+        {
+            // Add Close (Exit) to File menu with unsaved-changes check
+            mnuCloseSeparator = new ToolStripSeparator();
+            mnuFile.DropDownItems.Add(mnuCloseSeparator);
+            mnuClose = new ToolStripMenuItem("E&xit");
+            mnuClose.Click += MnuClose_Click;
+            mnuFile.DropDownItems.Add(mnuClose);
+
+            // Add About as a root-level menu item
+            mnuAbout = new ToolStripMenuItem("&About");
+            mnuAbout.Click += MnuAbout_Click;
+            menuStripTop.Items.Add(mnuAbout);
+        }
+
+        private void MnuClose_Click(object? sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void MnuAbout_Click(object? sender, EventArgs e)
+        {
+            using var about = new AboutForm();
+            about.ShowDialog(this);
         }
 
         private void WireCallbacks()
@@ -300,6 +327,7 @@ namespace MotionTrackerFaceBlur
                     _model.DragRectangle.Value, _model.CurrentFrameIndex, _model.TotalFrames);
 
                 TrackingListBox.Items.Add(tracking.Name);
+                _model.HasUnsavedChanges = true;
                 TrackingListBox.SelectedIndex = _model.SelectedTrackingIndex!.Value;
 
                 UpdateTrackingProperties();
@@ -491,6 +519,7 @@ namespace MotionTrackerFaceBlur
                 if (tracking.Name != oldName)
                     TrackingListBox.Items[_model.SelectedTrackingIndex.Value] = tracking.Name;
 
+                _model.HasUnsavedChanges = true;
                 DisplayFrame(_model.CurrentFrame);
                 MessageBox.Show("Tracking properties updated successfully!");
             }
@@ -643,6 +672,7 @@ namespace MotionTrackerFaceBlur
                 {
                     File.WriteAllText(saveFileDialog.FileName, TrackingStore.Serialize(_model.TrackingRects, _model.VideoPath));
                     MessageBox.Show("Tracking data saved successfully!");
+                    _model.HasUnsavedChanges = false;
                 }
                 catch (Exception ex)
                 {
@@ -685,6 +715,7 @@ namespace MotionTrackerFaceBlur
                         tracking.ClearPositions();
 
                         _model.TrackingRects.Add(tracking);
+                        _model.HasUnsavedChanges = true;
                         TrackingListBox.Items.Add(tracking.Name);
                     }
 
@@ -704,6 +735,7 @@ namespace MotionTrackerFaceBlur
                         DisplayFrame(_model.CurrentFrame);
 
                     MessageBox.Show($"Loaded {_model.TrackingRects.Count} tracking rectangles successfully!");
+                    _model.HasUnsavedChanges = false;
                 }
                 catch (Exception ex)
                 {
@@ -731,6 +763,30 @@ namespace MotionTrackerFaceBlur
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
+            if (e.CloseReason == CloseReason.UserClosing && _model.HasUnsavedChanges && !_model.IsExporting)
+            {
+                var result = MessageBox.Show(
+                    "You have unsaved changes. Do you want to save before closing?",
+                    "Unsaved Changes",
+                    MessageBoxButtons.YesNoCancel,
+                    MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    MnuSaveTracking_Click(this, EventArgs.Empty);
+                    if (_model.HasUnsavedChanges)
+                    {
+                        e.Cancel = true;
+                        return;
+                    }
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+            }
+
             base.OnFormClosing(e);
 
             // Signal background work to stop and release video resources
