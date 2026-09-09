@@ -5,10 +5,10 @@
 - [x] Rename "Load tracking / Save tracking" to "Load project / Save project"
 
 ## 2. Analysis stop → end frame (Einfach)
-- [ ] When clicking "stop analysing", set the end frame to the current frame position
+- [x] When clicking "stop analysing", set the end frame to the current frame position
 
 ## 3. Visible tracking feedback (Einfach)
-- [ ] Show visibly whether a face was tracked or not
+- [x] Show visibly whether a face was tracked or not — ListView with green/gray status dots
 
 ## 4. UI polish (Einfach)
 - [ ] Frame slider disabled when no video is loaded
