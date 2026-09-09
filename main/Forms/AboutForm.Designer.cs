@@ -20,6 +20,7 @@ namespace ShutterFace
             picIcon = new PictureBox();
             lblTitle = new Label();
             lblSubtitle = new Label();
+            lblVersion = new Label();
             btnOk = new Button();
             ((System.ComponentModel.ISupportInitialize)picIcon).BeginInit();
             SuspendLayout();
@@ -55,6 +56,16 @@ namespace ShutterFace
             lblSubtitle.TabIndex = 2;
             lblSubtitle.Text = @"Built with OpenCode (qwen3.6-35b-128k)";
             // 
+            // lblVersion
+            // 
+            lblVersion.AutoSize = true;
+            lblVersion.Font = new Font(@"Segoe UI", 9f, FontStyle.Regular);
+            lblVersion.Location = new Point(48, 50);
+            lblVersion.Name = "lblVersion";
+            lblVersion.Size = new Size(76, 17);
+            lblVersion.TabIndex = 2;
+            lblVersion.Text = @"v1.0.0";
+            // 
             // btnOk
             // 
             btnOk.DialogResult = DialogResult.OK;
@@ -75,6 +86,7 @@ namespace ShutterFace
             Controls.Add(picIcon);
             Controls.Add(lblTitle);
             Controls.Add(lblSubtitle);
+            Controls.Add(lblVersion);
             Controls.Add(btnOk);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
@@ -91,6 +103,7 @@ namespace ShutterFace
         private PictureBox picIcon;
         private Label lblTitle;
         private Label lblSubtitle;
+        private Label lblVersion;
         private Button btnOk;
     }
 }

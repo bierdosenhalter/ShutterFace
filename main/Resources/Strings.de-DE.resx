@@ -103,7 +103,7 @@
     <value>ShutterFace</value>
   </data>
   <data name="SubtitleAbout" xml:space="preserve">
-    <value>{0} — Erstellt mit OpenCode (qwen3.6-35b-128k)</value>
+    <value>Erstellt mit OpenCode (qwen3.6-35b-128k)</value>
   </data>
   <data name="BtnOk" xml:space="preserve">
     <value>&amp;OK</value>

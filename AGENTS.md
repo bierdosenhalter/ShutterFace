@@ -29,6 +29,9 @@ Designer.cs values are 96-DPI units. Grid: 11 units margin/padding, 7 units betw
 - On failure: 2 alternatives before reporting
 - Never end with "shall I continue?" — run DoD loop, report done + next step
 
+## Versioning
+- Bump the assembly/project version with every commit (patch increment)
+
 ## Constraints
 - Never touch `.vs/` or build output
 - No push/rebase/history rewrite; commit only with my confirmation
