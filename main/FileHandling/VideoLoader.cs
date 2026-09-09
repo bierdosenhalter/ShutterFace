@@ -7,7 +7,7 @@ namespace ShutterFace
     /// Video loading, frame access and time formatting.
     /// All state lives in PlayerModel; UI feedback is reported through callbacks.
     /// </summary>
-    internal sealed class VideoLoader(PlayerModel model)
+    internal sealed class VideoLoader(TrackerState model)
     {
         /// <summary>Shows a message on the UI thread. Set by the form.</summary>
         public Action<string>? ShowMessage;

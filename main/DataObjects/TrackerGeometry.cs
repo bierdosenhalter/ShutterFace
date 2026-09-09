@@ -10,7 +10,7 @@ namespace ShutterFace
     /// edge hit-testing and resize cursors. Pure functions over their inputs,
     /// so they can be unit tested without a Form.
     /// </summary>
-    internal static class RectGeometry
+    internal static class TrackerGeometry
     {
         private const int HandleSize = 8;
         private const int DrawHandleSize = 5;

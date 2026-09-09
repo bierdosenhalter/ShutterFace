@@ -3,17 +3,17 @@ using OpenCvSharp;
 namespace ShutterFace
 {
     /// <summary>
-    /// Creates, stores and edits tracking rectangles. All state lives in
-    /// PlayerModel; the form wires UI callbacks and calls these methods
+    /// Creates, stores and edits tracker boxes. All state lives in
+    /// TrackerState; the form wires UI callbacks and calls these methods
     /// from its event handlers.
     /// </summary>
-    internal sealed class TrackingManager(PlayerModel model)
+    internal sealed class TrackerFactory(TrackerState model)
     {
         public Action<string>? ShowMessage;
 
-        public TrackingRect CreateFromDrag(System.Drawing.Rectangle dragRect, int startFrame, int totalFrames)
+        public TrackerBox CreateFromDrag(System.Drawing.Rectangle dragRect, int startFrame, int totalFrames)
         {
-            var tracking = new TrackingRect
+            var tracking = new TrackerBox
             {
                 Name = $"Face {model.TrackingRects.Count + 1}",
                 StartFrame = startFrame,
@@ -35,7 +35,7 @@ namespace ShutterFace
             }
         }
 
-        public TrackingRect? Selected
+        public TrackerBox? Selected
         {
             get
             {

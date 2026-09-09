@@ -8,7 +8,7 @@ namespace ShutterFace
     /// Exports the video with pixelated tracking regions.
     /// State lives in PlayerModel; UI feedback goes through callbacks.
     /// </summary>
-    internal sealed class ExportEngine(PlayerModel model)
+    internal sealed class ExportEngine(TrackerState model)
     {
         public Action<string>? ShowMessage;
 

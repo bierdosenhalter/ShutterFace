@@ -2,7 +2,7 @@ using OpenCvSharp;
 
 namespace ShutterFace
 {
-    public class TrackingRect
+    public class TrackerBox
     {
         public string Name { get; set; } = null!;
         public int StartFrame { get; set; }

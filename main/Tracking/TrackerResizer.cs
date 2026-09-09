@@ -4,9 +4,9 @@ namespace ShutterFace
 {
     /// <summary>
     /// Logic for creating a rectangle by dragging and resizing it by its handles.
-    /// State lives in PlayerModel; geometry math lives in RectGeometry.
+    /// State lives in TrackerState; geometry math lives in TrackerGeometry.
     /// </summary>
-    internal sealed class ResizeController(PlayerModel model)
+    internal sealed class TrackerResizer(TrackerState model)
     {
         /// <summary>Converts PictureBox coordinates to video coordinates using the current display area.</summary>
         public (int videoX, int videoY) PointToVideo(System.Drawing.Point pictureBoxPoint)
@@ -34,7 +34,7 @@ namespace ShutterFace
                 return false;
 
             var (videoRect, scaleX, scaleY) = Renderer.GetVideoDisplayArea();
-            EdgeKind edge = RectGeometry.GetEdgeKindAtPoint(handleRect.Value, pictureBoxPoint, videoRect, scaleX, scaleY);
+            EdgeKind edge = TrackerGeometry.GetEdgeKindAtPoint(handleRect.Value, pictureBoxPoint, videoRect, scaleX, scaleY);
 
             if (edge == EdgeKind.None)
                 return false;
@@ -60,7 +60,7 @@ namespace ShutterFace
                 return null;
 
             var (videoRect, scaleX, scaleY) = Renderer.GetVideoDisplayArea();
-            return RectGeometry.GetCursorForHandle(hoverRect.Value, pictureBoxPoint, videoRect, scaleX, scaleY);
+            return TrackerGeometry.GetCursorForHandle(hoverRect.Value, pictureBoxPoint, videoRect, scaleX, scaleY);
         }
 
         /// <summary>

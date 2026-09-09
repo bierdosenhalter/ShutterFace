@@ -7,7 +7,7 @@ namespace ShutterFace
     /// one instance and reads/writes the same fields the form used to own.
     /// Only the form itself touches the controls directly.
     /// </summary>
-    internal sealed class PlayerModel
+    internal sealed class TrackerState
     {
         // Video state
         public VideoCapture VideoCapture = null!;
@@ -16,7 +16,7 @@ namespace ShutterFace
         public VideoWriter VideoWriter = null!;
 
         // Tracking state
-        public readonly List<TrackingRect> TrackingRects = [];
+        public readonly List<TrackerBox> TrackingRects = [];
         public int CurrentFrameIndex;
         public int TotalFrames;
         public int? SelectedTrackingIndex;

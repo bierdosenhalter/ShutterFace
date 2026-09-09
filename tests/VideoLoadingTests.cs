@@ -61,7 +61,7 @@ public class VideoLoaderTests
     [Fact]
     public void OpenVideo_ValidVideo_ReturnsTrueAndSetsTotalFrames()
     {
-        var model = new PlayerModel();
+        var model = new TrackerState();
         var loader = new VideoLoader(model);
         loader.ShowMessage = _ => { };
         string tempPath = CopyEmbeddedVideo();
@@ -76,7 +76,7 @@ public class VideoLoaderTests
     [Fact]
     public void OpenVideo_NonExistentFile_ReturnsFalseAndDisposesNull()
     {
-        var model = new PlayerModel();
+        var model = new TrackerState();
         var loader = new VideoLoader(model);
         loader.ShowMessage = _ => { };
 
@@ -89,7 +89,7 @@ public class VideoLoaderTests
     [Fact]
     public void IsOpen_ReturnsFalseBeforeOpening()
     {
-        var model = new PlayerModel();
+        var model = new TrackerState();
         var loader = new VideoLoader(model);
 
         Assert.False(loader.IsOpen);
@@ -98,7 +98,7 @@ public class VideoLoaderTests
     [Fact]
     public void IsOpen_ReturnsTrueAfterSuccessfulOpen()
     {
-        var model = new PlayerModel();
+        var model = new TrackerState();
         var loader = new VideoLoader(model);
         loader.ShowMessage = _ => { };
         string tempPath = CopyEmbeddedVideo();
@@ -111,7 +111,7 @@ public class VideoLoaderTests
     [Fact]
     public void LoadFrame_SeeksCorrectFrame_ReturnsNonNullFrame()
     {
-        var model = new PlayerModel();
+        var model = new TrackerState();
         var loader = new VideoLoader(model);
         loader.ShowMessage = _ => { };
         loader.RunOnUi = a => a.Invoke();
@@ -141,7 +141,7 @@ public class VideoLoaderTests
     }
 }
 
-public class AnalysisEngineTests
+public class TrackerStaticMethodTests
 {
     [Theory]
     [InlineData(0, 0, 100, 100, 50, 50, 50, 150)] // newRect overlaps previousRect corners (bottom right)
@@ -153,7 +153,7 @@ public class AnalysisEngineTests
         var newRect = new Rect(newX, newY, newW, newH);
         var previousRect = new Rect(prevX, prevY, prevW, prevH);
 
-        Assert.True(AnalysisEngine.IsEdgeInBounds(newRect, previousRect));
+        Assert.True(Tracker.IsEdgeInBounds(newRect, previousRect));
     }
 
     [Theory]
@@ -165,7 +165,7 @@ public class AnalysisEngineTests
         var newRect = new Rect(newX, newY, newW, newH);
         var previousRect = new Rect(prevX, prevY, prevW, prevH);
 
-        Assert.True(AnalysisEngine.IsEdgeInBounds(newRect, previousRect));
+        Assert.True(Tracker.IsEdgeInBounds(newRect, previousRect));
     }
 
     [Theory]
@@ -177,7 +177,7 @@ public class AnalysisEngineTests
         var newRect = new Rect(newX, newY, newW, newH);
         var previousRect = new Rect(prevX, prevY, prevW, prevH);
 
-        Assert.True(AnalysisEngine.IsEdgeInBounds(newRect, previousRect));
+        Assert.True(Tracker.IsEdgeInBounds(newRect, previousRect));
     }
 
     [Theory]
@@ -189,6 +189,6 @@ public class AnalysisEngineTests
         var newRect = new Rect(newX, newY, newW, newH);
         var previousRect = new Rect(prevX, prevY, prevW, prevH);
 
-        Assert.False(AnalysisEngine.IsEdgeInBounds(newRect, previousRect));
+        Assert.False(Tracker.IsEdgeInBounds(newRect, previousRect));
     }
 }

@@ -3,12 +3,12 @@ using System.Text.Json;
 
 namespace ShutterFace.Tests;
 
-public class TrackingRectTests
+public class TrackerBoxTests
 {
     [Fact]
     public void GetRectAtFrame_ReturnsExactPosition_WhenFrameHasTrackedPosition()
     {
-        var rect = new TrackingRect();
+        var rect = new TrackerBox();
         rect.AddFramePosition(10, new Rect(100, 200, 50, 60));
 
         var result = rect.GetRectAtFrame(10);
@@ -21,7 +21,7 @@ public class TrackingRectTests
     [Fact]
     public void GetRectAtFrame_ReturnsInterpolatedPosition_WhenFrameIsBetweenTrackedFrames()
     {
-        var rect = new TrackingRect();
+        var rect = new TrackerBox();
         // Frame 0: (0, 0)
         rect.AddFramePosition(0, new Rect(0, 0, 100, 100));
         // Frame 10: (100, 100)
@@ -40,7 +40,7 @@ public class TrackingRectTests
     [Fact]
     public void GetRectAtFrame_ReturnsFirstFramePosition_WhenBeforeFirstTrackedFrame()
     {
-        var rect = new TrackingRect();
+        var rect = new TrackerBox();
         rect.AddFramePosition(10, new Rect(500, 500, 80, 80));
 
         var result = rect.GetRectAtFrame(0);
@@ -52,7 +52,7 @@ public class TrackingRectTests
     [Fact]
     public void GetRectAtFrame_ReturnsLastFramePosition_WhenAfterLastTrackedFrame()
     {
-        var rect = new TrackingRect();
+        var rect = new TrackerBox();
         rect.AddFramePosition(10, new Rect(300, 400, 90, 90));
 
         var result = rect.GetRectAtFrame(50);
@@ -64,7 +64,7 @@ public class TrackingRectTests
     [Fact]
     public void GetRectAtFrame_ReturnsNull_WhenNoTrackedPositions()
     {
-        var rect = new TrackingRect();
+        var rect = new TrackerBox();
 
         var result = rect.GetRectAtFrame(5);
 
@@ -74,7 +74,7 @@ public class TrackingRectTests
     [Fact]
     public void ClearPositions_ClearsAllState()
     {
-        var rect = new TrackingRect();
+        var rect = new TrackerBox();
         rect.AddFramePosition(0, new Rect(0, 0, 100, 100));
         rect.AddFramePosition(10, new Rect(100, 100, 200, 200));
         rect.IsAnalyzed = true;
@@ -89,7 +89,7 @@ public class TrackingRectTests
     [Fact]
     public void RemoveFramePosition_RemovesSpecificFrame()
     {
-        var rect = new TrackingRect();
+        var rect = new TrackerBox();
         rect.AddFramePosition(0, new Rect(0, 0, 100, 100));
         rect.AddFramePosition(5, new Rect(50, 50, 150, 150));
         rect.AddFramePosition(10, new Rect(100, 100, 200, 200));
@@ -106,7 +106,7 @@ public class TrackingRectTests
     [Fact]
     public void GetRectPosition_ReturnsCopyOfPositions()
     {
-        var rect = new TrackingRect();
+        var rect = new TrackerBox();
         rect.AddFramePosition(0, new Rect(0, 0, 100, 100));
 
         var positions = rect.GetRectPositions();
@@ -120,7 +120,7 @@ public class TrackingRectTests
     [Fact]
     public void AddFramePosition_OverwritesExistingFrame()
     {
-        var rect = new TrackingRect();
+        var rect = new TrackerBox();
         rect.AddFramePosition(5, new Rect(10, 20, 30, 40));
         rect.AddFramePosition(5, new Rect(100, 200, 300, 400));
 

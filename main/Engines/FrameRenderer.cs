@@ -7,7 +7,7 @@ namespace ShutterFace
     /// Draws tracking rectangles and resize handles onto a frame and pushes
     /// the result into the PictureBox (thread-safe).
     /// </summary>
-    internal sealed class FrameRenderer(PlayerModel model)
+    internal sealed class FrameRenderer(TrackerState model)
     {
         /// <summary>The PictureBox to draw into. Set by the form.</summary>
         public PictureBox? Target;
@@ -45,7 +45,7 @@ namespace ShutterFace
 
                     if (i == selectedTrackingIndex)
                     {
-                        RectGeometry.DrawResizeHandles(displayFrame, rect.Value);
+                        TrackerGeometry.DrawResizeHandles(displayFrame, rect.Value);
                     }
                 }
 
@@ -114,7 +114,7 @@ namespace ShutterFace
             return (new Rectangle(offsetX, offsetY, displayWidth, displayHeight), scaleX, scaleY);
         }
 
-        public static string GetTrackingListText(TrackingRect tracking)
+        public static string GetTrackingListText(TrackerBox tracking)
         {
             return (tracking.IsAnalyzed ? "1 " : "0 ") + tracking.Name;
         }

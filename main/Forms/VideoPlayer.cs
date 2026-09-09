@@ -7,17 +7,17 @@ namespace ShutterFace
     /// <summary>
     /// The form class. Owns every event handler and every control reference;
     /// all logic lives in the service classes (VideoLoader, FrameRenderer,
-    /// ResizeController, TrackingManager, AnalysisEngine, ExportEngine),
-    /// which share state through PlayerModel.
+    /// TrackerResizer, TrackerFactory, Tracker, VideoExporter),
+    /// which share state through TrackerState.
     /// </summary>
     public partial class VideoPlayer : Form, IDisposable
     {
-        private readonly PlayerModel _model = new();
+        private readonly TrackerState _model = new();
         private readonly VideoLoader _videoLoader;
         private readonly FrameRenderer _renderer;
-        private readonly ResizeController _resizer;
-        private readonly TrackingManager _trackingManager;
-        private readonly AnalysisEngine _analysis;
+        private readonly TrackerResizer _resizer;
+        private readonly TrackerFactory _trackingManager;
+        private readonly Tracker _analysis;
         private readonly ExportEngine _exporter;
 
         public VideoPlayer()
@@ -26,9 +26,9 @@ namespace ShutterFace
 
             _videoLoader = new VideoLoader(_model);
             _renderer = new FrameRenderer(_model) { Target = VideoBox };
-            _resizer = new ResizeController(_model) { Renderer = _renderer };
-            _trackingManager = new TrackingManager(_model);
-            _analysis = new AnalysisEngine(_model) { FrameLoader = _videoLoader };
+            _resizer = new TrackerResizer(_model) { Renderer = _renderer };
+            _trackingManager = new TrackerFactory(_model);
+            _analysis = new Tracker(_model) { FrameLoader = _videoLoader };
             _exporter = new ExportEngine(_model);
 
             WireCallbacks();
@@ -670,7 +670,7 @@ namespace ShutterFace
             mnuSaveTracking.Enabled = true;
         }
 
-        private void PerformAnalysis(TrackingRect tracking)
+        private void PerformAnalysis(TrackerBox tracking)
         {
             _analysis.Analyze(tracking);
         }
@@ -776,7 +776,7 @@ namespace ShutterFace
             {
                 try
                 {
-                    File.WriteAllText(saveFileDialog.FileName, TrackingStore.Serialize(_model.TrackingRects, _model.VideoPath));
+                    File.WriteAllText(saveFileDialog.FileName, TrackerStore.Serialize(_model.TrackingRects, _model.VideoPath));
                     MessageBox.Show(ControlResourceManager.GetString("MsgTrackingSaved"));
                     _model.HasUnsavedChanges = false;
                 }
@@ -797,9 +797,9 @@ namespace ShutterFace
                 try
                 {
                     var json = File.ReadAllText(openFileDialog.FileName);
-                    var trackingData = TrackingStore.Deserialize(json);
+                    var trackerSession = TrackerStore.Deserialize(json);
 
-                    if (trackingData == null)
+                    if (trackerSession == null)
                     {
                         MessageBox.Show(ControlResourceManager.GetString("MsgFailedToLoadTracking"));
                         return;
@@ -813,7 +813,7 @@ namespace ShutterFace
                     DeleteTrackingBtn.Enabled = false;
                     mnuSaveTracking.Enabled = false;
 
-                    foreach (var tracking in trackingData.TrackingRects)
+                    foreach (var tracking in trackerSession.TrackingRects)
                     {
                         // Reset analysis state for loaded tracks
                         tracking.IsAnalyzed = false;
@@ -825,11 +825,11 @@ namespace ShutterFace
                         TrackingListBox.Items.Add(tracking.Name);
                     }
 
-                    if (!string.IsNullOrEmpty(trackingData.VideoPath) && trackingData.VideoPath != _model.VideoPath)
+                    if (!string.IsNullOrEmpty(trackerSession.VideoPath) && trackerSession.VideoPath != _model.VideoPath)
                     {
-                        if (File.Exists(trackingData.VideoPath))
+                        if (File.Exists(trackerSession.VideoPath))
                         {
-                            LoadVideoFromPath(trackingData.VideoPath);
+                            LoadVideoFromPath(trackerSession.VideoPath);
                         }
                         else
                         {

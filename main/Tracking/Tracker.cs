@@ -4,9 +4,9 @@ namespace ShutterFace
 {
     /// <summary>
     /// Template-matching based object tracking across a frame range.
-    /// State lives in PlayerModel; UI feedback goes through callbacks.
+    /// State lives in TrackerState; UI feedback goes through callbacks.
     /// </summary>
-    internal sealed class AnalysisEngine(TrackerState model)
+    internal sealed class Tracker(TrackerState model)
     {
         public Action<string>? ShowMessage;
 
@@ -22,7 +22,7 @@ namespace ShutterFace
         /// <summary>UI hook: the object was lost, analysis stopped at this frame.</summary>
         public Action<int>? ReportObjectLost;
 
-        /// <summary>Runs the analysis loop for one tracking rectangle. Blocks; run on a worker thread.</summary>
+        /// <summary>Runs the analysis loop for one tracker box. Blocks; run on a worker thread.</summary>
         public void Analyze(TrackerBox tracking)
         {
             int startFrame = tracking.StartFrame;

@@ -6,7 +6,7 @@ namespace ShutterFace
     /// Serializes and deserializes tracking data for *.track files.
     /// Owns the JSON options so the form stays free of persistence details.
     /// </summary>
-    internal static class TrackingStore
+    internal static class TrackerStore
     {
         private static readonly JsonSerializerOptions SerializerOptions = new()
         {
@@ -14,9 +14,9 @@ namespace ShutterFace
             Converters = { new RectJsonConverter() }
         };
 
-        public static string Serialize(IReadOnlyList<TrackingRect> rects, string videoPath)
+        public static string Serialize(IReadOnlyList<TrackerBox> rects, string videoPath)
         {
-            var data = new TrackingData
+            var data = new TrackerSession
             {
                 TrackingRects = [.. rects],
                 VideoPath = videoPath
@@ -25,17 +25,17 @@ namespace ShutterFace
             return JsonSerializer.Serialize(data, SerializerOptions);
         }
 
-        public static TrackingData? Deserialize(string json)
+        public static TrackerSession? Deserialize(string json)
         {
             if (string.IsNullOrEmpty(json)) return null;
 
-            var result = JsonSerializer.Deserialize<TrackingData>(json, SerializerOptions);
+            var result = JsonSerializer.Deserialize<TrackerSession>(json, SerializerOptions);
 
             if (result == null && !string.IsNullOrEmpty(json))
             {
                 try
                 {
-                    result = new TrackingData();
+                    result = new TrackerSession();
                 }
                 catch
                 {

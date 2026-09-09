@@ -4,21 +4,20 @@ using System.Windows.Forms;
 
 namespace ShutterFace
 {
-    /// <summary>Manages video frame display and tracking visualization on the form.</summary>
-    public class VideoDisplayManager
+    public class VideoRenderer
     {
         private readonly PictureBox _videoBox;
         private readonly TrackBar _frameSlider;
         private readonly Label? _trackRangeIndicator;
 
-        public VideoDisplayManager(PictureBox videoBox, TrackBar frameSlider, Label? trackRangeIndicator)
+        public VideoRenderer(PictureBox videoBox, TrackBar frameSlider, Label? trackRangeIndicator)
         {
             _videoBox = videoBox;
             _frameSlider = frameSlider;
             _trackRangeIndicator = trackRangeIndicator;
         }
 
-        public void DisplayFrame(Form form, Mat frame, IReadOnlyList<TrackingRect> trackingRects, int currentFrameIndex, int selectedTrackingIndex)
+        public void DisplayFrame(Form form, Mat frame, IReadOnlyList<TrackerBox> trackingBoxes, int currentFrameIndex, int selectedTrackingIndex)
         {
             if (frame == null) return;
 
@@ -26,9 +25,9 @@ namespace ShutterFace
 
             try
             {
-                for (int i = 0; i < trackingRects.Count; i++)
+                for (int i = 0; i < trackingBoxes.Count; i++)
                 {
-                    var tracking = trackingRects[i];
+                    var tracking = trackingBoxes[i];
                     if (currentFrameIndex >= tracking.StartFrame && currentFrameIndex <= tracking.EndFrame)
                     {
                         Rect? rect = tracking.GetRectAtFrame(currentFrameIndex);
@@ -53,7 +52,7 @@ namespace ShutterFace
 
                             if (i == selectedTrackingIndex)
                             {
-                                RectGeometry.DrawResizeHandles(displayFrame, rect.Value);
+                                TrackerGeometry.DrawResizeHandles(displayFrame, rect.Value);
                             }
                         }
                     }
@@ -82,11 +81,11 @@ namespace ShutterFace
             }
         }
 
-        public static void UpdateListBoxColors(ListBox listBox, IReadOnlyList<TrackingRect> trackingRects)
+        public static void UpdateListBoxColors(ListBox listBox, IReadOnlyList<TrackerBox> trackingBoxes)
         {
-            for (int i = 0; i < trackingRects.Count; i++)
+            for (int i = 0; i < trackingBoxes.Count; i++)
             {
-                var tracking = trackingRects[i];
+                var tracking = trackingBoxes[i];
                 listBox.Items[i] = tracking.IsAnalyzed
                     ? $"1 {tracking.Name}"
                     : $"0 {tracking.Name}";
