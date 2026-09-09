@@ -94,13 +94,19 @@ namespace ShutterFace
                 displayHeight = pbHeight;
                 displayWidth = (int)(pbHeight * videoAspect);
                 offsetX = (pbWidth - displayWidth) / 2;
+                if (Math.Abs(videoAspect - 1f) < 0.01f)
+                    offsetY = (pbHeight - displayHeight) / 2;
             }
             else
             {
                 displayWidth = pbWidth;
                 displayHeight = (int)(pbWidth / videoAspect);
                 offsetY = (pbHeight - displayHeight) / 2;
+                if (pbAspect == videoAspect) offsetX = 0;
             }
+
+            if (offsetX < 0) offsetX = 0;
+            if (offsetY < 0) offsetY = 0;
 
             float scaleX = (float)videoWidth / displayWidth;
             float scaleY = (float)videoHeight / displayHeight;

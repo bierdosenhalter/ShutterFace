@@ -27,7 +27,23 @@ namespace ShutterFace
 
         public static TrackingData? Deserialize(string json)
         {
-            return JsonSerializer.Deserialize<TrackingData>(json, SerializerOptions);
+            if (string.IsNullOrEmpty(json)) return null;
+
+            var result = JsonSerializer.Deserialize<TrackingData>(json, SerializerOptions);
+
+            if (result == null && !string.IsNullOrEmpty(json))
+            {
+                try
+                {
+                    result = new TrackingData();
+                }
+                catch
+                {
+                    // Ignore and return null default
+                }
+            }
+
+            return result;
         }
     }
 }

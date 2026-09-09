@@ -12,8 +12,7 @@ dotnet format --verify-no-changes   # if dirty: dotnet format
 dotnet format analyzers --verify-no-changes   # if dirty: dotnet format analyzers
 dotnet test         # all pass (if test project exists)
 ```
-Fix warnings at their cause, no `#pragma`. Rebuild after each fix; stop only when clean. Minimal changes; behavior would change → stop and ask.
-
+Fix warnings at their cause, no #pragma. Info-level suggestions: dotnet format analyzers (in loop) fixes most; if clean but refactorings remain, run dotnet roslynator fix — list proposed changes first, apply only on my OK. Never mass-refactor working code without approval. Rebuild after each fix; stop only when clean. Minimal changes; behavior would change → stop and ask.
 ## Web research
 Verify uncertain OpenCvSharp/.NET/WinForms APIs via `context7`/`websearch` first; on "API does not exist" errors check real docs. `webfetch` official docs only; summarize in 1–2 sentences, never paste excerpts. Never invent NuGet names/versions — search, give exact `dotnet add package` command.
 

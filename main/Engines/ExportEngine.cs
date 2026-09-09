@@ -119,6 +119,9 @@ namespace ShutterFace
             if (safeRegion.Width <= 0 || safeRegion.Height <= 0)
                 return;
 
+            if (bigPixels <= 0)
+                return;
+
             Mat roi = new(image, safeRegion);
 
             int longestSide = Math.Max(safeRegion.Width, safeRegion.Height);
