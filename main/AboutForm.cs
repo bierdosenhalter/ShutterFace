@@ -17,30 +17,17 @@ namespace MotionTrackerFaceBlur
 
         internal static Bitmap CreateAppIcon()
         {
-            var bmp = new Bitmap(30, 30);
-            using var g = Graphics.FromImage(bmp);
-            g.Clear(Color.FromArgb(0, 120, 215));
+            var asm = typeof(AboutForm).Assembly;
+            using var stream = asm.GetManifestResourceStream("MotionTrackerFaceBlur.app.ico");
+            using var icon = new Icon(stream!);
+            return icon.ToBitmap();
+        }
 
-            using var pen = new Pen(Color.White, 2f);
-            g.DrawRectangle(pen, 4, 7, 22, 16);
-            g.DrawEllipse(pen, 10, 11, 10, 10);
-
-            g.FillPolygon(new SolidBrush(Color.White), new[]
-            {
-                new PointF(24, 7),
-                new PointF(27, 7),
-                new PointF(28.5f, 10),
-                new PointF(22.5f, 10)
-            });
-
-            g.FillRectangles(new SolidBrush(Color.White), new[]
-            {
-                new Rectangle(6, 4, 4, 3),
-                new Rectangle(13, 4, 4, 3),
-                new Rectangle(20, 4, 4, 3)
-            });
-
-            return bmp;
+        internal static Icon CreateAppIconAsIcon()
+        {
+            var asm = typeof(AboutForm).Assembly;
+            using var stream = asm.GetManifestResourceStream("MotionTrackerFaceBlur.app.ico");
+            return new Icon(stream!);
         }
     }
 }

@@ -173,6 +173,7 @@ namespace MotionTrackerFaceBlur
             this.Name = "SettingsForm";
             this.StartPosition = FormStartPosition.CenterParent;
             this.Text = "Einstellungen";
+            this.Icon = AboutForm.CreateAppIconAsIcon();
             this.Load += SettingsForm_Load;
             this.pnlSettings.Controls.Add(this.gbConfidence);
             this.pnlSettings.Controls.Add(this.gbBlur);

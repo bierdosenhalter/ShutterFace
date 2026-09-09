@@ -472,6 +472,7 @@ namespace MotionTrackerFaceBlur
             Name = "VideoPlayer";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Motion Tracker";
+            Icon = AboutForm.CreateAppIconAsIcon();
             ((System.ComponentModel.ISupportInitialize)VideoBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)FrameSlider).EndInit();
             mainTable.ResumeLayout(false);
