@@ -1,4 +1,4 @@
-# Shutterface — hide faces in video
+# ShutterFace — hide faces in video
 
 <img src="icon.png" alt="ShutterFace icon" width="120" align="right">
 
@@ -8,17 +8,17 @@
 
 ## Short description
 
-Shutterface blurs faces in your videos. Draw a box once and it follows the face through every frame — no cloud, no upload, your footage stays on your machine. Export the anonymized video and share it with confidence.
+ShutterFace blurs faces in your videos. Draw a box once and it follows the face through every frame — no cloud, no upload, your footage stays on your machine. Export the anonymized video and share it with confidence.
 
 ---
 
-## Why Shutterface?
+## Why ShutterFace?
 
 Building privacy tools for content creators, journalists, and anyone who needs to protect identities:
 
 - **No permissions.** You blur faces yourself — there's no need to ask permission from people in your footage.
 - **Privacy-first.** Everything runs 100% locally on your machine. Your video never uploads anywhere.
-- **Manual but powerful.** Draw a box around a face once; Shutterface tracks it across all frames using template matching (OpenCvSharp4, powered by OpenCV).
+- **Manual but powerful.** Draw a box around a face once; ShutterFace tracks it across all frames using template matching (OpenCvSharp4, powered by OpenCV).
 
 ---
 
@@ -28,7 +28,7 @@ Building privacy tools for content creators, journalists, and anyone who needs t
 
 1. **Open** a video — via file picker or drag-and-drop.
 2. **Draw** a bounding box around the face you want to blur. Add multiple faces if needed.
-3. **Analyze** — Shutterface tracks each region across every frame using template matching.
+3. **Analyze** — ShutterFace tracks each region across every frame using template matching.
 4. **Export** — produce a blurred version of your video ready for sharing.
 
 ### Key features / Workflow
