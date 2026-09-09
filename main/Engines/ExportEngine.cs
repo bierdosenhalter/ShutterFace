@@ -54,7 +54,7 @@ namespace ShutterFace
 
                 ReportProgress?.Invoke(0);
 
-                for (int i = 0; i < totalFrames && model.IsExporting; i++)
+                for (int i = 0; i < totalFrames && model.Mode == InterfaceMode.Exporting; i++)
                 {
                     Mat exportFrame;
                     lock (model.VideoLock)

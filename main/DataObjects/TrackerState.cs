@@ -10,6 +10,15 @@ namespace ShutterFace
         Success,
     }
 
+    internal enum InterfaceMode
+    {
+        Idle,
+        DragCreate,
+        ResizeDraggingAnchor,
+        Analyzing,
+        Exporting,
+    }
+
     /// <summary>
     /// Shared state object for the whole player. Every service class receives
     /// one instance and reads/writes the same fields the form used to own.
@@ -30,17 +39,11 @@ namespace ShutterFace
         public int? SelectedTrackingIndex;
 
         // Mouse interaction state
-        public bool IsDragging;
+        public InterfaceMode Mode;
         public OpenCvSharp.Point DragStartPoint;
         public Rectangle? DragRectangle;
 
-        public bool IsResizing;
         public EdgeKind ResizeEdge;
-        public System.Drawing.Point ResizeStartPoint;
-
-        // Run state
-        public bool IsAnalyzing;
-        public bool IsExporting;
 
         // Change tracking
         public bool HasUnsavedChanges { get; set; }

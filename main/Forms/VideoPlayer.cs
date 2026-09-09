@@ -234,6 +234,10 @@ namespace ShutterFace
                 AddTrackingBtn.Enabled = true;
                 DeleteTrackingBtn.Enabled = true;
                 FrameSlider.Enabled = true;
+                mnuLoadTracking.Enabled = true;
+                mnuSaveTracking.Enabled = true;
+
+                _model.Mode = InterfaceMode.Idle;
                 UpdateTrackingListColors();
                 tsspProgressBar.Value = tsspProgressBar.Maximum;
                 tssStatusLabel.Text = ControlResourceManager.FormatString("StatusAnalyzingComplete", name);
@@ -256,11 +260,7 @@ namespace ShutterFace
             });
             _exporter.ReportFinished = msg => Invoke((MethodInvoker)delegate
             {
-                tsspProgressBar.Value = tsspProgressBar.Maximum;
-                tssStatusLabel.Text = ControlResourceManager.GetString("StatusExportComplete");
-                Text = ControlResourceManager.GetString("AppName");
-                mnuExportVideo.Enabled = true;
-                _model.IsExporting = false;
+                _model.Mode = InterfaceMode.Idle;
                 tsspProgressBar.Visible = false;
                 tssStatusLabel.Text = msg;
                 WriteLog(msg, LogSeverity.Success);
@@ -270,7 +270,7 @@ namespace ShutterFace
                 tsspProgressBar.Visible = false;
                 WriteLog(err, LogSeverity.Error);
                 mnuExportVideo.Enabled = true;
-                _model.IsExporting = false;
+                _model.Mode = InterfaceMode.Idle;
                 tssStatusLabel.Text = ControlResourceManager.FormatString("StatusExportingProgressFormat", ControlResourceManager.GetString("StatusExportComplete")).Replace("100%", ControlResourceManager.GetString("StatusExportComplete"));
             });
         }
@@ -329,6 +329,7 @@ namespace ShutterFace
             mnuLoadTracking.Enabled = true;
             FrameSlider.Enabled = true;
 
+            _model.Mode = InterfaceMode.Idle;
             UpdateTimeDisplay();
             WriteLog(ControlResourceManager.FormatString("MsgVideoLoaded", Path.GetFileName(path), totalFrames, _videoLoader.GetFps()), LogSeverity.Success);
         }
@@ -393,7 +394,7 @@ namespace ShutterFace
 
         private void FrameSlider_Scroll(object sender, EventArgs e)
         {
-            if (_model.IsAnalyzing || _model.IsExporting) return;
+            if (_model.Mode != InterfaceMode.Idle) return;
             LoadFrame(FrameSlider.Value);
 
             if (_model.CurrentFrame != null)
@@ -457,28 +458,29 @@ namespace ShutterFace
 
         private void PictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            if (_resizer.TryBeginResize(e.Location))
+            if (_resizer.TryBeginResize(e.Location, _model.Mode))
                 return;
 
-            if (!AddTrackingBtn.Enabled) return;
+            if (_model.Mode != InterfaceMode.Idle)
+                return;
 
             var (vx, vy) = _resizer.PointToVideo(e.Location);
             _model.DragStartPoint = new OpenCvSharp.Point(vx, vy);
-            _model.IsDragging = true;
+            _model.Mode = InterfaceMode.DragCreate;
             _model.DragRectangle = null;
         }
 
         private void PictureBox_MouseUp(object sender, MouseEventArgs e)
         {
-            if (!_model.IsDragging || !AddTrackingBtn.Enabled) return;
+            InterfaceMode wasCreate = _model.Mode == InterfaceMode.DragCreate ? InterfaceMode.DragCreate : InterfaceMode.Idle;
 
-            _model.IsDragging = false;
-            _model.IsResizing = false;
+            _model.ResizeEdge = default;
+            _model.Mode = InterfaceMode.Idle;
 
-            if (_model.DragRectangle.HasValue && _model.DragRectangle.Value.Width > 5 && _model.DragRectangle.Value.Height > 5)
+            if (wasCreate == InterfaceMode.DragCreate && _model.DragRectangle is { } rect && rect.Width > 5 && rect.Height > 5)
             {
                 var tracking = _trackingManager.CreateFromDrag(
-                    _model.DragRectangle.Value, _model.CurrentFrameIndex, _model.TotalFrames);
+                    rect, _model.CurrentFrameIndex, _model.TotalFrames);
 
                 var listViewItem = new ListViewItem(tracking.Name) { ImageKey = "not_analyzed" };
                 TrackingListView.Items.Add(listViewItem);
@@ -492,19 +494,20 @@ namespace ShutterFace
             }
 
             _model.DragRectangle = null;
+            AddTrackingBtn.Enabled = true;
             DisplayFrame(_model.CurrentFrame);
         }
 
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             // Hover feedback for resize handles of the selected tracking rectangle
-            if (!_model.IsDragging && !_model.IsResizing)
+            if (_model.Mode != InterfaceMode.DragCreate && _model.Mode != InterfaceMode.ResizeDraggingAnchor)
             {
                 Cursor? hoverCursor = _resizer.GetHoverCursor(e.Location);
                 VideoBox.Cursor = hoverCursor ?? Cursors.Default;
             }
 
-            if (_model.IsDragging && AddTrackingBtn.Enabled)
+            if (_model.Mode == InterfaceMode.DragCreate)
             {
                 var (videoX, videoY) = _resizer.PointToVideo(e.Location);
 
@@ -521,7 +524,7 @@ namespace ShutterFace
                 DisplayFrame(_model.CurrentFrame);
             }
 
-            if (_model.IsResizing && !AddTrackingBtn.Enabled)
+            if (_model.Mode == InterfaceMode.ResizeDraggingAnchor)
             {
                 var (videoX, videoY) = _resizer.PointToVideo(e.Location);
 
@@ -701,7 +704,9 @@ namespace ShutterFace
 
             tracking.ClearPositions();
 
-            _model.IsAnalyzing = true;
+            _model.DragRectangle = null;
+            _model.Mode = InterfaceMode.Analyzing;
+
             AnalyzeBtn.Visible = false;
             StopAnalyzeBtn.Visible = true;
             AddTrackingBtn.Enabled = false;
@@ -715,7 +720,7 @@ namespace ShutterFace
 
         private void StopAnalyzeBtn_Click(object sender, EventArgs e)
         {
-            _model.IsAnalyzing = false;
+            _model.Mode = InterfaceMode.Idle;
             if (_analysis.ActiveTracker != null)
             {
                 _analysis.ActiveTracker.EndFrame = _model.CurrentFrameIndex;
@@ -728,6 +733,8 @@ namespace ShutterFace
             FrameSlider.Enabled = true;
             mnuLoadTracking.Enabled = true;
             mnuSaveTracking.Enabled = true;
+
+            _model.Mode = InterfaceMode.Idle;
         }
 
         private void PerformAnalysis(TrackerBox tracking)
@@ -769,7 +776,7 @@ namespace ShutterFace
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                _model.IsExporting = true;
+                _model.Mode = InterfaceMode.Exporting;
                 mnuExportVideo.Enabled = false;
                 Text = ControlResourceManager.GetString("ExportingVideoTitle");
                 tssStatusLabel.Text = ControlResourceManager.FormatString("StatusExportingProgressFormat", 0);
@@ -788,7 +795,7 @@ namespace ShutterFace
                 foreach (var tracking in unanalyzedTracks)
                 {
                     tracking.ClearPositions();
-                    _model.IsAnalyzing = true;
+                    _model.Mode = InterfaceMode.Analyzing;
 
                     Invoke((MethodInvoker)delegate
                     {
@@ -797,6 +804,9 @@ namespace ShutterFace
                         AddTrackingBtn.Enabled = false;
                         DeleteTrackingBtn.Enabled = false;
                         FrameSlider.Enabled = false;
+
+                        _model.Mode = InterfaceMode.Idle;
+                        _model.DragRectangle = null;
                     });
 
                     _analysis.Analyze(tracking);
@@ -804,12 +814,14 @@ namespace ShutterFace
 
                 Invoke((MethodInvoker)delegate
                 {
-                    _model.IsAnalyzing = false;
+                    _model.Mode = InterfaceMode.Idle;
                     AnalyzeBtn.Visible = true;
                     StopAnalyzeBtn.Visible = false;
                     AddTrackingBtn.Enabled = true;
                     DeleteTrackingBtn.Enabled = true;
                     FrameSlider.Enabled = true;
+
+                    _model.Mode = InterfaceMode.Idle;
                 });
             });
         }
@@ -928,7 +940,7 @@ namespace ShutterFace
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            if (e.CloseReason == CloseReason.UserClosing && _model.HasUnsavedChanges && !_model.IsExporting)
+            if (e.CloseReason == CloseReason.UserClosing && _model.HasUnsavedChanges && _model.Mode != InterfaceMode.Idle)
             {
                 var result = MessageBox.Show(
                     ControlResourceManager.GetString("ConfirmUnsavedChanges"),
@@ -955,8 +967,7 @@ namespace ShutterFace
             base.OnFormClosing(e);
 
             // Signal background work to stop and release video resources
-            _model.IsAnalyzing = false;
-            _model.IsExporting = false;
+            _model.Mode = InterfaceMode.Idle;
 
             lock (_model.VideoLock)
             {

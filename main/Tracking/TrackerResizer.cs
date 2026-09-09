@@ -20,8 +20,11 @@ namespace ShutterFace
         /// Starts a resize when the pointer is on a handle of the selected tracking
         /// rectangle. Returns true when a resize was started.
         /// </summary>
-        public bool TryBeginResize(System.Drawing.Point pictureBoxPoint)
+        public bool TryBeginResize(System.Drawing.Point pictureBoxPoint, InterfaceMode InterfaceMode)
         {
+            if (InterfaceMode == InterfaceMode.DragCreate)
+                return false;
+
             if (model.SelectedTrackingIndex is not int selIdx || selIdx >= model.TrackingRects.Count)
                 return false;
 
@@ -39,15 +42,17 @@ namespace ShutterFace
             if (edge == EdgeKind.None)
                 return false;
 
-            model.IsResizing = true;
             model.ResizeEdge = edge;
-            model.ResizeStartPoint = pictureBoxPoint;
+            model.Mode = InterfaceMode.ResizeDraggingAnchor;
             return true;
         }
 
         /// <summary>Cursor for hover over the selected tracking rectangle, or null for default.</summary>
         public Cursor? GetHoverCursor(System.Drawing.Point pictureBoxPoint)
         {
+            if (model.Mode == InterfaceMode.DragCreate || model.Mode == InterfaceMode.ResizeDraggingAnchor)
+                return null;
+
             if (model.SelectedTrackingIndex is not int hoverIdx || hoverIdx >= model.TrackingRects.Count)
                 return null;
 

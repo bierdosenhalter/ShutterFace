@@ -33,7 +33,7 @@ namespace ShutterFace
 
             try
             {
-                for (int i = startFrame + 1; i <= tracking.EndFrame && model.IsAnalyzing; i++)
+                for (int i = startFrame + 1; i <= tracking.EndFrame && model.Mode == InterfaceMode.Analyzing; i++)
                 {
                     lock (model.VideoLock)
                     {
@@ -59,7 +59,7 @@ namespace ShutterFace
             }
 
             tracking.IsAnalyzed = true;
-            model.IsAnalyzing = false;
+            model.Mode = InterfaceMode.Idle;
             ReportFinished?.Invoke(tracking.Name, $"Analysis complete for {tracking.Name}");
         }
 
