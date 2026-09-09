@@ -82,6 +82,11 @@ namespace MotionTrackerFaceBlur
                     model.CurrentFrameIndex = frameIndex;
                     frameRead = true;
                 }
+                else
+                {
+                    model.CurrentFrame.Dispose();
+                    model.CurrentFrame = null!;
+                }
             }
 
             if (frameRead && display)
