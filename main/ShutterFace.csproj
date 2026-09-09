@@ -13,6 +13,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="ShutterFace.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="../Test/**" />
     <EmbeddedResource Remove="../Test/**" />
     <None Remove="../Test/**" />

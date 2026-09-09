@@ -115,7 +115,7 @@ namespace ShutterFace
         /// Checks if at least one corner of the new rectangle overlaps with the previous rectangle.
         /// This prevents the tracker from jumping to unrelated areas.
         /// </summary>
-        public static bool IsEdgeInBounds(Rect newRect, Rect previousRect)
+        internal static bool IsEdgeInBounds(Rect newRect, Rect previousRect)
         {
             OpenCvSharp.Point[] newCorners =
             [

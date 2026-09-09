@@ -65,10 +65,4 @@ namespace ShutterFace
             Close();
         }
     }
-
-    internal static class SettingsFormDesigner
-    {
-        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
-        public static SettingsForm CreateDefault() => new();
-    }
 }
