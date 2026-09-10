@@ -19,7 +19,7 @@
 - [x] Anchors (N, S, E, W) poorly placed — corner fine but edges positions off
 
 ## 6. Global grid blur (Schwer)
-- [ ] Divide frame into equal-sized cells; each cell uses one blur radius so adjacent rects share consistent style
+- [ ] Divide frame into equal-sized cells; each cell uses one blur radius so adjacent blur rects share consistent style
 - [ ] Configurable cell size (default ~5% of video dimensions) or presets
 
 ## 7. Persist analysis state on save (Schwer)

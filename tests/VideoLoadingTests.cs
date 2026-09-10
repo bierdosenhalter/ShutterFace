@@ -1,4 +1,5 @@
 using OpenCvSharp;
+using ShutterFace.DataObjects;
 using ShutterFace.FileHandling;
 using ShutterFace.Tracking;
 
@@ -155,7 +156,7 @@ public class TrackerStaticMethodTests
         var newRect = new Rect(newX, newY, newW, newH);
         var previousRect = new Rect(prevX, prevY, prevW, prevH);
 
-        Assert.True(Tracker.IsEdgeInBounds(newRect, previousRect));
+        Assert.True(Tracking.Tracker.IsEdgeInBounds(newRect, previousRect));
     }
 
     [Theory]
@@ -167,7 +168,7 @@ public class TrackerStaticMethodTests
         var newRect = new Rect(newX, newY, newW, newH);
         var previousRect = new Rect(prevX, prevY, prevW, prevH);
 
-        Assert.True(Tracker.IsEdgeInBounds(newRect, previousRect));
+        Assert.True(Tracking.Tracker.IsEdgeInBounds(newRect, previousRect));
     }
 
     [Theory]
@@ -179,7 +180,7 @@ public class TrackerStaticMethodTests
         var newRect = new Rect(newX, newY, newW, newH);
         var previousRect = new Rect(prevX, prevY, prevW, prevH);
 
-        Assert.True(Tracker.IsEdgeInBounds(newRect, previousRect));
+        Assert.True(Tracking.Tracker.IsEdgeInBounds(newRect, previousRect));
     }
 
     [Theory]
@@ -191,6 +192,6 @@ public class TrackerStaticMethodTests
         var newRect = new Rect(newX, newY, newW, newH);
         var previousRect = new Rect(prevX, prevY, prevW, prevH);
 
-        Assert.False(Tracker.IsEdgeInBounds(newRect, previousRect));
+        Assert.False(Tracking.Tracker.IsEdgeInBounds(newRect, previousRect));
     }
 }

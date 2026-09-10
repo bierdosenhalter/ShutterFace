@@ -61,8 +61,7 @@ namespace ShutterFace.Converters
 
         public override void Write(Utf8JsonWriter writer, Rect value, JsonSerializerOptions options)
         {
-            if (writer == null)
-                throw new ArgumentNullException(nameof(writer));
+            ArgumentNullException.ThrowIfNull(writer);
 
             writer.WriteStartObject();
             writer.WriteNumber("X", value.X);

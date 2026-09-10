@@ -73,17 +73,7 @@ namespace ShutterFace.Engines
 
                     exportFrame = model.CurrentFrame.Clone();
 
-                    foreach (var tracking in model.TrackingRects)
-                    {
-                        if (i >= tracking.StartFrame && i <= tracking.EndFrame)
-                        {
-                            Rect? rect = tracking.GetRectAtFrame(i) ?? tracking.InitialRect;
-                            if (rect.HasValue)
-                            {
-                                PixelateRegion(exportFrame, rect.Value, model.BigPixels);
-                            }
-                        }
-                    }
+                    GridBlurFrames(exportFrame, i, model, width, height);
 
                     writer.Write(exportFrame);
                     exportFrame.Dispose();
@@ -100,6 +90,131 @@ namespace ShutterFace.Engines
             {
                 ReportFailed?.Invoke(ControlResourceManager.FormatString("ErrExportVideo", ex.Message));
             }
+        }
+
+        /// <summary>
+        /// Divides the frame into a grid and applies pixelation with cell-level blur consistency.
+        /// Adjacent cells covered by overlapping tracking rectangles share the same block size
+        /// for uniform visual appearance.
+        /// </summary>
+        private static void GridBlurFrames(Mat frame, int frameIndex, TrackerState state, int width, int height)
+        {
+            int cellSize = Math.Max(1, state.BlurCellSize);
+            int gridCols = (width + cellSize - 1) / cellSize;
+            int gridRows = (height + cellSize - 1) / cellSize;
+
+            // Collect effective blur values for each covered cell
+            var cellBigPixels = new Dictionary<int, List<float>>();
+
+            foreach (var tracking in state.TrackingRects)
+            {
+                if (frameIndex < tracking.StartFrame || frameIndex > tracking.EndFrame)
+                    continue;
+
+                Rect? rect = tracking.GetRectAtFrame(frameIndex) ?? tracking.InitialRect;
+                if (!rect.HasValue)
+                    continue;
+
+                var r = rect.Value;
+
+                // Clip to frame bounds for cell calculation
+                int x0 = Math.Max(0, r.X);
+                int y0 = Math.Max(0, r.Y);
+                int x1 = Math.Min(width, r.X + r.Width);
+                int y1 = Math.Min(height, r.Y + r.Height);
+
+                if (x0 >= x1 || y0 >= y1)
+                    continue;
+
+                int colStart = x0 / cellSize;
+                int rowStart = y0 / cellSize;
+                int colEnd = (x1 - 1) / cellSize + 1;
+                int rowEnd = (y1 - 1) / cellSize + 1;
+
+                foreach (int row in Enumerable.Range(rowStart, rowEnd - rowStart))
+                {
+                    foreach (int col in Enumerable.Range(colStart, colEnd - colStart))
+                    {
+                        int cellKey = row * gridCols + col;
+                        if (!cellBigPixels.TryGetValue(cellKey, out var values))
+                        {
+                            values = [];
+                            cellBigPixels[cellKey] = values;
+                        }
+
+                        // Weight by coverage area so overlapping rectangles contribute proportionally
+                        int cellX = col * cellSize;
+                        int cellY = row * cellSize;
+                        int cellW = Math.Min(cellSize, width - col * cellSize);
+                        int cellH = Math.Min(cellSize, height - row * cellSize);
+
+                        int overlapX = Math.Min(x1, cellX + cellW) - Math.Max(x0, cellX);
+                        int overlapY = Math.Min(y1, cellY + cellH) - Math.Max(y0, cellY);
+
+                        if (overlapX > 0 && overlapY > 0)
+                        {
+                            float weight = (float)(overlapX * overlapY) / (cellW * cellH);
+                            values.Add(weight * state.BigPixels);
+                        }
+                    }
+                }
+            }
+
+            // Apply pixelation per-cell with weighted average block size using inverse-square mean
+            foreach (var kvp in cellBigPixels)
+            {
+                if (kvp.Value.Count == 0)
+                    continue;
+
+                int row = kvp.Key / gridCols;
+                int col = kvp.Key % gridCols;
+                float effectiveBigPixels = ComputeEffectiveBigPixels(kvp.Value);
+
+                int x = col * cellSize;
+                int y = row * cellSize;
+                int cellW = Math.Min(cellSize, width - col * cellSize);
+                int cellH = Math.Min(cellSize, height - row * cellSize);
+
+                if (cellW <= 0 || cellH <= 0)
+                    continue;
+
+                Rect cellRect = new(x, y, cellW, cellH);
+                PixelateRegion(frame, cellRect, (int)Math.Round(effectiveBigPixels));
+            }
+        }
+
+        internal static float ComputeEffectiveBigPixels(List<float> values)
+        {
+            if (values.Count == 1)
+                return values[0];
+
+            // Harmonic-mean weighting: cells covered by multiple rectangles use a
+            // conservative (lower big-pixels = more blur) value with heavier weight.
+            float sumWeights = 0f;
+            float sumInverse = 0f;
+
+            foreach (var v in values)
+            {
+                if (v > 0)
+                {
+                    float inv = 1f / v;
+                    sumInverse += inv * inv;
+                    sumWeights += v;
+                }
+            }
+
+            if (sumInverse == 0f)
+                return 16f;
+
+            // Weighted RMS: sqrt(sum(v^2)/count) for natural averaging of scale values
+            float weightedSum = 0f;
+            foreach (var v in values)
+            {
+                if (v > 0)
+                    weightedSum += v * v;
+            }
+
+            return (float)Math.Sqrt(weightedSum / values.Count);
         }
 
         /// <summary>

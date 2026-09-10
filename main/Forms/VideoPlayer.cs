@@ -1,4 +1,4 @@
-using OpenCvSharp;
+using Cv = OpenCvSharp;
 using ShutterFace.DataObjects;
 using ShutterFace.Engines;
 using ShutterFace.FileHandling;
@@ -32,7 +32,7 @@ namespace ShutterFace
             _renderer = new FrameRenderer(_model) { Target = VideoBox };
             _resizer = new TrackerResizer(_model) { Renderer = _renderer };
             _trackingManager = new TrackerFactory(_model);
-            _analysis = new Tracker(_model) { FrameLoader = _videoLoader };
+            _analysis = new global::ShutterFace.Tracking.Tracker(_model) { FrameLoader = _videoLoader };
             _exporter = new ExportEngine(_model);
 
             WireCallbacks();
@@ -448,7 +448,7 @@ namespace ShutterFace
 
         #region Frame Display
 
-        private void DisplayFrame(Mat? frame)
+        private void DisplayFrame(Cv.Mat? frame)
         {
             if (frame == null) return;
             _renderer.RenderTo(frame, _model.SelectedTrackingIndex);

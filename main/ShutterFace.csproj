@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <AssemblyName>ShutterFace</AssemblyName>
     <RootNamespace>ShutterFace</RootNamespace>
-    <Version>1.0.11</Version>
+    <Version>1.0.12</Version>
     <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
