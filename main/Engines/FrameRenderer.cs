@@ -53,6 +53,13 @@ namespace ShutterFace.Engines
                     }
                 }
 
+                // Draw the drag-create preview on top of tracked rectangles.
+                if (model.DragRectangle.HasValue && model.DragRectangle.Value.Width > 0 && model.DragRectangle.Value.Height > 0)
+                {
+                    OpenCvSharp.Rect drRect = new(model.DragRectangle.Value.X, model.DragRectangle.Value.Y, model.DragRectangle.Value.Width, model.DragRectangle.Value.Height);
+                    Cv2.Rectangle(displayFrame, TrackerBox.GetClampedRect(drRect, model.CurrentFrame.Width, model.CurrentFrame.Height), Scalar.Magenta, 2);
+                }
+
                 Bitmap bitmap = displayFrame.ToBitmap();
 
                 void SetImage()
@@ -66,9 +73,9 @@ namespace ShutterFace.Engines
                 else
                     SetImage();
             }
-            catch (Exception e) when (e is not InvalidOperationException)
+            catch (Exception ex) when (ex is not InvalidOperationException)
             {
-                MessageBox.Show(e.Message);
+                MessageBox.Show(ex.Message);
             }
         }
 
