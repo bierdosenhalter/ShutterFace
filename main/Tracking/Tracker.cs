@@ -51,6 +51,9 @@ namespace ShutterFace.Tracking
                             ReportObjectLost?.Invoke(i);
                             break;
                         }
+
+                        var rect = tracking.PreviousRect.Value;
+                        tracking.AddFramePosition(i, rect);
                     }
 
                     int range = Math.Max(1, tracking.EndFrame - startFrame);
@@ -102,7 +105,11 @@ namespace ShutterFace.Tracking
                 tracking.InitialRect.Height
             );
 
-            return IsEdgeInBounds(newRect, tracking.PreviousRect.Value);
+            if (!IsEdgeInBounds(newRect, tracking.PreviousRect.Value))
+                return false;
+
+            tracking.PreviousRect = newRect;
+            return true;
         }
 
         /// <summary>
