@@ -174,7 +174,6 @@ namespace ShutterFace
             DeleteTrackingBtn.Text = ControlResourceManager.GetString("BtnDeleteTracking");
 
             gprTracking.Text = ControlResourceManager.GetString("GroupTrackingProperties");
-            btnSaveTracking.Text = ControlResourceManager.GetString("BtnSave");
             lblStartFrame.Text = ControlResourceManager.GetString("LabelStartFrame");
             txtBoxHeight.Tag = ControlResourceManager.GetString("LabelHeight");
             labelHeight.Text = ControlResourceManager.GetString("LabelHeight");
@@ -270,6 +269,7 @@ namespace ShutterFace
             _exporter.ReportFinished = msg => Invoke((MethodInvoker)delegate
             {
                 _model.Mode = InterfaceMode.Idle;
+                mnuExportVideo.Enabled = true;
                 tsspProgressBar.Visible = false;
                 tssStatusLabel.Text = msg;
                 WriteLog(msg, LogSeverity.Success);

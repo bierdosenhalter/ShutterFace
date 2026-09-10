@@ -31,7 +31,6 @@ namespace ShutterFace
             mainTable = new TableLayoutPanel();
             buttonLayoutPanel = new FlowLayoutPanel();
             gprTracking = new GroupBox();
-            btnSaveTracking = new Button();
             lblStartFrame = new Label();
             txtBoxHeight = new NumericUpDown();
             txtBoxWidth = new NumericUpDown();
@@ -204,7 +203,6 @@ namespace ShutterFace
             // 
             // gprTracking
             // 
-            gprTracking.Controls.Add(btnSaveTracking);
             gprTracking.Controls.Add(lblStartFrame);
             gprTracking.Controls.Add(txtBoxHeight);
             gprTracking.Controls.Add(txtBoxWidth);
@@ -223,14 +221,7 @@ namespace ShutterFace
             gprTracking.TabStop = false;
             gprTracking.Text = "Tracking Properties";
             // 
-            // btnSaveTracking
-            // 
-            btnSaveTracking.Location = new Point(8, 324);
-            btnSaveTracking.Name = "btnSaveTracking";
-            btnSaveTracking.Size = new Size(254, 44);
-            btnSaveTracking.TabIndex = 10;
-            btnSaveTracking.Text = "&Save";
-            // 
+        
             // lblStartFrame
             // 
             lblStartFrame.AutoSize = true;
@@ -427,7 +418,7 @@ namespace ShutterFace
             menuStripTop.Text = "menuStrip1";            // 
             // mnuFile
             // 
-            mnuFile.DropDownItems.AddRange(new ToolStripItem[] { mnuOpenVideo, mnuLoadTracking, mnuSaveTracking, toolStripSeparator1, mnuExportVideo, toolStripSeparator2, mnuSettings });
+            mnuFile.DropDownItems.AddRange(new ToolStripItem[] { mnuOpenVideo, mnuLoadTracking, mnuExportVideo, toolStripSeparator1, mnuSaveTracking, mnuSettings });
             mnuFile.Name = "mnuFile";
             mnuFile.Size = new Size(90, 36);
             mnuFile.Text = "&File";
@@ -567,7 +558,7 @@ namespace ShutterFace
         internal System.Windows.Forms.StatusStrip statusStripBottom;
         internal System.Windows.Forms.ToolStripStatusLabel tssStatusLabel;
         internal System.Windows.Forms.ToolStripProgressBar tsspProgressBar;
-        private Button btnSaveTracking;
+
         internal System.Windows.Forms.NumericUpDown txtBoxWidth;
         internal System.Windows.Forms.NumericUpDown txtBoxHeight;
         internal System.Windows.Forms.Label labelWidth;
