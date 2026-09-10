@@ -2,7 +2,7 @@ using OpenCvSharp;
 
 namespace ShutterFace.DataObjects
 {
-    public class TrackerBox
+    internal class TrackerBox
     {
         public string Name { get; set; } = null!;
         public int StartFrame { get; set; }
@@ -13,23 +13,14 @@ namespace ShutterFace.DataObjects
 
         private readonly Dictionary<int, Rect> framePositions = [];
 
-        // Method to get all frame positions
-        public Dictionary<int, Rect> GetRectPositions()
-        {
-            return new Dictionary<int, Rect>(framePositions);
-        }
+        public Dictionary<int, Rect> GetRectPositions() => new(framePositions);
 
-        // Method to remove a specific frame position
         public void RemoveFramePosition(int frameIndex)
         {
             framePositions.Remove(frameIndex);
         }
 
-        // Method to check if a frame has a tracked position
-        public bool HasTrackedPosition(int frameIndex)
-        {
-            return framePositions.ContainsKey(frameIndex);
-        }
+        public bool HasTrackedPosition(int frameIndex) => framePositions.ContainsKey(frameIndex);
 
         public void AddFramePosition(int frameIndex, Rect rect)
         {

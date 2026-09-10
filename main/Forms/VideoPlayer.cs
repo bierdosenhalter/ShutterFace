@@ -14,7 +14,7 @@ namespace ShutterFace
     /// TrackerResizer, TrackerFactory, Tracker, VideoExporter),
     /// which share state through TrackerState.
     /// </summary>
-    public partial class VideoPlayer : Form, IDisposable
+    public partial class VideoPlayer : Form
     {
         private readonly TrackerState _model = new();
         private readonly VideoLoader _videoLoader;
@@ -117,6 +117,7 @@ namespace ShutterFace
             };
         }
 
+        [System.Diagnostics.CodeAnalysis.DisallowNull]
         private ToolStripMenuItem? _langMenu;
 
         private void OnLanguageChanged(CultureInfo culture)
@@ -989,6 +990,12 @@ namespace ShutterFace
                 _model.CurrentFrame?.Dispose();
                 _model.CurrentFrame = null!;
             }
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            base.OnFormClosed(e);
+            _langMenu?.Dispose();
         }
 
         #endregion

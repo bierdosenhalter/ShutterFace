@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 namespace ShutterFace.Converters
 {
     // Custom JSON converter for OpenCvSharp.Rect
-    public class RectJsonConverter : JsonConverter<Rect>
+    internal class RectJsonConverter : JsonConverter<Rect>
     {
         public override Rect Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {

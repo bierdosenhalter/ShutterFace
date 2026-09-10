@@ -9,7 +9,7 @@ public class TrackerFactoryTests
     private readonly TrackerState _model = new();
 
     [Fact]
-    public void CreateFromDrag_NewTracking_GetsIncrementedName()
+    public void CreateFromDragNewTrackingGetsIncrementedName()
     {
         var factory = new TrackerFactory(_model);
         var drag = new System.Drawing.Rectangle(10, 20, 50, 60);
@@ -21,7 +21,7 @@ public class TrackerFactoryTests
     }
 
     [Fact]
-    public void CreateFromDrag_SecondTracking_GetsIncrementedName()
+    public void CreateFromDragSeondTrackingGetsIncrementedName()
     {
         var factory1 = new TrackerFactory(_model);
         var drag1 = new System.Drawing.Rectangle(5, 5, 40, 40);
@@ -37,7 +37,7 @@ public class TrackerFactoryTests
     }
 
     [Fact]
-    public void CreateFromDrag_SetsFrameRange()
+    public void CreateFromDragSetsFrameRange()
     {
         var factory = new TrackerFactory(_model);
         _model.TrackingRects.Clear();
@@ -50,7 +50,7 @@ public class TrackerFactoryTests
     }
 
     [Fact]
-    public void CreateFromDrag_SetsInitialRect()
+    public void CreateFromDragSetsInitialRect()
     {
         var factory = new TrackerFactory(_model);
         _model.TrackingRects.Clear();
@@ -65,7 +65,7 @@ public class TrackerFactoryTests
     }
 
     [Fact]
-    public void CreateFromDrag_AddsToListAndSetsSelected()
+    public void CreateFromDragAddsToListAndSetsSelected()
     {
         var factory = new TrackerFactory(_model);
         _model.TrackingRects.Clear();
@@ -78,7 +78,7 @@ public class TrackerFactoryTests
     }
 
     [Fact]
-    public void DeleteSelected_RemovesAtSelectedIndex()
+    public void DeleteSelectedRemovesAtSelectedIndex()
     {
         var factory1 = new TrackerFactory(_model);
         _model.TrackingRects.Clear();
@@ -97,7 +97,7 @@ public class TrackerFactoryTests
     }
 
     [Fact]
-    public void DeleteSelected_WithNoSelection_DoesNothing()
+    public void DeleteSelectedWithNoSelectionDoesNothing()
     {
         _model.SelectedTrackingIndex = null;
         var drag = new System.Drawing.Rectangle(10, 20, 50, 60);
@@ -111,7 +111,7 @@ public class TrackerFactoryTests
     }
 
     [Fact]
-    public void Selected_ReturnsCorrectItem()
+    public void SelectedReturnsCorrectItem()
     {
         _model.SelectedTrackingIndex = 1;
         var drag2 = new System.Drawing.Rectangle(50, 50, 40, 40);
@@ -124,7 +124,7 @@ public class TrackerFactoryTests
     }
 
     [Fact]
-    public void Selected_ReturnsNull_WhenIndexOutdated()
+    public void SelectedReturnsNullWhenIndexOutdated()
     {
         _model.SelectedTrackingIndex = 5;
         _model.TrackingRects.Add(new TrackerBox());
@@ -135,7 +135,7 @@ public class TrackerFactoryTests
     }
 
     [Fact]
-    public void Selected_ReturnsNull_WhenNoSelection()
+    public void SelectedReturnsNullWhenNoSelection()
     {
         _model.SelectedTrackingIndex = null;
         _model.TrackingRects.Add(new TrackerBox());
@@ -146,7 +146,7 @@ public class TrackerFactoryTests
     }
 
     [Fact]
-    public void ApplyProperties_CorrectlyChangesValues()
+    public void ApplyPropertiesCorrectlyChangesValues()
     {
         var factory1 = new TrackerFactory(_model);
         _model.TrackingRects.Clear();
@@ -165,7 +165,7 @@ public class TrackerFactoryTests
     }
 
     [Fact]
-    public void ApplyProperties_StartAfterEnd_CorrectsValues()
+    public void ApplyPropertiesStartAfterEndCorrectsValues()
     {
         var factory1 = new TrackerFactory(_model);
         _model.TrackingRects.Clear();
@@ -183,7 +183,7 @@ public class TrackerFactoryTests
     }
 
     [Fact]
-    public void ApplyProperties_WhenAnalyzed_CleansOutofRangeFrames()
+    public void ApplyPropertiesWhenAnalyzedCleansOutofRangeFrames()
     {
         var factory1 = new TrackerFactory(_model);
         _model.TrackingRects.Clear();
@@ -203,7 +203,7 @@ public class TrackerFactoryTests
     }
 
     [Fact]
-    public void ApplyProperties_WhenNotAnalyzed_ClearsPositions()
+    public void ApplyPropertiesWhenNotAnalyzedClearsPositions()
     {
         var factory1 = new TrackerFactory(_model);
         _model.TrackingRects.Clear();
@@ -220,7 +220,7 @@ public class TrackerFactoryTests
     }
 
     [Fact]
-    public void ApplyProperties_WhenNoSelection_DoesNothing()
+    public void ApplyPropertiesWhenNoSelectionDoesNothing()
     {
         _model.SelectedTrackingIndex = 99;
         var factory = new TrackerFactory(_model);
@@ -231,7 +231,7 @@ public class TrackerFactoryTests
     }
 
     [Fact]
-    public void ApplyProperties_NameEmpty_KeepsExistingName()
+    public void ApplyPropertiesNameEmptyKeepsExistingName()
     {
         var factory1 = new TrackerFactory(_model);
         _model.TrackingRects.Clear();
@@ -245,7 +245,7 @@ public class TrackerFactoryTests
     }
 
     [Fact]
-    public void ApplyProperties_NameNonEmpty_ChangesName()
+    public void ApplyPropertiesNameNonEmptyChangesName()
     {
         var factory1 = new TrackerFactory(_model);
         _model.TrackingRects.Clear();

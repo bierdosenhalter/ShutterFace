@@ -8,43 +8,43 @@ namespace ShutterFace.Tests;
 public class VideoLoaderTests
 {
     [Fact]
-    public void IsVideoFile_ValidMp4_ReturnsTrue()
+    public void IsVideoFileValidMp4ReturnsTrue()
     {
         Assert.True(VideoLoader.IsVideoFile("video.mp4"));
     }
 
     [Fact]
-    public void IsVideoFile_ValidAvi_ReturnsTrue()
+    public void IsVideoFileValidAviReturnsTrue()
     {
         Assert.True(VideoLoader.IsVideoFile("video.avi"));
     }
 
     [Fact]
-    public void IsVideoFile_ValidMov_ReturnsTrue()
+    public void IsVideoFileValidMovReturnsTrue()
     {
         Assert.True(VideoLoader.IsVideoFile("video.mov"));
     }
 
     [Fact]
-    public void IsVideoFile_ValidWmv_ReturnsTrue()
+    public void IsVideoFileValidWmvReturnsTrue()
     {
         Assert.True(VideoLoader.IsVideoFile("video.wmv"));
     }
 
     [Fact]
-    public void IsVideoFile_ValidMkv_ReturnsTrue()
+    public void IsVideoFileValidMkvReturnsTrue()
     {
         Assert.True(VideoLoader.IsVideoFile("video.mkv"));
     }
 
     [Fact]
-    public void IsVideoFile_ValidFlv_ReturnsTrue()
+    public void IsVideoFileValidFlvReturnsTrue()
     {
         Assert.True(VideoLoader.IsVideoFile("video.flv"));
     }
 
     [Fact]
-    public void IsVideoFile_ValidWebm_ReturnsTrue()
+    public void IsVideoFileValidWebmReturnsTrue()
     {
         Assert.True(VideoLoader.IsVideoFile("video.webm"));
     }
@@ -56,13 +56,13 @@ public class VideoLoaderTests
     [InlineData("document.pdf")]
     [InlineData("audio.mp3")]
     [InlineData("video.unknown")]
-    public void IsVideoFile_InvalidOrEmptyPath_ReturnsFalse(string? path)
+    public void IsVideoFileInvalidOrEmptyPathReturnsFalse(string? path)
     {
         Assert.False(VideoLoader.IsVideoFile(path!));
     }
 
     [Fact]
-    public void OpenVideo_ValidVideo_ReturnsTrueAndSetsTotalFrames()
+    public void OpenVideoValidVideoReturnsTrueAndSetsTotalFrames()
     {
         var model = new TrackerState();
         var loader = new VideoLoader(model);
@@ -77,7 +77,7 @@ public class VideoLoaderTests
     }
 
     [Fact]
-    public void OpenVideo_NonExistentFile_ReturnsFalseAndDisposesNull()
+    public void OpenVideoNonExistentFileReturnsFalseAndDisposesNull()
     {
         var model = new TrackerState();
         var loader = new VideoLoader(model);
@@ -90,7 +90,7 @@ public class VideoLoaderTests
     }
 
     [Fact]
-    public void IsOpen_ReturnsFalseBeforeOpening()
+    public void IsOpenReturnsFalseBeforeOpening()
     {
         var model = new TrackerState();
         var loader = new VideoLoader(model);
@@ -99,7 +99,7 @@ public class VideoLoaderTests
     }
 
     [Fact]
-    public void IsOpen_ReturnsTrueAfterSuccessfulOpen()
+    public void IsOpenReturnsTrueAfterSuccessfulOpen()
     {
         var model = new TrackerState();
         var loader = new VideoLoader(model);
@@ -112,7 +112,7 @@ public class VideoLoaderTests
     }
 
     [Fact]
-    public void LoadFrame_SeeksCorrectFrame_ReturnsNonNullFrame()
+    public void LoadFrameSeeksCorrectFrameReturnsNonNullFrame()
     {
         var model = new TrackerState();
         var loader = new VideoLoader(model);
@@ -150,7 +150,7 @@ public class TrackerStaticMethodTests
     [InlineData(0, 0, 100, 100, 50, 50, 50, 150)] // newRect overlaps previousRect corners (bottom right)
     [InlineData(50, 50, 150, 150, 0, 0, 100, 100)] // newRect contains previousRect entirely
     [InlineData(0, 0, 100, 100, 90, 90, 200, 200)] // newRect contains a corner of previousRect
-    public void IsEdgeInBounds_OverlappingRects_ReturnsTrue(int newX, int newY, int newW, int newH,
+    public void IsEdgeInBoundsOverlappingRectsReturnsTrue(int newX, int newY, int newW, int newH,
         int prevX, int prevY, int prevW, int prevH)
     {
         var newRect = new Rect(newX, newY, newW, newH);
@@ -162,7 +162,7 @@ public class TrackerStaticMethodTests
     [Theory]
     [InlineData(95, 100, 10, 10, 0, 0, 105, 110)] // newRect corner (105,100) overlaps previousRect edge at X=105
     [InlineData(48, 98, 6, 4, 0, 0, 100, 100)]      // small overlapping rect near corner of previousRect
-    public void IsEdgeInBounds_SlightlyOverlapping_ReturnsTrue(int newX, int newY, int newW, int newH,
+    public void IsEdgeInBoundsSlightlyOverlappingReturnsTrue(int newX, int newY, int newW, int newH,
         int prevX, int prevY, int prevW, int prevH)
     {
         var newRect = new Rect(newX, newY, newW, newH);
@@ -174,7 +174,7 @@ public class TrackerStaticMethodTests
     [Theory]
     [InlineData(50, 100, 50, 50, 0, 0, 100, 100)] // newRect starts at previousRect bottom edge (touching at Y=100)
     [InlineData(0, 56, 100, 43, 0, 0, 100, 100)]   // overlapping vertically enough for corner test
-    public void IsEdgeInBounds_AdjacentEdges_ReturnsTrue(int newX, int newY, int newW, int newH,
+    public void IsEdgeInBoundsAdjacentEdgesReturnsTrue(int newX, int newY, int newW, int newH,
         int prevX, int prevY, int prevW, int prevH)
     {
         var newRect = new Rect(newX, newY, newW, newH);
@@ -186,7 +186,7 @@ public class TrackerStaticMethodTests
     [Theory]
     [InlineData(200, 200, 50, 50, 0, 0, 100, 100)] // completely far away
     [InlineData(300, 400, 10, 10, 0, 0, 100, 100)] // very small rect far away from previousRect
-    public void IsEdgeInBounds_DistanceTooFar_ReturnsFalse(int newX, int newY, int newW, int newH,
+    public void IsEdgeInBoundsDistanceTooFarReturnsFalse(int newX, int newY, int newW, int newH,
         int prevX, int prevY, int prevW, int prevH)
     {
         var newRect = new Rect(newX, newY, newW, newH);

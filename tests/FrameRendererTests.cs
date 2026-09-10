@@ -7,7 +7,7 @@ namespace ShutterFace.Tests;
 public class TrackerStoreTests
 {
     [Fact]
-    public void Serialize_TrackingRects_AndVideoPath_ReturnsJson()
+    public void SerializeTrackingRectsAndVideoPathReturnsJson()
     {
         var rects = new List<TrackerBox>
         {
@@ -23,13 +23,13 @@ public class TrackerStoreTests
 
         var json = TrackerStore.Serialize(rects, "/path/to/video.mp4");
 
-        Assert.Contains("\"VideoPath\"", json);
-        Assert.Contains("/path/to/video.mp4", json);
-        Assert.Contains("\"Face 1\"", json);
+        Assert.Contains("\"VideoPath\"", json, StringComparison.Ordinal);
+        Assert.Contains("/path/to/video.mp4", json, StringComparison.Ordinal);
+        Assert.Contains("\"Face 1\"", json, StringComparison.Ordinal);
     }
 
     [Fact]
-    public void Deserialize_ValidJson_ReturnsCorrectData()
+    public void DeserializeValidJsonReturnsCorrectData()
     {
         var rect = new TrackerBox
         {
@@ -54,7 +54,7 @@ public class TrackerStoreTests
     }
 
     [Fact]
-    public void SerializeDeserialize_EmptyList_RoundsTrip()
+    public void SerializeDeserializeEmptyListRoundsTrip()
     {
         var json = TrackerStore.Serialize([], "/empty.mp4");
         var result = TrackerStore.Deserialize(json);
@@ -65,7 +65,7 @@ public class TrackerStoreTests
     }
 
     [Fact]
-    public void Deserialize_NullJson_ReturnsNull()
+    public void DeserializeNullJsonReturnsNull()
     {
         var result = TrackerStore.Deserialize(null!);
 
@@ -73,7 +73,7 @@ public class TrackerStoreTests
     }
 
     [Fact]
-    public void Serialize_MultipleRects_PreservesAllData()
+    public void SerializeMultipleRectsPreservesAllData()
     {
         var rects = new List<TrackerBox>
         {

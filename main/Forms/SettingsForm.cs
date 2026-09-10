@@ -2,7 +2,7 @@ using ShutterFace.Resources;
 
 namespace ShutterFace
 {
-    public partial class SettingsForm : Form
+    internal partial class SettingsForm : Form
     {
         private int _blurCellSize;
         private int _bigPixels;

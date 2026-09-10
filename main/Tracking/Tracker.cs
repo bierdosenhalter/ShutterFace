@@ -80,43 +80,29 @@ namespace ShutterFace.Tracking
             if (tracking.PreviousRect == null || model.VideoCapture == null || model.CurrentFrame == null)
                 return false;
 
-            Mat previousFrame = new();
+            using Mat previousFrame = new();
             model.VideoCapture.Set(VideoCaptureProperties.PosFrames, Math.Max(0, frameIndex - 1));
             model.VideoCapture.Read(previousFrame);
 
             if (previousFrame.Empty()) return false;
 
-            Mat template = new(previousFrame, tracking.PreviousRect.Value);
-            Mat result = new();
+            using var template = new Mat(previousFrame, tracking.PreviousRect.Value);
+            using var result = new Mat();
 
-            try
-            {
-                Cv2.MatchTemplate(model.CurrentFrame, template, result, TemplateMatchModes.CCoeffNormed);
-                Cv2.MinMaxLoc(result, out _, out double maxVal, out _, out OpenCvSharp.Point maxLoc);
+            Cv2.MatchTemplate(model.CurrentFrame, template, result, TemplateMatchModes.CCoeffNormed);
+            Cv2.MinMaxLoc(result, out _, out double maxVal, out _, out OpenCvSharp.Point maxLoc);
 
-                if (maxVal <= model.ConfidenceThreshold)
-                    return false;
+            if (maxVal <= model.ConfidenceThreshold)
+                return false;
 
-                var newRect = new Rect(
-                    maxLoc.X,
-                    maxLoc.Y,
-                    tracking.InitialRect.Width,
-                    tracking.InitialRect.Height
-                );
+            var newRect = new Rect(
+                maxLoc.X,
+                maxLoc.Y,
+                tracking.InitialRect.Width,
+                tracking.InitialRect.Height
+            );
 
-                if (!IsEdgeInBounds(newRect, tracking.PreviousRect.Value))
-                    return false;
-
-                tracking.PreviousRect = newRect;
-                tracking.AddFramePosition(frameIndex, newRect);
-                return true;
-            }
-            finally
-            {
-                template.Dispose();
-                result.Dispose();
-                previousFrame.Dispose();
-            }
+            return IsEdgeInBounds(newRect, tracking.PreviousRect.Value);
         }
 
         /// <summary>

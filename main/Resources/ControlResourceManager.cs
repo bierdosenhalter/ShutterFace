@@ -15,14 +15,9 @@ namespace ShutterFace.Resources
             new CultureInfo("de-DE"),
         };
 
-        private static CultureInfo _currentCulture;
+        private static CultureInfo _currentCulture = CultureInfo.GetCultureInfo("en-US");
 
         private static readonly ConcurrentDictionary<string, string?> s_stringCache = new();
-
-        static ControlResourceManager()
-        {
-            _currentCulture = CultureInfo.GetCultureInfo("en-US");
-        }
 
         public static CultureInfo Culture
         {

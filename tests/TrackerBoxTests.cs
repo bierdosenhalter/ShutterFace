@@ -6,7 +6,7 @@ namespace ShutterFace.Tests;
 public class TrackerBoxTests
 {
     [Fact]
-    public void GetRectAtFrame_ReturnsExactPosition_WhenFrameHasTrackedPosition()
+    public void GetRectAtFrameReturnsExactPositionWhenFrameHasTrackedPosition()
     {
         var rect = new TrackerBox();
         rect.AddFramePosition(10, new Rect(100, 200, 50, 60));
@@ -19,7 +19,7 @@ public class TrackerBoxTests
     }
 
     [Fact]
-    public void GetRectAtFrame_ReturnsInterpolatedPosition_WhenFrameIsBetweenTrackedFrames()
+    public void GetRectAtFrameReturnsInterpolatedPositionWhenFrameIsBetweenTrackedFrames()
     {
         var rect = new TrackerBox();
         // Frame 0: (0, 0)
@@ -38,7 +38,7 @@ public class TrackerBoxTests
     }
 
     [Fact]
-    public void GetRectAtFrame_ReturnsFirstFramePosition_WhenBeforeFirstTrackedFrame()
+    public void GetRectAtFrameReturnsFirstFramePositionWhenBeforeFirstTrackedFrame()
     {
         var rect = new TrackerBox();
         rect.AddFramePosition(10, new Rect(500, 500, 80, 80));
@@ -50,7 +50,7 @@ public class TrackerBoxTests
     }
 
     [Fact]
-    public void GetRectAtFrame_ReturnsLastFramePosition_WhenAfterLastTrackedFrame()
+    public void GetRectAtFrameReturnsLastFramePositionWhenAfterLastTrackedFrame()
     {
         var rect = new TrackerBox();
         rect.AddFramePosition(10, new Rect(300, 400, 90, 90));
@@ -62,7 +62,7 @@ public class TrackerBoxTests
     }
 
     [Fact]
-    public void GetRectAtFrame_ReturnsNull_WhenNoTrackedPositions()
+    public void GetRectAtFrameReturnsNullWhenNoTrackedPositions()
     {
         var rect = new TrackerBox();
 
@@ -72,7 +72,7 @@ public class TrackerBoxTests
     }
 
     [Fact]
-    public void ClearPositions_ClearsAllState()
+    public void ClearPositionsClearsAllState()
     {
         var rect = new TrackerBox();
         rect.AddFramePosition(0, new Rect(0, 0, 100, 100));
@@ -87,7 +87,7 @@ public class TrackerBoxTests
     }
 
     [Fact]
-    public void RemoveFramePosition_RemovesSpecificFrame()
+    public void RemoveFramePositionRemovesSpecificFrame()
     {
         var rect = new TrackerBox();
         rect.AddFramePosition(0, new Rect(0, 0, 100, 100));
@@ -104,7 +104,7 @@ public class TrackerBoxTests
     }
 
     [Fact]
-    public void GetRectPosition_ReturnsCopyOfPositions()
+    public void GetRectPositionReturnsCopyOfPositions()
     {
         var rect = new TrackerBox();
         rect.AddFramePosition(0, new Rect(0, 0, 100, 100));
@@ -118,7 +118,7 @@ public class TrackerBoxTests
     }
 
     [Fact]
-    public void AddFramePosition_OverwritesExistingFrame()
+    public void AddFramePositionOverwritesExistingFrame()
     {
         var rect = new TrackerBox();
         rect.AddFramePosition(5, new Rect(10, 20, 30, 40));

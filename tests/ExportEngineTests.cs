@@ -7,7 +7,7 @@ namespace ShutterFace.Tests;
 public class ExportEngineTests
 {
     [Fact]
-    public void PixelateRegion_ZeroBigPixels_ReturnsEarly()
+    public void PixelateRegionZeroBigPixelsReturnsEarly()
     {
         using var image = new Mat(50, 50, MatType.CV_8UC3, Scalar.White);
         Rect region = new(0, 0, 24, 24);
@@ -15,7 +15,7 @@ public class ExportEngineTests
     }
 
     [Fact]
-    public void PixelateRegion_SinglePixelBlock_DoesNotCrash()
+    public void PixelateRegionSinglePixelBlockDoesNotCrash()
     {
         using var image = new Mat(24, 24, MatType.CV_8UC3, Scalar.White);
         Rect region = new(0, 0, 12, 12);
@@ -23,7 +23,7 @@ public class ExportEngineTests
     }
 
     [Fact]
-    public void PixelateStandardRect_FillsRegion_CreatesPixelation()
+    public void PixelateStandardRectFillRegionCreatesPixelation()
     {
         using var image = new Mat(100, 100, MatType.CV_8UC3, Scalar.White);
         Rect region = new(25, 25, 50, 50);
@@ -35,7 +35,7 @@ public class ExportEngineTests
     }
 
     [Fact]
-    public void PixelateRegion_PartiallyOutsideImage_CropstoValidBounds()
+    public void PixelateRegionPartiallyOutsideImageCropstoValidBounds()
     {
         using var image = new Mat(50, 50, MatType.CV_8UC3, Scalar.White);
         Rect region = new(40, 40, 20, 20);
@@ -47,7 +47,7 @@ public class ExportEngineTests
     }
 
     [Fact]
-    public void PixelateRegion_FullyOutsideImage_NoError()
+    public void PixelateRegionFullyOutsideImageNoError()
     {
         using var image = new Mat(50, 50, MatType.CV_8UC3, Scalar.White);
         Rect region = new(-20, -20, 100, 100);
@@ -59,7 +59,7 @@ public class ExportEngineTests
     }
 
     [Fact]
-    public void PixelateRegion_ZeroBigPixels_DoesNotCrash()
+    public void PixelateRegionZeroBigPixelsDoesNotCrash()
     {
         using var image = new Mat(100, 100, MatType.CV_8UC3, Scalar.White);
         Rect region = new(10, 10, 50, 50);
@@ -70,7 +70,7 @@ public class ExportEngineTests
     }
 
     [Fact]
-    public void PixelateRegion_LargeBigPixels_DoesNotCrash()
+    public void PixelateRegionLargeBigPixelsDoesNotCrash()
     {
         using var image = new Mat(100, 100, MatType.CV_8UC3, Scalar.White);
         Rect region = new(10, 10, 50, 50);
@@ -81,7 +81,7 @@ public class ExportEngineTests
     }
 
     [Fact]
-    public void PixelateRegion_SinglePixelRegion_DoesNotCrash()
+    public void PixelateRegionSinglePixelRegionDoesNotCrash()
     {
         using var image = new Mat(100, 100, MatType.CV_8UC3, Scalar.White);
         Rect region = new(50, 50, 1, 1);
@@ -92,7 +92,7 @@ public class ExportEngineTests
     }
 
     [Fact]
-    public void PixelateRegion_SmallNegativePosition_AdjustedToZero()
+    public void PixelateRegionSmallNegativePositionAdjustedToZero()
     {
         using var image = new Mat(50, 50, MatType.CV_8UC3, Scalar.White);
         Rect region = new(-40, -30, 60, 60);
@@ -103,7 +103,7 @@ public class ExportEngineTests
     }
 
     [Fact]
-    public void PixelateRegion_MixedBoundaries_SomePositiveSomeNegative()
+    public void PixelateRegionMixedBoundariesSomePositiveSomeNegative()
     {
         using var image = new Mat(50, 50, MatType.CV_8UC3, Scalar.White);
         Rect region = new(-10, 20, 60, 30);
@@ -114,7 +114,7 @@ public class ExportEngineTests
     }
 
     [Fact]
-    public void ComputeEffectiveBigPixels_SingleValue_ReturnsSameValue()
+    public void ComputeEffectiveBigPixelsSingleValueReturnsSameValue()
     {
         var values = new List<float> { 16f };
         var result = ExportEngine.ComputeEffectiveBigPixels(values);
@@ -123,7 +123,7 @@ public class ExportEngineTests
     }
 
     [Fact]
-    public void ComputeEffectiveBigPixels_TwoIdenticalValues_ReturnsSameValue()
+    public void ComputeEffectiveBigPixelsTwoIdenticalValuesReturnsSameValue()
     {
         var values = new List<float> { 8f, 8f };
         var result = ExportEngine.ComputeEffectiveBigPixels(values);
@@ -132,7 +132,7 @@ public class ExportEngineTests
     }
 
     [Fact]
-    public void ComputeEffectiveBigPixels_TwoDifferentValues_ReturnsRmsAverage()
+    public void ComputeEffectiveBigPixelsTwoDifferentValuesReturnsRmsAverage()
     {
         var values = new List<float> { 8f, 24f };
         var result = ExportEngine.ComputeEffectiveBigPixels(values);
@@ -143,7 +143,7 @@ public class ExportEngineTests
     }
 
     [Fact]
-    public void ComputeEffectiveBigPixels_AllZeros_ReturnsDefault()
+    public void ComputeEffectiveBigPixelsAllZerosReturnsDefault()
     {
         var values = new List<float> { 0f, 0f };
         var result = ExportEngine.ComputeEffectiveBigPixels(values);
@@ -152,7 +152,7 @@ public class ExportEngineTests
     }
 
     [Fact]
-    public void ComputeEffectiveBigPixels_MixedPositiveAndZero_ReturnsRmsOfPositivesOnly()
+    public void ComputeEffectiveBigPixelsMixedPositiveAndZeroReturnsRmsOfPositivesOnly()
     {
         var values = new List<float> { 0f, 8f, 0f };
         var result = ExportEngine.ComputeEffectiveBigPixels(values);
@@ -163,7 +163,7 @@ public class ExportEngineTests
     }
 
     [Fact]
-    public void GridBlurFrames_NoTrackingRects_FrameUnchanged()
+    public void GridBlurFramesNoTrackingRectsFrameUnchanged()
     {
         using var image = new Mat(320, 240, MatType.CV_8UC1, Scalar.White);
         var originalData = image.ToBytes();
@@ -180,7 +180,7 @@ public class ExportEngineTests
     }
 
     [Fact]
-    public void GridBlurFrames_FullyInsideRect_CorrectNumberOfCellsPixelated()
+    public void GridBlurFramesFullyInsideRectCorrectNumberOfCellsPixelated()
     {
         using var image = new Mat(160, 120, MatType.CV_8UC3, Scalar.White);
 
@@ -210,7 +210,7 @@ public class ExportEngineTests
     }
 
     [Fact]
-    public void GridBlurFrames_OutOfBoundsRect_ClinpedCorrectly()
+    public void GridBlurFramesOutOfBoundsRectClinpedCorrectly()
     {
         using var image = new Mat(100, 100, MatType.CV_8UC3, Scalar.White);
 
@@ -239,7 +239,7 @@ public class ExportEngineTests
     }
 
     [Fact]
-    public void GridBlurFrames_SmallCellSize_MoreCellsCovered()
+    public void GridBlurFramesSmallCellSizeMoreCellsCovered()
     {
         using var image = new Mat(200, 200, MatType.CV_8UC3, Scalar.White);
 

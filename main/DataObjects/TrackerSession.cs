@@ -1,9 +1,9 @@
 namespace ShutterFace.DataObjects
 {
     [Serializable]
-    public class TrackerSession
+    internal sealed class TrackerSession
     {
-        public List<TrackerBox> TrackingRects { get; set; } = new();
+        public List<TrackerBox> TrackingRects { get; init; } = new();
         public string VideoPath { get; set; } = string.Empty;
     }
 }
