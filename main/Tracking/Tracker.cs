@@ -89,7 +89,12 @@ namespace ShutterFace.Tracking
 
             if (previousFrame.Empty()) return false;
 
-            using var template = new Mat(previousFrame, tracking.PreviousRect.Value);
+            // Clamp to frame bounds to prevent out-of-bounds Mat constructor crash.
+            var clampedRect = TrackerBox.GetClampedRect(tracking.PreviousRect.Value, previousFrame.Width, previousFrame.Height);
+            if (clampedRect.Width <= 0 || clampedRect.Height <= 0)
+                return false;
+
+            using var template = new Mat(previousFrame, clampedRect);
             using var result = new Mat();
 
             Cv2.MatchTemplate(model.CurrentFrame, template, result, TemplateMatchModes.CCoeffNormed);

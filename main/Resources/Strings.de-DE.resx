@@ -21,6 +21,9 @@
   <data name="GroupBlur" xml:space="preserve">
     <value>Weichzeichnungs-Einstellungen</value>
   </data>
+  <data name="LabelGridCellSize" xml:space="preserve">
+    <value>Pixelgröße:</value>
+  </data>
   <data name="LabelBlurring" xml:space="preserve">
     <value>Weichzeichnung:</value>
   </data>

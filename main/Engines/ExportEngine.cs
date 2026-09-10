@@ -99,11 +99,11 @@ namespace ShutterFace.Engines
         /// </summary>
         private static void GridBlurFrames(Mat frame, int frameIndex, TrackerState state, int width, int height)
         {
-            int cellSize = Math.Max(1, state.BlurCellSize);
+            int cellSize = state.GetGridCellSize(width, height);
             int gridCols = (width + cellSize - 1) / cellSize;
             int gridRows = (height + cellSize - 1) / cellSize;
 
-            // Collect effective blur values for each covered cell
+            // Collect effective blur values for each covered cell - all cells use the same cellSize as their pixel value
             var cellBigPixels = new Dictionary<int, List<float>>();
 
             foreach (var tracking in state.TrackingRects)
@@ -154,13 +154,13 @@ namespace ShutterFace.Engines
                         if (overlapX > 0 && overlapY > 0)
                         {
                             float weight = (float)(overlapX * overlapY) / (cellW * cellH);
-                            values.Add(weight * state.BigPixels);
+                            values.Add(weight * cellSize);
                         }
                     }
                 }
             }
 
-            // Apply pixelation per-cell with weighted average block size using inverse-square mean
+            // Apply pixelation per-cell with weighted average block count (square pixels)
             foreach (var kvp in cellBigPixels)
             {
                 if (kvp.Value.Count == 0)
@@ -234,17 +234,17 @@ namespace ShutterFace.Engines
             if (safeRegion.Width <= 0 || safeRegion.Height <= 0)
                 return;
 
-            if (bigPixels <= 0)
+            if (bigPixels < 2)
                 return;
 
             Mat roi = new(image, safeRegion);
 
-            int longestSide = Math.Max(safeRegion.Width, safeRegion.Height);
-            int dynamicBlockSize = Math.Max(1, longestSide / bigPixels);
-            dynamicBlockSize = Math.Max(dynamicBlockSize, 4);
+            int shortestSide = Math.Min(safeRegion.Width, safeRegion.Height);
+            int blockSize = Math.Max(1, shortestSide / bigPixels);
+            blockSize = Math.Max(blockSize, 4);
 
-            int smallWidth = Math.Max(1, safeRegion.Width / dynamicBlockSize);
-            int smallHeight = Math.Max(1, safeRegion.Height / dynamicBlockSize);
+            int smallWidth = Math.Max(1, safeRegion.Width / blockSize);
+            int smallHeight = Math.Max(1, safeRegion.Height / blockSize);
 
             Mat small = new();
             Cv2.Resize(roi, small, new OpenCvSharp.Size(smallWidth, smallHeight),

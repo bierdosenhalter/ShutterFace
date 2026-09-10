@@ -13,15 +13,18 @@ namespace ShutterFace.FileHandling
         private static readonly JsonSerializerOptions SerializerOptions = new()
         {
             WriteIndented = true,
+            IncludeFields = true,
             Converters = { new RectJsonConverter() }
         };
 
-        public static string Serialize(IReadOnlyList<TrackerBox> rects, string videoPath)
+        public static string Serialize(IReadOnlyList<TrackerBox> rects, string videoPath, int videoWidth = 0, int videoHeight = 0)
         {
             var data = new TrackerSession
             {
                 TrackingRects = [.. rects],
-                VideoPath = videoPath
+                VideoPath = videoPath,
+                VideoWidth = videoWidth,
+                VideoHeight = videoHeight
             };
 
             return JsonSerializer.Serialize(data, SerializerOptions);

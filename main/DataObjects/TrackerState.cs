@@ -48,9 +48,13 @@ namespace ShutterFace.DataObjects
         // Change tracking
         public bool HasUnsavedChanges { get; set; }
 
-        // Settings
-        public int BlurCellSize = 8;
-        public int BigPixels = 16;
+        // Settings — configurable via the settings dialog.
+        public int GridCellSizePixels { get; set; } = 96;
+
+        /// <summary>Computes the actual blur grid cell size for the given video dimensions.</summary>
+        public int GetGridCellSize(int videoWidth, int videoHeight)
+            => GridCellSizePixels > 0 ? GridCellSizePixels : 1;
+
         public float ConfidenceThreshold = 0.7f;
 
         /// <summary>

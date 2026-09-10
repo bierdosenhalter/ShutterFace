@@ -169,7 +169,6 @@ public class ExportEngineTests
         var originalData = image.ToBytes();
 
         var state = CreateDummyState(new List<TrackerBox>());
-        state.BlurCellSize = 8;
         var engine = new ExportEngine(state);
 
         // Invoke via reflection since GridBlurFrames is private
@@ -197,8 +196,6 @@ public class ExportEngineTests
 
         var rects = new List<TrackerBox> { trackerBox };
         var state = CreateDummyState(rects);
-        state.BlurCellSize = 10;
-        state.BigPixels = 16;
         var engine = new ExportEngine(state);
 
         var method = typeof(ExportEngine).GetMethod("GridBlurFrames", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!;
@@ -227,8 +224,6 @@ public class ExportEngineTests
 
         var rects = new List<TrackerBox> { trackerBox };
         var state = CreateDummyState(rects);
-        state.BlurCellSize = 10;
-        state.BigPixels = 16;
         var engine = new ExportEngine(state);
 
         var method = typeof(ExportEngine).GetMethod("GridBlurFrames", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!;
@@ -256,8 +251,6 @@ public class ExportEngineTests
         // Small cell size should create more cells
         var rects = new List<TrackerBox> { trackerBox };
         var stateTiny = CreateDummyState(rects);
-        stateTiny.BlurCellSize = 5;
-        stateTiny.BigPixels = 16;
         var method = typeof(ExportEngine).GetMethod("GridBlurFrames", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static)!;
 
         method.Invoke(null, new object?[] { image, 5, stateTiny, image.Width, image.Height });

@@ -31,6 +31,11 @@ namespace ShutterFace.Engines
                     if (!rect.HasValue)
                         continue;
 
+                    // Clamp to frame bounds so OpenCvSharp doesn't receive malformed rects.
+                    Rect clamped = TrackerBox.GetClampedRect(rect.Value, model.CurrentFrame.Width, model.CurrentFrame.Height);
+                    if (clamped.Width <= 0 || clamped.Height <= 0)
+                        continue;
+
                     Scalar color;
                     if (!tracking.IsAnalyzed)
                         color = Scalar.Red;
@@ -39,14 +44,12 @@ namespace ShutterFace.Engines
 
                     int thickness = i == selectedTrackingIndex ? 3 : 1;
 
-                    Cv2.Rectangle(displayFrame, rect.Value, color, thickness);
-                    Cv2.PutText(displayFrame, tracking.Name,
-                        new OpenCvSharp.Point(rect.Value.X, rect.Value.Y - 10),
-                        HersheyFonts.HersheySimplex, 0.5, color, 1);
+                    Cv2.Rectangle(displayFrame, clamped, color, thickness);
+                    Cv2.PutText(displayFrame, tracking.Name, new OpenCvSharp.Point(clamped.X, clamped.Y - 10), HersheyFonts.HersheySimplex, 0.5, color, 1);
 
                     if (i == selectedTrackingIndex)
                     {
-                        TrackerGeometry.DrawResizeHandles(displayFrame, rect.Value);
+                        TrackerGeometry.DrawResizeHandles(displayFrame, clamped);
                     }
                 }
 

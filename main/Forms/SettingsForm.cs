@@ -1,66 +1,93 @@
+using OpenCvSharp;
+using ShutterFace.DataObjects;
 using ShutterFace.Resources;
 
-namespace ShutterFace
+namespace ShutterFace;
+
+internal partial class SettingsForm : Form
 {
-    internal partial class SettingsForm : Form
+    private readonly AppConfigData _originalSettings;
+    private readonly TrackerState? _trackerState;
+    private int _displayValue;
+
+    public SettingsForm(AppConfigData settings, TrackerState? trackerState = null)
     {
-        private int _blurCellSize;
-        private int _bigPixels;
-        private float _confidenceThreshold;
+        _originalSettings = settings;
+        _trackerState = trackerState;
+        InitializeComponent();
+        LoadDefaults();
+    }
 
-        public SettingsForm()
-        {
-            InitializeComponent();
-            LoadDefaults();
-        }
+    public int GridCellSizePixels => _displayValue;
+    public float ConfidenceThreshold => (float)nudConfidenceThreshold.Value;
 
-        public int BlurCellSize => _blurCellSize;
-        public int BigPixels => _bigPixels;
-        public float ConfidenceThreshold => _confidenceThreshold;
+    private void LoadDefaults()
+    {
+        nudGridCellSize.Value = _originalSettings.GridCellSizePixels;
+        nudConfidenceThreshold.Value = (decimal)_originalSettings.ConfidenceThreshold;
+    }
 
-        private void LoadDefaults()
-        {
-            nudBlurCellSize.Value = 8m;
-            nudBigPixels.Value = 16m;
-            nudConfidenceThreshold.Value = 0.7m;
-        }
+    private void SettingsForm_Load(object? sender, EventArgs e)
+    {
+        nudGridCellSize.Minimum = 1;
+        nudGridCellSize.Maximum = 2000;
+        nudGridCellSize.Increment = 1m;
 
-        private void SettingsForm_Load(object? sender, EventArgs e)
-        {
-            nudBlurCellSize.Minimum = 2;
-            nudBlurCellSize.Maximum = 50;
-            nudBlurCellSize.Increment = 1m;
+        nudConfidenceThreshold.Minimum = 0.1m;
+        nudConfidenceThreshold.Maximum = 1m;
+        nudConfidenceThreshold.Increment = 0.05m;
 
-            nudBigPixels.Minimum = 4;
-            nudBigPixels.Maximum = 64;
-            nudBigPixels.Increment = 1m;
+        nudGridCellSize.ValueChanged += NudGridCellSize_ValueChanged;
 
-            nudConfidenceThreshold.Minimum = 0.1m;
-            nudConfidenceThreshold.Maximum = 1m;
-            nudConfidenceThreshold.Increment = 0.05m;
+        Text = ControlResourceManager.GetString("Form_Settings");
+        gbBlur.Text = ControlResourceManager.GetString("GroupBlur");
+        gbConfidence.Text = ControlResourceManager.GetString("GroupTracking");
+        lblGridCellSize.Text = ControlResourceManager.GetString("LabelGridCellSize");
+        lblConfidenceThreshold.Text = ControlResourceManager.GetString("LabelConfidenceThreshold");
 
-            Text = ControlResourceManager.GetString("Form_Settings");
-            gbBlur.Text = ControlResourceManager.GetString("GroupBlur");
-            gbConfidence.Text = ControlResourceManager.GetString("GroupTracking");
-            lblBlurCellSize.Text = ControlResourceManager.GetString("LabelBlurring");
-            lblBigPixels.Text = ControlResourceManager.GetString("LabelBigPixels");
-            lblConfidenceThreshold.Text = ControlResourceManager.GetString("LabelConfidenceThreshold");
-        }
+        nudGridCellSize.ValueChanged += NudGridCellSize_ValueChanged;
 
-        private void BtnSave_Click(object? sender, EventArgs e)
-        {
-            _blurCellSize = (int)nudBlurCellSize.Value;
-            _bigPixels = (int)nudBigPixels.Value;
-            _confidenceThreshold = (float)nudConfidenceThreshold.Value;
+        UpdateGridCellDisplay();
+    }
 
-            DialogResult = DialogResult.OK;
-            Close();
-        }
+    private void NudGridCellSize_ValueChanged(object? sender, EventArgs e)
+    {
+        _displayValue = (int)nudGridCellSize.Value;
+    }
 
-        private void BtnCancel_Click(object? sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-            Close();
-        }
+    private void UpdateGridCellDisplay()
+    {
+        if (_trackerState == null)
+            return;
+
+        int width = _trackerState.VideoCapture?.FrameWidth ?? 1920;
+        int height = _trackerState.VideoCapture?.FrameHeight ?? 1080;
+        if (width < 1 || height < 1)
+            return;
+
+        int cellSize = _trackerState.GetGridCellSize(Math.Max(1, width), Math.Max(1, height));
+        lblGridCellSize.Text = ControlResourceManager.GetString("LabelGridCellSize") + ": " + cellSize + "px";
+    }
+
+    private void BtnSave_Click(object? sender, EventArgs e)
+    {
+        _displayValue = (int)nudGridCellSize.Value;
+        float confidence = (float)nudConfidenceThreshold.Value;
+
+        var newSettings = new AppConfigData(
+            BigPixels: _originalSettings.BigPixels,
+            GridCellSizePixels: _displayValue,
+            ConfidenceThreshold: confidence);
+
+        AppConfig.Save(newSettings);
+
+        DialogResult = DialogResult.OK;
+        Close();
+    }
+
+    private void BtnCancel_Click(object? sender, EventArgs e)
+    {
+        DialogResult = DialogResult.Cancel;
+        Close();
     }
 }

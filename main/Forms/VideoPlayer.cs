@@ -28,6 +28,10 @@ namespace ShutterFace
         {
             InitializeComponent();
 
+            var config = AppConfig.LoadOrCreate();
+            _model.GridCellSizePixels = config.GridCellSizePixels;
+            _model.ConfidenceThreshold = config.ConfidenceThreshold;
+
             _videoLoader = new VideoLoader(_model);
             _renderer = new FrameRenderer(_model) { Target = VideoBox };
             _resizer = new TrackerResizer(_model) { Renderer = _renderer };
@@ -858,7 +862,22 @@ namespace ShutterFace
             {
                 try
                 {
-                    File.WriteAllText(saveFileDialog.FileName, TrackerStore.Serialize(_model.TrackingRects, _model.VideoPath));
+                    string json;
+
+                    // Store video dimensions alongside the session so we can detect mismatches on load.
+                    int? videoWidth = _model.CurrentFrame?.Width;
+                    int? videoHeight = _model.CurrentFrame?.Height;
+
+                    if (videoWidth.HasValue && videoHeight.HasValue)
+                    {
+                        json = TrackerStore.Serialize(_model.TrackingRects, _model.VideoPath, videoWidth.Value, videoHeight.Value);
+                    }
+                    else
+                    {
+                        json = TrackerStore.Serialize(_model.TrackingRects, _model.VideoPath);
+                    }
+
+                    File.WriteAllText(saveFileDialog.FileName, json);
                     WriteLog(ControlResourceManager.GetString("MsgTrackingSaved"), LogSeverity.Success);
                     _model.HasUnsavedChanges = false;
                 }
@@ -895,16 +914,15 @@ namespace ShutterFace
                     DeleteTrackingBtn.Enabled = false;
                     mnuSaveTracking.Enabled = false;
 
+                    // Warn if video dimensions mismatch with previously saved ones.
+                    bool dimsMismatch = trackerSession.VideoWidth > 0 || trackerSession.VideoHeight > 0;
+                    int? expectedW = trackerSession.VideoWidth > 0 ? (int?)trackerSession.VideoWidth : null;
+                    int? expectedH = trackerSession.VideoHeight > 0 ? (int?)trackerSession.VideoHeight : null;
+
                     foreach (var tracking in trackerSession.TrackingRects)
                     {
-                        // Reset analysis state for loaded tracks
-                        tracking.IsAnalyzed = false;
-                        tracking.PreviousRect = null;
-                        tracking.ClearPositions();
-
                         _model.TrackingRects.Add(tracking);
-                        _model.HasUnsavedChanges = true;
-                        var listViewItem = new ListViewItem(tracking.Name) { ImageKey = "not_analyzed" };
+                        var listViewItem = new ListViewItem(tracking.Name) { ImageKey = tracking.IsAnalyzed ? "analyzed" : "not_analyzed" };
                         TrackingListView.Items.Add(listViewItem);
                     }
 
@@ -913,6 +931,18 @@ namespace ShutterFace
                         if (File.Exists(trackerSession.VideoPath))
                         {
                             LoadVideoFromPath(trackerSession.VideoPath);
+
+                            // Verify video dimensions match saved session
+                            if (dimsMismatch && _model.CurrentFrame != null)
+                            {
+                                if (_model.CurrentFrame.Width != expectedW || _model.CurrentFrame.Height != expectedH)
+                                {
+                                    WriteLog(ControlResourceManager.FormatString(
+                                        "MsgVideoDimensionsChanged",
+                                        expectedW.GetValueOrDefault(), expectedH.GetValueOrDefault(),
+                                        _model.CurrentFrame.Width, _model.CurrentFrame.Height), LogSeverity.Warning);
+                                }
+                            }
                         }
                         else
                         {
@@ -939,11 +969,15 @@ namespace ShutterFace
 
         private void MnuSettings_Click(object? sender, EventArgs e)
         {
-            using SettingsForm settings = new();
+            var config = AppConfig.LoadOrCreate();
+
+            _model.GridCellSizePixels = config.GridCellSizePixels;
+            _model.ConfidenceThreshold = config.ConfidenceThreshold;
+
+            using SettingsForm settings = new(config, _model);
             if (settings.ShowDialog(this) == DialogResult.OK)
             {
-                _model.BlurCellSize = settings.BlurCellSize;
-                _model.BigPixels = settings.BigPixels;
+                _model.GridCellSizePixels = settings.GridCellSizePixels;
                 _model.ConfidenceThreshold = settings.ConfidenceThreshold;
 
                 AddTrackingBtn.Enabled = _model.SelectedTrackingIndex is not null;

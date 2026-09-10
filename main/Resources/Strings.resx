@@ -21,6 +21,9 @@
   <data name="GroupBlur" xml:space="preserve">
     <value>Blur Settings</value>
   </data>
+  <data name="LabelGridCellSize" xml:space="preserve">
+    <value>Pixel Size:</value>
+  </data>
   <data name="LabelBlurring" xml:space="preserve">
     <value>Blurring:</value>
   </data>
@@ -224,6 +227,9 @@
   </data>
   <data name="MsgVideoLoaded" xml:space="preserve">
     <value>Loaded '{0}': {1} frames at {2} fps</value>
+  </data>
+  <data name="MsgVideoDimensionsChanged" xml:space="preserve">
+    <value>Video dimensions ({3}x{4}) differ from saved project ({0}x{1}). Rectangles may need adjustment. Original was saved for {2}px video.</value>
   </data>
   <data name="MsgTrackingCreated" xml:space="preserve">
     <value>Created tracking point: {0}</value>

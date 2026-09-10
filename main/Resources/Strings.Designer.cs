@@ -295,6 +295,15 @@ namespace ShutterFace.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Grid Cell Size: (~5% des Bildes) ähnelt.
+        /// </summary>
+        internal static string LabelGridCellSize {
+            get {
+                return ResourceManager.GetString("LabelGridCellSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Blurring: ähnelt.
         /// </summary>
         internal static string LabelBlurring {
@@ -579,6 +588,15 @@ namespace ShutterFace.Resources {
         internal static string MsgVideoNotFoundOpenManual {
             get {
                 return ResourceManager.GetString("MsgVideoNotFoundOpenManual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Video dimensions differ from saved project. ähnelt.
+        /// </summary>
+        internal static string MsgVideoDimensionsChanged {
+            get {
+                return ResourceManager.GetString("MsgVideoDimensionsChanged", resourceCulture);
             }
         }
         
