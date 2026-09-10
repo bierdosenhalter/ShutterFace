@@ -11,7 +11,7 @@ namespace ShutterFace.DataObjects
         public Rect? PreviousRect { get; set; }
         public bool IsAnalyzed { get; set; }
 
-        private readonly Dictionary<int, Rect> framePositions = [];
+        internal readonly Dictionary<int, Rect> framePositions = [];
 
         public Dictionary<int, Rect> GetRectPositions() => new(framePositions);
 

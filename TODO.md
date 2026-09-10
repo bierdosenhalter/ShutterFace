@@ -2,9 +2,9 @@
 
 # bugs
 - ~~when drawing a rectangle on the screen there is no preview until drag is over (when the rect is created)~~
-- when stopping to analyze/track the length is of the tracker indicator is not updated and also not the parameters of the tracking (end frame)
-- when analyzing the anchors of the selected rectangle/tracking should not be shown
-- when saving and loading a project the track data is incomplete (the rectangles are not shown on the screen) - also a proper test is missing here i guess
+- ~~when stopping to analyze/track the length is of the tracker indicator is not updated and also not the parameters of the tracking (end frame)~~ - fixed: cap EndFrame to last tracked position; refresh range indicator + properties + display on stop
+- when analyzing the anchors of the selected rectangle/tracking should not be shown - fixed (FrameRenderer.cs: hide handles in Analyzing mode)
+- when saving and loading a project the track data is incomplete (the rectangles are not shown on the screen) - fixed (TrackerBox.framePositions private → internal for serialization)
 ~~when exporting a video the export menu entry gets disabled and another export is not possible anymore~~ - fixed (mnuExportVideo re-enabled in ReportFinished callback)
 ~~there is a save buttin in tracking properties that is not functional and obsolete~~ - removed btnSaveTracking
 

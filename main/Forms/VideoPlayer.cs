@@ -736,12 +736,19 @@ namespace ShutterFace
 
         private void StopAnalyzeBtn_Click(object sender, EventArgs e)
         {
-            _model.Mode = InterfaceMode.Idle;
             if (_analysis.ActiveTracker != null)
             {
-                _analysis.ActiveTracker.EndFrame = _model.CurrentFrameIndex;
-                WriteLog(ControlResourceManager.FormatString("MsgAnalysisStopped", _analysis.ActiveTracker.Name, _model.CurrentFrameIndex), LogSeverity.Warning);
+                var activeTracker = _analysis.ActiveTracker;
+
+                var positions = activeTracker.GetRectPositions();
+                int lastPositionedFrame = positions.Keys.Max();
+                activeTracker.EndFrame = Math.Min(activeTracker.EndFrame, lastPositionedFrame);
+
+                WriteLog(ControlResourceManager.FormatString("MsgAnalysisStopped", activeTracker.Name, activeTracker.EndFrame), LogSeverity.Warning);
             }
+
+            _model.Mode = InterfaceMode.Idle;
+
             AnalyzeBtn.Visible = true;
             StopAnalyzeBtn.Visible = false;
             AddTrackingBtn.Enabled = true;
@@ -750,7 +757,13 @@ namespace ShutterFace
             mnuLoadTracking.Enabled = true;
             mnuSaveTracking.Enabled = true;
 
-            _model.Mode = InterfaceMode.Idle;
+            if (_model.SelectedTrackingIndex != null && _model.SelectedTrackingIndex.Value < _model.TrackingRects.Count)
+            {
+                var selTracker = _model.TrackingRects[_model.SelectedTrackingIndex.Value];
+                UpdateTrackRangeIndicator(selTracker.StartFrame, selTracker.EndFrame);
+                UpdateTrackingProperties();
+                DisplayFrame(_model.CurrentFrame);
+            }
         }
 
         private void PerformAnalysis(TrackerBox tracking)

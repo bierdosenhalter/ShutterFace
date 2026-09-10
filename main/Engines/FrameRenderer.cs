@@ -47,7 +47,7 @@ namespace ShutterFace.Engines
                     Cv2.Rectangle(displayFrame, clamped, color, thickness);
                     Cv2.PutText(displayFrame, tracking.Name, new OpenCvSharp.Point(clamped.X, clamped.Y - 10), HersheyFonts.HersheySimplex, 0.5, color, 1);
 
-                    if (i == selectedTrackingIndex)
+                    if (i == selectedTrackingIndex && model.Mode != InterfaceMode.Analyzing)
                     {
                         TrackerGeometry.DrawResizeHandles(displayFrame, clamped);
                     }
