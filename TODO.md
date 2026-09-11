@@ -1,20 +1,10 @@
 # ShutterFace - TODO
 
-# bugs
-- ~~when drawing a rectangle on the screen there is no preview until drag is over (when the rect is created)~~
-- ~~when stopping to analyze/track the length is of the tracker indicator is not updated and also not the parameters of the tracking (end frame)~~ - fixed: cap EndFrame to last tracked position; refresh range indicator + properties + display on stop
-- when analyzing the anchors of the selected rectangle/tracking should not be shown - fixed (FrameRenderer.cs: hide handles in Analyzing mode)
-- when saving and loading a project the track data is incomplete (the rectangles are not shown on the screen) - fixed (TrackerBox.framePositions private → internal for serialization)
-~~when exporting a video the export menu entry gets disabled and another export is not possible anymore~~ - fixed (mnuExportVideo re-enabled in ReportFinished callback)
-~~there is a save buttin in tracking properties that is not functional and obsolete~~ - removed btnSaveTracking
-- ~~export progress only goes up to ~16% and then it is exported~~ - fixed (ExportEngine.cs: emit raw frame index instead of integer-percentage to prevent double-conversion in UI)
+## Bugs
+- [ ] When saving/loading a project the track data is incomplete (tracking boxes not displayed on canvas) - seems like position is missing?
+- [ ] It is not possible to draw out-of-bounds rectangles (auto-clamped to video size; should extend until last pixel enters screen)
 
-# features
-- the inactive tracking rectangles are grey and only 1 px wide and therefore hard to read
-- the progressbar is not really of use... the frame indicator could act as one as it shows the processed frame exactly
-- there should be always a bit space around the video to draw out of bounds rectangles (that start off video and end in video)
-- it is not possible to draw out of bounds rectangles (they automatically are clamped to the video size) -> out of bounds rectangles/trackings should move with the area until they are fully in screen and to the end of the video or as long as the last bit is on the screen)
-~~open and save projects should be first in the file menu then a seperator and then open video~~ - reordered mnuFile.DropDownItems
-- when analyzing the frame indicator should be disabled and show the actual frame that is analyzed (not every frame but with the prg update - update logic must be disabled)
-- settings frame layout is not good form has to much whitespace
-- face recognision button (need an idea for that) that scans the current frame for a face (adjust parameters/lower threshold until it finds one) that is not already found (overlap) and draws a rectangle/tracking
+## Features
+- [ ] Settings dialog layout has excessive whitespace
+- [ ] Face recognition button needs design concept: scans current frame for untracked faces with auto-adjusted parameters/lowered threshold
+- [ ] Face recognition feature needed: scan current frame for faces that aren't already tracked (overlap check), adjust threshold automatically
