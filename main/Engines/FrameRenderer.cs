@@ -40,9 +40,9 @@ namespace ShutterFace.Engines
                     if (!tracking.IsAnalyzed)
                         color = Scalar.Red;
                     else
-                        color = i == selectedTrackingIndex ? Scalar.LimeGreen : Scalar.Gray;
+                        color = i == selectedTrackingIndex ? Scalar.LimeGreen : Scalar.Blue;
 
-                    int thickness = i == selectedTrackingIndex ? 3 : 1;
+                    int thickness = i == selectedTrackingIndex ? 3 : 2;
 
                     Cv2.Rectangle(displayFrame, clamped, color, thickness);
                     Cv2.PutText(displayFrame, tracking.Name, new OpenCvSharp.Point(clamped.X, clamped.Y - 10), HersheyFonts.HersheySimplex, 0.5, color, 1);
