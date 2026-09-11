@@ -71,16 +71,16 @@ namespace ShutterFace.DataObjects
         }
 
         /// <summary>
-        /// Returns the largest sub-rectangle of *rect* that fits within [0, width] × [0, height].
-        /// If fully outside bounds, returns an empty Rect.
+        /// Returns a clamped version of *rect* that fits within [0, width] × [0, height].
+        /// Width and height are restricted to frame bounds; X/Y origin is preserved unchanged.
+        /// If fully outside bounds (width or height clamp to zero), returns a zero-size rect
+        /// at the original X/Y position so callers can detect "no overlap" without losing coordinates.
         /// </summary>
         public static Rect GetClampedRect(Rect rect, int width, int height)
         {
-            int x = Math.Max(0, rect.X);
-            int y = Math.Max(0, rect.Y);
-            int w = Math.Max(0, Math.Min(rect.Width, width - x));
-            int h = Math.Max(0, Math.Min(rect.Height, height - y));
-            return new Rect(x, y, w, h);
+            int clampedW = Math.Max(0, Math.Min(rect.Width, width - rect.X));
+            int clampedH = Math.Max(0, Math.Min(rect.Height, height - rect.Y));
+            return new Rect(rect.X, rect.Y, clampedW, clampedH);
         }
     }
 }

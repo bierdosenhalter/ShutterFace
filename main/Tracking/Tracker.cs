@@ -89,7 +89,7 @@ namespace ShutterFace.Tracking
 
             if (previousFrame.Empty()) return false;
 
-            // Clamp to frame bounds to prevent out-of-bounds Mat constructor crash.
+            // Clamp width/height to frame bounds — X/Y preserved so match results stay in video-space.
             var clampedRect = TrackerBox.GetClampedRect(tracking.PreviousRect.Value, previousFrame.Width, previousFrame.Height);
             if (clampedRect.Width <= 0 || clampedRect.Height <= 0)
                 return false;

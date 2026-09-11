@@ -53,11 +53,10 @@ namespace ShutterFace.Engines
                     }
                 }
 
-                // Draw the drag-create preview on top of tracked rectangles.
+                // Draw the drag-create preview on top of tracked rectangles (raw, not clamped — user must see full rectangle).
                 if (model.DragRectangle.HasValue && model.DragRectangle.Value.Width > 0 && model.DragRectangle.Value.Height > 0)
                 {
-                    OpenCvSharp.Rect drRect = new(model.DragRectangle.Value.X, model.DragRectangle.Value.Y, model.DragRectangle.Value.Width, model.DragRectangle.Value.Height);
-                    Cv2.Rectangle(displayFrame, TrackerBox.GetClampedRect(drRect, model.CurrentFrame.Width, model.CurrentFrame.Height), Scalar.Magenta, 2);
+                    Cv2.Rectangle(displayFrame, new OpenCvSharp.Rect(model.DragRectangle.Value.X, model.DragRectangle.Value.Y, model.DragRectangle.Value.Width, model.DragRectangle.Value.Height), Scalar.Magenta, 2);
                 }
 
                 Bitmap bitmap = displayFrame.ToBitmap();
