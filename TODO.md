@@ -7,8 +7,10 @@
 - when saving and loading a project the track data is incomplete (the rectangles are not shown on the screen) - fixed (TrackerBox.framePositions private → internal for serialization)
 ~~when exporting a video the export menu entry gets disabled and another export is not possible anymore~~ - fixed (mnuExportVideo re-enabled in ReportFinished callback)
 ~~there is a save buttin in tracking properties that is not functional and obsolete~~ - removed btnSaveTracking
+- ~~export progress only goes up to ~16% and then it is exported~~ - fixed (ExportEngine.cs: emit raw frame index instead of integer-percentage to prevent double-conversion in UI)
 
 # features
+- the inactive tracking rectangles are grey and only 1 px wide and therefore hard to read
 - the progressbar is not really of use... the frame indicator could act as one as it shows the processed frame exactly
 - there should be always a bit space around the video to draw out of bounds rectangles (that start off video and end in video)
 - it is not possible to draw out of bounds rectangles (they automatically are clamped to the video size) -> out of bounds rectangles/trackings should move with the area until they are fully in screen and to the end of the video or as long as the last bit is on the screen)

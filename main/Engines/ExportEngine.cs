@@ -80,10 +80,11 @@ namespace ShutterFace.Engines
 
                     if (i % Math.Max(1, Math.Min(totalFrames / 20, 100)) == 0)
                     {
-                        ReportProgress?.Invoke(i * 100 / totalFrames);
+                        ReportProgress?.Invoke(i);
                     }
                 }
 
+                ReportProgress?.Invoke(totalFrames - 1);
                 ReportFinished?.Invoke("Export complete");
             }
             catch (Exception ex) when (ex is not OperationCanceledException and not OpenCVException)
