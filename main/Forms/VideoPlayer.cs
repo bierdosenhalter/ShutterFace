@@ -23,6 +23,7 @@ namespace ShutterFace
         private readonly TrackerFactory _trackingManager;
         private readonly Tracker _analysis;
         private readonly ExportEngine _exporter;
+        private int _processingMaxFrames;
 
         public VideoPlayer()
         {
@@ -219,16 +220,19 @@ namespace ShutterFace
             _analysis.ReportStarted = (name, maxFrames) => Invoke((MethodInvoker)delegate
             {
                 tssStatusLabel.Text = ControlResourceManager.FormatString("StatusAnalyzing", name);
-                tsspProgressBar.Visible = true;
-                tsspProgressBar.Value = 0;
-                tsspProgressBar.Maximum = maxFrames;
+                FrameSlider.Enabled = false;
+                _processingMaxFrames = maxFrames;
+                FrameSlider.Maximum = maxFrames - 1;
+                FrameSlider.Value = 0;
                 WriteLog(ControlResourceManager.FormatString("MsgAnalysisStarted", name, maxFrames), LogSeverity.Info);
             });
             _analysis.ReportProgress = (name, framePos) => Invoke((MethodInvoker)delegate
             {
-                int pct = framePos * 100 / Math.Max(1, tsspProgressBar.Maximum);
-                tssStatusLabel.Text = ControlResourceManager.FormatString("StatusAnalyzing", $"{name} - {pct}% complete");
-                tsspProgressBar.Value = Math.Min(framePos, tsspProgressBar.Maximum);
+                int totalFrames = Math.Max(1, _processingMaxFrames);
+                int pct = framePos * 100 / totalFrames;
+                tssStatusLabel.Text = ControlResourceManager.FormatString("StatusAnalyzing", $"{name} - {pct}%");
+                FrameSlider.Enabled = false;
+                FrameSlider.Value = Math.Min(framePos, FrameSlider.Maximum);
             });
             _analysis.ReportObjectLost = frame => Invoke((MethodInvoker)delegate
             {
@@ -247,13 +251,11 @@ namespace ShutterFace
 
                 _model.Mode = InterfaceMode.Idle;
                 UpdateTrackingListColors();
-                tsspProgressBar.Value = tsspProgressBar.Maximum;
                 tssStatusLabel.Text = ControlResourceManager.FormatString("StatusAnalyzingComplete", name);
 
                 LoadFrame(_trackingManager.Selected!.StartFrame);
                 FrameSlider.Value = _trackingManager.Selected.StartFrame;
 
-                tsspProgressBar.Visible = false;
                 tssStatusLabel.Text = msg;
                 UpdateTimeDisplay();
                 WriteLog(msg, LogSeverity.Success);
@@ -262,21 +264,19 @@ namespace ShutterFace
 
             _exporter.ReportProgress = frameIndex => Invoke((MethodInvoker)delegate
             {
-                int progress = frameIndex * 100 / _model.TotalFrames;
+                int progress = frameIndex * 100 / Math.Max(1, _model.TotalFrames);
                 tssStatusLabel.Text = ControlResourceManager.FormatString("StatusExportingProgressFormat", progress);
-                tsspProgressBar.Value = frameIndex;
+                FrameSlider.Value = Math.Min(frameIndex, FrameSlider.Maximum);
             });
             _exporter.ReportFinished = msg => Invoke((MethodInvoker)delegate
             {
                 _model.Mode = InterfaceMode.Idle;
                 mnuExportVideo.Enabled = true;
-                tsspProgressBar.Visible = false;
                 tssStatusLabel.Text = msg;
                 WriteLog(msg, LogSeverity.Success);
             });
             _exporter.ReportFailed = err => Invoke((MethodInvoker)delegate
             {
-                tsspProgressBar.Visible = false;
                 WriteLog(err, LogSeverity.Error);
                 mnuExportVideo.Enabled = true;
                 _model.Mode = InterfaceMode.Idle;
