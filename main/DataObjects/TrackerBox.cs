@@ -71,16 +71,19 @@ namespace ShutterFace.DataObjects
         }
 
         /// <summary>
-        /// Returns a clamped version of *rect* that fits within [0, width] × [0, height].
-        /// Width and height are restricted to frame bounds; X/Y origin is preserved unchanged.
-        /// If fully outside bounds (width or height clamp to zero), returns a zero-size rect
-        /// at the original X/Y position so callers can detect "no overlap" without losing coordinates.
+        /// Returns the intersection of *rect* with [0, width] × [0, height].
+        /// Preserves coordinates outside bounds; only width/height are reduced.
+        /// If fully outside bounds, returns a zero-size rect so callers can detect "no overlap".
         /// </summary>
         public static Rect GetClampedRect(Rect rect, int width, int height)
         {
-            int clampedW = Math.Max(0, Math.Min(rect.Width, width - rect.X));
-            int clampedH = Math.Max(0, Math.Min(rect.Height, height - rect.Y));
-            return new Rect(rect.X, rect.Y, clampedW, clampedH);
+            int clampedX = Math.Max(0, rect.X);
+            int clampedY = Math.Max(0, rect.Y);
+            int maxX = Math.Max(0, width - 1);  // prevent overflow when width/height == 0
+            int maxY = Math.Max(0, height - 1);
+            int clampedR = Math.Min(rect.X + rect.Width, maxX);
+            int clampedB = Math.Min(rect.Y + rect.Height, maxY);
+            return new Rect(clampedX, clampedY, Math.Max(0, clampedR - clampedX), Math.Max(0, clampedB - clampedY));
         }
     }
 }

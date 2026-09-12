@@ -94,7 +94,7 @@ namespace ShutterFace
             this.lblGridCellSize.Name = "lblGridCellSize";
             this.lblGridCellSize.Size = new Size(82, 20);
             this.lblGridCellSize.TabIndex = 0;
-            this.lblGridCellSize.Text = "Grid Cell S:";
+            this.lblGridCellSize.Text = "Grid Cell Size:";
             // 
             // nudGridCellSize
             // 
@@ -111,7 +111,7 @@ namespace ShutterFace
             this.lblConfidenceThreshold.Name = "lblConfidenceThreshold";
             this.lblConfidenceThreshold.Size = new Size(85, 20);
             this.lblConfidenceThreshold.TabIndex = 4;
-            this.lblConfidenceThreshold.Text = "Confidence:";
+            this.lblConfidenceThreshold.Text = "Confidence Threshold:";
             // 
             // nudConfidenceThreshold
             // 
@@ -128,10 +128,10 @@ namespace ShutterFace
             this.btnLayout.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             this.btnLayout.ColumnCount = 2;
             this.btnLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 94F));
-            this.btnLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            this.btnLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 94F));
             this.btnLayout.Controls.Add(this.btnCancel, 1, 0);
             this.btnLayout.Controls.Add(this.btnSave, 0, 0);
-            this.btnLayout.Location = new Point(12, 278);
+            this.btnLayout.Location = new Point(12, 326);
             this.btnLayout.Name = "btnLayout";
             this.btnLayout.RowCount = 1;
             this.btnLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -166,9 +166,9 @@ namespace ShutterFace
             // 
             this.AcceptButton = btnSave;
             this.AutoScaleDimensions = new SizeF(9F, 20F);
-            this.AutoScaleMode = AutoScaleMode.Dpi;
+            this.AutoScaleMode = AutoScaleMode.Font;
             this.CancelButton = btnCancel;
-            this.ClientSize = new Size(436, 316);
+            this.ClientSize = new Size(436, 380);
             this.Controls.Add(this.btnLayout);
             this.Controls.Add(this.pnlSettings);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;

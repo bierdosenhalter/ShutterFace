@@ -2,7 +2,7 @@
 
 ## Bugs
 -[x] When saving/loading a project the track data is incomplete (tracking boxes not displayed on canvas) - seems like position is missing? Resolved by tracking fix.
-- [ ] It is not possible to draw out-of-bounds rectangles (auto-clamped to video size; should extend until last pixel enters screen) — partially done: live preview now shows full rect outside bounds (Bug #0/24 in session notes). Clamped rects on canvas still need work to fully respect non-shifting origin.
+- [x] Out-of-bounds rectangles drawn as zero-size and dropped — GetClampedRect() used `width - rect.X` which went negative when X ≥ width, producing clampedW=0. **Fixed**: replaced with proper rect ∩ frame bounds intersection that preserves out-of-bound coordinates, only reduces width/height to visible portion (TrackerBox.cs).
 
 ## Features
 - [ ] Settings dialog layout has excessive whitespace
