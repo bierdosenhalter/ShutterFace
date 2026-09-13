@@ -246,4 +246,13 @@
   <data name="MsgExportStarted" xml:space="preserve">
     <value>Export started: {0}</value>
   </data>
+  <data name="BtnDetectFaces" xml:space="preserve">
+    <value>Detect Faces</value>
+  </data>
+  <data name="MsgNoNewFaces" xml:space="preserve">
+    <value>No untracked faces detected in this frame.</value>
+  </data>
+  <data name="MsgNewFacesDetected" xml:space="preserve">
+    <value>Detected {0} new face(s) — added as tracking point(s).</value>
+  </data>
 </root>

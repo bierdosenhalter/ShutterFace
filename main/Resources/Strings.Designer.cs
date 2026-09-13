@@ -707,5 +707,32 @@ namespace ShutterFace.Resources {
                 return ResourceManager.GetString("TitleUnsavedChanges", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Detect Faces ähnelt.
+        /// </summary>
+        internal static string BtnDetectFaces {
+            get {
+                return ResourceManager.GetString("BtnDetectFaces", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die No untracked faces detected in this frame. ähnelt.
+        /// </summary>
+        internal static string MsgNoNewFaces {
+            get {
+                return ResourceManager.GetString("MsgNoNewFaces", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Detected {0} new face(s), added as tracking point(s). ähnelt.
+        /// </summary>
+        internal static string MsgNewFacesDetected {
+            get {
+                return ResourceManager.GetString("MsgNewFacesDetected", resourceCulture);
+            }
+        }
     }
 }

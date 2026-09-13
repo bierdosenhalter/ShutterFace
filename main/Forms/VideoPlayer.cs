@@ -173,6 +173,7 @@ namespace ShutterFace
             AnalyzeBtn.Text = ControlResourceManager.GetString("BtnAnalyze");
             StopAnalyzeBtn.Text = ControlResourceManager.GetString("BtnStopAnalyzing");
             DeleteTrackingBtn.Text = ControlResourceManager.GetString("BtnDeleteTracking");
+            DetectFacesBtn.Text = ControlResourceManager.GetString("BtnDetectFaces");
 
             gprTracking.Text = ControlResourceManager.GetString("GroupTrackingProperties");
             lblStartFrame.Text = ControlResourceManager.GetString("LabelStartFrame");
@@ -574,6 +575,57 @@ namespace ShutterFace
                 DisplayFrame(_model.CurrentFrame);
                 WriteLog(ControlResourceManager.FormatString("MsgTrackingDeleted", name), LogSeverity.Warning);
             }
+        }
+
+        private void DetectFacesBtn_Click(object sender, EventArgs e)
+        {
+            if (_model.CurrentFrame == null || _model.CurrentFrame.Empty())
+            {
+                WriteLog(ControlResourceManager.GetString("MsgNoVideoLoaded"), LogSeverity.Info);
+                return;
+            }
+
+            var detector = new FaceDetector(_model);
+            int detectedCount = detector.DetectNewFaces(out var rects, out var count);
+
+            if (detectedCount < 0)
+            {
+                WriteLog("Face detection failed.", LogSeverity.Error);
+                return;
+            }
+
+            if (count == 0 || rects.Length == 0)
+            {
+                WriteLog(ControlResourceManager.GetString("MsgNoNewFaces"), LogSeverity.Info);
+                return;
+            }
+
+            for (int i = 0; i < rects.Length; i++)
+            {
+                int idx = i + 1;
+                var tracking = new TrackerBox
+                {
+                    Name = $"{ControlResourceManager.GetString("DefaultTrackingNamePrefix")} {idx}",
+                    StartFrame = _model.CurrentFrameIndex,
+                    EndFrame = _model.TotalFrames,
+                    InitialRect = rects[i],
+                };
+
+                _model.TrackingRects.Add(tracking);
+                var lvItem = new ListViewItem(tracking.Name) { ImageKey = "not_analyzed" };
+                TrackingListView.Items.Add(lvItem);
+
+                if (!mnuSaveTracking.Enabled)
+                {
+                    mnuSaveTracking.Enabled = true;
+                }
+            }
+
+            _model.HasUnsavedChanges = true;
+            UpdateTimeDisplay();
+            LoadFrame(_model.CurrentFrameIndex);
+            DisplayFrame(_model.CurrentFrame);
+            WriteLog(ControlResourceManager.FormatString("MsgNewFacesDetected", rects.Length), LogSeverity.Success);
         }
 
         private void TrackingListView_SelectedIndexChanged(object sender, EventArgs e)

@@ -26,6 +26,7 @@ namespace ShutterFace
             AnalyzeBtn = new Button();
             StopAnalyzeBtn = new Button();
             DeleteTrackingBtn = new Button();
+            DetectFacesBtn = new Button();
             TrackingListView = new ListView();
             trackingImages = new ImageList();
             mainTable = new TableLayoutPanel();
@@ -149,6 +150,18 @@ namespace ShutterFace
             DeleteTrackingBtn.Text = "Delete Tracking";
             DeleteTrackingBtn.Click += DeleteTrackingBtn_Click;
             // 
+            // 
+            // DetectFacesBtn
+            // 
+            DetectFacesBtn.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            DetectFacesBtn.Enabled = false;
+            DetectFacesBtn.Location = new Point(3, 203);
+            DetectFacesBtn.Name = "DetectFacesBtn";
+            DetectFacesBtn.Size = new Size(273, 44);
+            DetectFacesBtn.TabIndex = 8;
+            DetectFacesBtn.Text = "Detect Faces";
+            DetectFacesBtn.Click += DetectFacesBtn_Click;
+            // 
             // TrackingListView
             // 
             TrackingListView.Anchor = AnchorStyles.Left | AnchorStyles.Right;
@@ -193,6 +206,7 @@ namespace ShutterFace
             buttonLayoutPanel.Controls.Add(AnalyzeBtn);
             buttonLayoutPanel.Controls.Add(StopAnalyzeBtn);
             buttonLayoutPanel.Controls.Add(DeleteTrackingBtn);
+            buttonLayoutPanel.Controls.Add(DetectFacesBtn);
             buttonLayoutPanel.Controls.Add(TrackingListView);
             buttonLayoutPanel.Controls.Add(gprTracking);
             buttonLayoutPanel.Dock = DockStyle.Fill;
@@ -541,6 +555,7 @@ namespace ShutterFace
         internal System.Windows.Forms.Button AnalyzeBtn;
         internal System.Windows.Forms.Button StopAnalyzeBtn;
         internal System.Windows.Forms.Button DeleteTrackingBtn;
+        internal System.Windows.Forms.Button DetectFacesBtn;
         internal System.Windows.Forms.ListView TrackingListView;
         internal System.Windows.Forms.TableLayoutPanel mainTable;
         internal System.Windows.Forms.FlowLayoutPanel buttonLayoutPanel;
