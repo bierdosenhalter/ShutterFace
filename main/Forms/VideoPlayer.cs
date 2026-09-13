@@ -245,6 +245,7 @@ namespace ShutterFace
                 AnalyzeBtn.Visible = true;
                 StopAnalyzeBtn.Visible = false;
                 AddTrackingBtn.Enabled = true;
+                DetectFacesBtn.Enabled = true;
                 DeleteTrackingBtn.Enabled = true;
                 FrameSlider.Enabled = true;
                 mnuLoadTracking.Enabled = true;
@@ -291,6 +292,7 @@ namespace ShutterFace
             StopAnalyzeBtn.Visible = false;
             gprTracking.Enabled = false;
             DeleteTrackingBtn.Enabled = false;
+            DetectFacesBtn.Enabled = false;
             FrameSlider.Enabled = false;
 
             Image analyzedIcon = CreateStatusIcon(Color.FromArgb(80, 200, 80));
@@ -338,6 +340,7 @@ namespace ShutterFace
             _videoLoader.LoadFrame(0);
 
             AddTrackingBtn.Enabled = true;
+            DetectFacesBtn.Enabled = true;
             mnuExportVideo.Enabled = true;
             mnuLoadTracking.Enabled = true;
             FrameSlider.Enabled = true;

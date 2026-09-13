@@ -2,112 +2,51 @@
 
 <img src="icon.png" alt="ShutterFace icon" width="120" align="right">
 
-**Track-and-blur face privacy for your videos — local, manual, precise.**
+**Blurring faces in your videos — locally, precisely, privately.**
 
 ---
 
-## Short description
+## What it does
 
-ShutterFace blurs faces in your videos. Draw a box once and it follows the face through every frame — no cloud, no upload, your footage stays on your machine. Export the anonymized video and share it with confidence.
+Draw a box around a face and ShutterFace tracks it through every frame of the video, then applies pixelated blur so no one can be identified. Your footage never leaves your machine. No cloud, no upload, no account required.
 
----
-
-## Why ShutterFace?
-
-Building privacy tools for content creators, journalists, and anyone who needs to protect identities:
-
-- **No permissions.** You blur faces yourself — there's no need to ask permission from people in your footage.
-- **Privacy-first.** Everything runs 100% locally on your machine. Your video never uploads anywhere.
-- **Manual but powerful.** Draw a box around a face once; ShutterFace tracks it across all frames using template matching (OpenCvSharp4, powered by OpenCV).
+Perfect for content creators, journalists, or anyone who needs to protect people's identities in their videos before sharing them.
 
 ---
 
-## How it works
+## How to use it
 
-![icon.png](icon.png)
-
-1. **Open** a video — via file picker or drag-and-drop.
-2. **Draw** a bounding box around the face you want to blur. Add multiple faces if needed.
-3. **Analyze** — ShutterFace tracks each region across every frame using template matching.
-4. **Export** — produce a blurred version of your video ready for sharing.
-
-### Key features / Workflow
-
-| Step | Action |
-|------|--------|
-| Load video | Open via dialog or drag-and-drop onto the window (`*.mp4`, `*.avi`, `*.mov`, `*.wmv`, `*.mkv`, `*.flv`, `*.webm`) |
-| Create tracking rects | Click "Add Tracking Point", then click-drag on a face in the video preview |
-| Fine-tune | Select a track from the list to adjust its name, size (8 resize handles), and start/end frame range |
-| Track | Hit **Analyze** — template matching (`CCoeffNormed`) follows each box across frames with progress bar feedback |
-| Export | Save as `*.mp4` to disk (audio not yet preserved) |
-
-### Settings
-
-- **Blur cell size** — grid cell for the blur engine. Larger cells = wider, softer coverage across adjacent tracks.
-- **Big pixels** — controls blur granularity (lower = coarser/pixelated blur).
-- **Confidence threshold** — minimum template-match score (0.1–1.0) for tracking to continue per frame.
-
-### Saving and reloading work
-
-Tracking data saves to a `*.track` JSON file. Reload it later with the original video to export without re-running analysis.
+1. **Open a video** — drag & drop or browse to your file (`*.mp4`, `*.avi`, `*.mov`, `*.wmv`, `*.mkv`, `*.flv`, `*.webm`)
+2. **Find the faces** — click **Detect Faces** for an automatic scan, or draw boxes manually with your mouse
+3. **Tweak if needed** — resize boxes, adjust names, set start/end frames
+4. **Analyze** — watch the tracker follow each face across every frame
+5. **Export** — save a blurred version of your video to disk
 
 ---
 
-## System requirements
+## Settings
 
-- **Windows 10 or later** (WinForms .NET 8 desktop runtime)
-- OpenCV pre-built binaries are bundled — no separate install needed
-
----
-
-## Getting started
-
-```powershell
-dotnet run --project main/ShutterFace.csproj
-```
-
-Or open `ShutterFace.sln` in Visual Studio / VS Code.
-
-### Building from source
-
-```powershell
-dotnet build
-
-# Verify clean build (no warnings, no formatting diffs, tests pass)
-dotnet format --verify-no-changes
-dotnet test
-```
+- **Blur cell size** — controls how soft the blur spreads between adjacent tracked faces
+- **Big pixels** — makes the blur finer or coarser (lower = blockier pixelation)
+- **Confidence threshold** — how sensitive tracking is to movement (0.1–1.0)
 
 ---
 
-## Tech stack
+## Saving your work
 
-| Layer | Technology |
-|-------|------------|
-| UI | WinForms (.NET 8, C#) |
-| Computer vision / tracking | OpenCvSharp4 + OpenCV (bundled `runtime.win`) |
-| Video I/O | OpenCvSharp `VideoCapture` / `VideoWriter` |
-| Export format | MP4 (FourCC auto-detected, falls back to `MP4V`) |
+Save the project to disk as a `*.sft` file. Open it later with the original video and everything's ready to export — no re-tracking needed.
+
+See [TODO.md](TODO.md) for planned features and bug fixes.
 
 ---
 
-## What's on the roadmap
+## Requirements
 
-| Item | Status | Complexity |
-|------|--------|------------|
-| Renamed "Tracking N" → "Face N" | Done | Trivial |
-| Progress bar in status bar | Done | Simple |
-| Drag-and-drop video support | Done | Simple |
-| Settings dialog | Done | Medium |
-| Resize handles on tracks | Done | Medium |
-| In-app log panel (replacing popup dialogs) | TODO | Medium |
-| Global grid blur for adjacent track consistency | TODO | Hard |
-| Persist analysis state in `.track` files | TODO | Hard |
-| Handle out-of-bounds rectangles gracefully | TODO | Hardest |
-| Preserve audio in exported video | TODO | — |
+- **Windows 10 or later**
+- Run: `dotnet run --project main/ShutterFace.csproj`
 
 ---
 
 ## License
 
-(Add your license here, e.g. MIT)
+This project is licensed under [GNU AFFERO GENERAL PUBLIC LICENSE Version 3 (AGPL-3.0)](LICENSE).

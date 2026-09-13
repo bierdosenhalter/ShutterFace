@@ -20,6 +20,7 @@ namespace ShutterFace
 
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             VideoBox = new PictureBox();
             FrameSlider = new TrackBar();
             AddTrackingBtn = new Button();
@@ -28,7 +29,7 @@ namespace ShutterFace
             DeleteTrackingBtn = new Button();
             DetectFacesBtn = new Button();
             TrackingListView = new ListView();
-            trackingImages = new ImageList();
+            trackingImages = new ImageList(components);
             mainTable = new TableLayoutPanel();
             buttonLayoutPanel = new FlowLayoutPanel();
             gprTracking = new GroupBox();
@@ -43,27 +44,26 @@ namespace ShutterFace
             lblEndFrame = new Label();
             lblTrackingName = new Label();
             btnApplyChanges = new Button();
+            pnlFrameSlider = new Panel();
+            trackRangeIndicator = new Panel();
             timePanel = new Panel();
             lblStartTime = new Label();
             lblCurrentTime = new Label();
             lblEndTime = new Label();
-            pnlFrameSlider = new Panel();
-            trackRangeIndicator = new Panel();
+            logPanel = new Panel();
+            logTextBox = new RichTextBox();
             statusStripBottom = new StatusStrip();
             tssStatusLabel = new ToolStripStatusLabel();
             tsspProgressBar = new ToolStripProgressBar();
-            trackingImages = new ImageList();
             menuStripTop = new MenuStrip();
             mnuFile = new ToolStripMenuItem();
             mnuOpenVideo = new ToolStripMenuItem();
             mnuLoadTracking = new ToolStripMenuItem();
-            mnuSaveTracking = new ToolStripMenuItem();
-            toolStripSeparator1 = new ToolStripSeparator();
             mnuExportVideo = new ToolStripMenuItem();
-            toolStripSeparator2 = new ToolStripSeparator();
+            toolStripSeparator1 = new ToolStripSeparator();
+            mnuSaveTracking = new ToolStripMenuItem();
             mnuSettings = new ToolStripMenuItem();
-            logPanel = new Panel();
-            logTextBox = new RichTextBox();
+            toolStripSeparator2 = new ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)VideoBox).BeginInit();
             ((System.ComponentModel.ISupportInitialize)FrameSlider).BeginInit();
             mainTable.SuspendLayout();
@@ -73,12 +73,11 @@ namespace ShutterFace
             ((System.ComponentModel.ISupportInitialize)txtBoxWidth).BeginInit();
             ((System.ComponentModel.ISupportInitialize)txtEndFrame).BeginInit();
             ((System.ComponentModel.ISupportInitialize)txtStartFrame).BeginInit();
-            timePanel.SuspendLayout();
             pnlFrameSlider.SuspendLayout();
+            timePanel.SuspendLayout();
+            logPanel.SuspendLayout();
             statusStripBottom.SuspendLayout();
             menuStripTop.SuspendLayout();
-            logPanel.SuspendLayout();
-            logTextBox.SuspendLayout();
             SuspendLayout();
             // 
             // VideoBox
@@ -88,7 +87,7 @@ namespace ShutterFace
             VideoBox.Dock = DockStyle.Fill;
             VideoBox.Location = new Point(3, 3);
             VideoBox.Name = "VideoBox";
-            VideoBox.Size = new Size(1194, 1053);
+            VideoBox.Size = new Size(1194, 1050);
             VideoBox.SizeMode = PictureBoxSizeMode.Zoom;
             VideoBox.TabIndex = 0;
             VideoBox.TabStop = false;
@@ -150,12 +149,11 @@ namespace ShutterFace
             DeleteTrackingBtn.Text = "Delete Tracking";
             DeleteTrackingBtn.Click += DeleteTrackingBtn_Click;
             // 
-            // 
             // DetectFacesBtn
             // 
             DetectFacesBtn.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            DetectFacesBtn.Enabled = false;
             DetectFacesBtn.Location = new Point(3, 203);
+            DetectFacesBtn.Enabled = false;
             DetectFacesBtn.Name = "DetectFacesBtn";
             DetectFacesBtn.Size = new Size(273, 44);
             DetectFacesBtn.TabIndex = 8;
@@ -166,17 +164,22 @@ namespace ShutterFace
             // 
             TrackingListView.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             TrackingListView.FullRowSelect = true;
-            TrackingListView.HideSelection = false;
-            TrackingListView.Items.AddRange(new ListViewItem[] { });
             TrackingListView.LargeImageList = trackingImages;
-            TrackingListView.Location = new Point(3, 203);
+            TrackingListView.Location = new Point(3, 253);
             TrackingListView.Name = "TrackingListView";
             TrackingListView.Size = new Size(273, 260);
             TrackingListView.SmallImageList = trackingImages;
             TrackingListView.Sorting = SortOrder.Ascending;
             TrackingListView.TabIndex = 8;
+            TrackingListView.UseCompatibleStateImageBehavior = false;
             TrackingListView.View = View.List;
             TrackingListView.SelectedIndexChanged += TrackingListView_SelectedIndexChanged;
+            // 
+            // trackingImages
+            // 
+            trackingImages.ColorDepth = ColorDepth.Depth32Bit;
+            trackingImages.ImageSize = new Size(16, 16);
+            trackingImages.TransparentColor = Color.Transparent;
             // 
             // mainTable
             // 
@@ -188,7 +191,6 @@ namespace ShutterFace
             mainTable.Controls.Add(pnlFrameSlider, 0, 1);
             mainTable.Controls.Add(timePanel, 0, 2);
             mainTable.Controls.Add(logPanel, 0, 3);
-            mainTable.Controls.Add(logPanel, 0, 3);
             mainTable.Dock = DockStyle.Fill;
             mainTable.Location = new Point(0, 40);
             mainTable.Name = "mainTable";
@@ -197,7 +199,7 @@ namespace ShutterFace
             mainTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 60F));
             mainTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             mainTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 150F));
-            mainTable.Size = new Size(1480, 1159);
+            mainTable.Size = new Size(1480, 1306);
             mainTable.TabIndex = 9;
             // 
             // buttonLayoutPanel
@@ -212,7 +214,7 @@ namespace ShutterFace
             buttonLayoutPanel.Dock = DockStyle.Fill;
             buttonLayoutPanel.Location = new Point(1203, 3);
             buttonLayoutPanel.Name = "buttonLayoutPanel";
-            buttonLayoutPanel.Size = new Size(274, 1053);
+            buttonLayoutPanel.Size = new Size(274, 1050);
             buttonLayoutPanel.TabIndex = 10;
             // 
             // gprTracking
@@ -228,14 +230,13 @@ namespace ShutterFace
             gprTracking.Controls.Add(lblEndFrame);
             gprTracking.Controls.Add(lblTrackingName);
             gprTracking.Controls.Add(btnApplyChanges);
-            gprTracking.Location = new Point(3, 469);
+            gprTracking.Location = new Point(3, 519);
             gprTracking.Name = "gprTracking";
             gprTracking.Size = new Size(270, 376);
             gprTracking.TabIndex = 9;
             gprTracking.TabStop = false;
             gprTracking.Text = "Tracking Properties";
             // 
-        
             // lblStartFrame
             // 
             lblStartFrame.AutoSize = true;
@@ -331,13 +332,32 @@ namespace ShutterFace
             btnApplyChanges.Text = "Apply";
             btnApplyChanges.Click += BtnApplyChanges_Click;
             // 
+            // pnlFrameSlider
+            // 
+            pnlFrameSlider.Controls.Add(trackRangeIndicator);
+            pnlFrameSlider.Controls.Add(FrameSlider);
+            pnlFrameSlider.Dock = DockStyle.Fill;
+            pnlFrameSlider.Location = new Point(3, 1059);
+            pnlFrameSlider.Name = "pnlFrameSlider";
+            pnlFrameSlider.Size = new Size(1194, 54);
+            pnlFrameSlider.TabIndex = 12;
+            // 
+            // trackRangeIndicator
+            // 
+            trackRangeIndicator.Anchor = AnchorStyles.None;
+            trackRangeIndicator.BackColor = Color.FromArgb(100, 50, 205, 50);
+            trackRangeIndicator.Location = new Point(3, 41);
+            trackRangeIndicator.Name = "trackRangeIndicator";
+            trackRangeIndicator.Size = new Size(274, 10);
+            trackRangeIndicator.TabIndex = 13;
+            // 
             // timePanel
             // 
             timePanel.Controls.Add(lblStartTime);
             timePanel.Controls.Add(lblCurrentTime);
             timePanel.Controls.Add(lblEndTime);
             timePanel.Dock = DockStyle.Fill;
-            timePanel.Location = new Point(3, 1122);
+            timePanel.Location = new Point(3, 1119);
             timePanel.Name = "timePanel";
             timePanel.Size = new Size(1194, 34);
             timePanel.TabIndex = 11;
@@ -373,40 +393,37 @@ namespace ShutterFace
             lblEndTime.TabIndex = 2;
             lblEndTime.Text = "00:00:00";
             // 
-            // pnlFrameSlider
+            // logPanel
             // 
-            pnlFrameSlider.Controls.Add(trackRangeIndicator);
-            pnlFrameSlider.Controls.Add(FrameSlider);
-            pnlFrameSlider.Dock = DockStyle.Fill;
-            pnlFrameSlider.Location = new Point(3, 1062);
-            pnlFrameSlider.Name = "pnlFrameSlider";
-            pnlFrameSlider.Size = new Size(1194, 54);
-            pnlFrameSlider.TabIndex = 12;
+            logPanel.Controls.Add(logTextBox);
+            logPanel.Dock = DockStyle.Fill;
+            logPanel.Location = new Point(3, 1159);
+            logPanel.Name = "logPanel";
+            logPanel.Size = new Size(1194, 144);
+            logPanel.TabIndex = 13;
             // 
-            // trackRangeIndicator
+            // logTextBox
             // 
-            trackRangeIndicator.Anchor = AnchorStyles.None;
-            trackRangeIndicator.BackColor = Color.FromArgb(100, 50, 205, 50);
-            trackRangeIndicator.Location = new Point(3, 41);
-            trackRangeIndicator.Name = "trackRangeIndicator";
-            trackRangeIndicator.Size = new Size(274, 10);
-            trackRangeIndicator.TabIndex = 13;
+            logTextBox.BackColor = SystemColors.Window;
+            logTextBox.BorderStyle = BorderStyle.FixedSingle;
+            logTextBox.Dock = DockStyle.Fill;
+            logTextBox.Font = new Font("Consolas", 8.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            logTextBox.Location = new Point(0, 0);
+            logTextBox.Name = "logTextBox";
+            logTextBox.ReadOnly = true;
+            logTextBox.Size = new Size(1194, 144);
+            logTextBox.TabIndex = 0;
+            logTextBox.Text = "";
             // 
             // statusStripBottom
             // 
             statusStripBottom.ImageScalingSize = new Size(24, 24);
             statusStripBottom.Items.AddRange(new ToolStripItem[] { tssStatusLabel, tsspProgressBar });
-            statusStripBottom.Location = new Point(0, 1199);
+            statusStripBottom.Location = new Point(0, 1346);
             statusStripBottom.Name = "statusStripBottom";
             statusStripBottom.Size = new Size(1480, 42);
             statusStripBottom.TabIndex = 10;
             statusStripBottom.Text = "statusStrip1";
-            // 
-            // trackingImages
-            // 
-            trackingImages.ColorDepth = ColorDepth.Depth32Bit;
-            trackingImages.ImageSize = new Size(16, 16);
-            trackingImages.TransparentColor = Color.Transparent;
             // 
             // tssStatusLabel
             // 
@@ -429,19 +446,20 @@ namespace ShutterFace
             menuStripTop.Name = "menuStripTop";
             menuStripTop.Size = new Size(1480, 40);
             menuStripTop.TabIndex = 11;
-            menuStripTop.Text = "menuStrip1";            // 
+            menuStripTop.Text = "menuStrip1";
+            // 
             // mnuFile
             // 
             mnuFile.DropDownItems.AddRange(new ToolStripItem[] { mnuOpenVideo, mnuLoadTracking, mnuExportVideo, toolStripSeparator1, mnuSaveTracking, mnuSettings });
             mnuFile.Name = "mnuFile";
-            mnuFile.Size = new Size(90, 36);
+            mnuFile.Size = new Size(71, 36);
             mnuFile.Text = "&File";
             // 
             // mnuOpenVideo
             // 
             mnuOpenVideo.Name = "mnuOpenVideo";
             mnuOpenVideo.ShortcutKeys = Keys.Control | Keys.O;
-            mnuOpenVideo.Size = new Size(372, 44);
+            mnuOpenVideo.Size = new Size(362, 44);
             mnuOpenVideo.Text = "&Open Video";
             mnuOpenVideo.Click += MnuOpenVideo_Click;
             // 
@@ -449,67 +467,45 @@ namespace ShutterFace
             // 
             mnuLoadTracking.Name = "mnuLoadTracking";
             mnuLoadTracking.ShortcutKeys = Keys.Control | Keys.L;
-            mnuLoadTracking.Size = new Size(372, 44);
+            mnuLoadTracking.Size = new Size(362, 44);
             mnuLoadTracking.Text = "&Load Project";
             mnuLoadTracking.Click += MnuLoadTracking_Click;
-            // 
-            // mnuSaveTracking
-            // 
-            mnuSaveTracking.Name = "mnuSaveTracking";
-            mnuSaveTracking.ShortcutKeys = Keys.Control | Keys.S;
-            mnuSaveTracking.Size = new Size(372, 44);
-            mnuSaveTracking.Text = "&Save Project";
-            mnuSaveTracking.Click += MnuSaveTracking_Click;
-            // 
-            // toolStripSeparator1
-            // 
-            toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(369, 6);
             // 
             // mnuExportVideo
             // 
             mnuExportVideo.Enabled = false;
             mnuExportVideo.Name = "mnuExportVideo";
             mnuExportVideo.ShortcutKeys = Keys.Control | Keys.E;
-            mnuExportVideo.Size = new Size(372, 44);
+            mnuExportVideo.Size = new Size(362, 44);
             mnuExportVideo.Text = "&Export Video";
             mnuExportVideo.Click += MnuExportVideo_Click;
+            // 
+            // toolStripSeparator1
+            // 
+            toolStripSeparator1.Name = "toolStripSeparator1";
+            toolStripSeparator1.Size = new Size(359, 6);
+            // 
+            // mnuSaveTracking
+            // 
+            mnuSaveTracking.Name = "mnuSaveTracking";
+            mnuSaveTracking.ShortcutKeys = Keys.Control | Keys.S;
+            mnuSaveTracking.Size = new Size(362, 44);
+            mnuSaveTracking.Text = "&Save Project";
+            mnuSaveTracking.Click += MnuSaveTracking_Click;
+            // 
+            // mnuSettings
+            // 
+            mnuSettings.Name = "mnuSettings";
+            mnuSettings.Size = new Size(362, 44);
+            mnuSettings.Text = "&Settings";
+            mnuSettings.Click += MnuSettings_Click;
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
             toolStripSeparator2.Size = new Size(369, 6);
             // 
-            // mnuSettings
-            // 
-            mnuSettings.Name = "mnuSettings";
-            mnuSettings.Size = new Size(372, 44);
-            mnuSettings.Text = "&Settings";
-            mnuSettings.Click += MnuSettings_Click;
-            // 
-            // logPanel
-            // 
-            logPanel.Controls.Add(logTextBox);
-            logPanel.Dock = DockStyle.Fill;
-            logPanel.Location = new Point(3, 1159);
-            logPanel.Name = "logPanel";
-            logPanel.Size = new Size(1194, 147);
-            logPanel.TabIndex = 13;
-            // 
-            // logTextBox
-            // 
-            logTextBox.BackColor = SystemColors.Window;
-            logTextBox.BorderStyle = BorderStyle.FixedSingle;
-            logTextBox.Dock = DockStyle.Fill;
-            logTextBox.Font = new Font("Consolas", 8.25F, FontStyle.Regular, GraphicsUnit.Point, (byte)0);
-            logTextBox.Location = new Point(3, 3);
-            logTextBox.Name = "logTextBox";
-            logTextBox.ReadOnly = true;
-            logTextBox.Size = new Size(1188, 141);
-            logTextBox.TabIndex = 0;
-            logTextBox.Text = "";
-            // 
-            // videoPlayer
+            // VideoPlayer
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -521,7 +517,6 @@ namespace ShutterFace
             Name = "VideoPlayer";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ShutterFace";
-            Icon = AboutForm.CreateAppIconAsIcon();
             ((System.ComponentModel.ISupportInitialize)VideoBox).EndInit();
             ((System.ComponentModel.ISupportInitialize)FrameSlider).EndInit();
             mainTable.ResumeLayout(false);
@@ -532,17 +527,15 @@ namespace ShutterFace
             ((System.ComponentModel.ISupportInitialize)txtBoxWidth).EndInit();
             ((System.ComponentModel.ISupportInitialize)txtEndFrame).EndInit();
             ((System.ComponentModel.ISupportInitialize)txtStartFrame).EndInit();
-            timePanel.ResumeLayout(false);
-            timePanel.PerformLayout();
             pnlFrameSlider.ResumeLayout(false);
             pnlFrameSlider.PerformLayout();
+            timePanel.ResumeLayout(false);
+            timePanel.PerformLayout();
+            logPanel.ResumeLayout(false);
             statusStripBottom.ResumeLayout(false);
             statusStripBottom.PerformLayout();
             menuStripTop.ResumeLayout(false);
             menuStripTop.PerformLayout();
-            logPanel.ResumeLayout(false);
-            logPanel.PerformLayout();
-            logTextBox.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
