@@ -60,7 +60,7 @@ namespace ShutterFace
             this.pnlSettings.AutoScroll = true;
             this.pnlSettings.Location = new Point(12, 12);
             this.pnlSettings.Name = "pnlSettings";
-            this.pnlSettings.Size = new Size(400, 320);
+            this.pnlSettings.Size = new Size(400, 175);
             this.pnlSettings.TabIndex = 6;
             // 
             // gbBlur
@@ -80,7 +80,7 @@ namespace ShutterFace
             this.gbConfidence.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             this.gbConfidence.Controls.Add(this.lblConfidenceThreshold);
             this.gbConfidence.Controls.Add(this.nudConfidenceThreshold);
-            this.gbConfidence.Location = new Point(10, 88);
+            this.gbConfidence.Location = new Point(10, 90);
             this.gbConfidence.Name = "gbConfidence";
             this.gbConfidence.Size = new Size(376, 75);
             this.gbConfidence.TabIndex = 8;
@@ -131,7 +131,7 @@ namespace ShutterFace
             this.btnLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 94F));
             this.btnLayout.Controls.Add(this.btnCancel, 1, 0);
             this.btnLayout.Controls.Add(this.btnSave, 0, 0);
-            this.btnLayout.Location = new Point(12, 326);
+            this.btnLayout.Location = new Point(12, 195);
             this.btnLayout.Name = "btnLayout";
             this.btnLayout.RowCount = 1;
             this.btnLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
@@ -168,7 +168,7 @@ namespace ShutterFace
             this.AutoScaleDimensions = new SizeF(9F, 20F);
             this.AutoScaleMode = AutoScaleMode.Font;
             this.CancelButton = btnCancel;
-            this.ClientSize = new Size(436, 380);
+            this.ClientSize = new Size(436, 250);
             this.Controls.Add(this.btnLayout);
             this.Controls.Add(this.pnlSettings);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
